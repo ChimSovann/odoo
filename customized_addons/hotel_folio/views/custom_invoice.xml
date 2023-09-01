@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hotel_invoice_form_customize" model="ir.ui.view">
+        <field name="name">account.move.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="fol_no_inv" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+                <field name="receipt_no" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+            </field>
+
+            <field name="journal_id" position="after">
+                <field name="checkin" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+                <field name="type" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+                <field name="name" string="Invoice Number" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+                <field name="checkout" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+            </field>
+            <field name="currency_id" position="before">
+                <field name="acc_id" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+            </field>
+            <field name="ref" position="attributes">
+                <attribute name="attrs">{'invisible': [('type', 'in', ('out_invoice', 'out_refund', 'out_receipt'))]}</attribute>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="attrs">{'invisible': [('type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))]}</attribute>
+            </field>
+            <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='name']" position="attributes">
+                <attribute name="string">Description</attribute>
+            </xpath>
+
+            <!-- Customize Payment Notebook-->
+            <notebook position="inside">
+                <page string="Payments" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}">
+                    <field name="payment_ids">
+                        <tree string="Payments">
+                            <field name="date" string="Effective Date"/>
+                            <field name="move_id"/>
+                            <field name="ref"/>
+                            <field name="name" string="Name"/>
+                            <field name="journal_id"/>
+                            <field name="debit"/>
+                            <field name="credit"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+
+            <xpath expr="//sheet/notebook/page/group/field[@name='amount_total']" position="after">
+                <field name="x_rate" string="Exchange Rate ( KHR )"/>
+                <field name="x_amount_total_khmer" string="Total ( KHR )" class="oe_subtotal_footer_separator"/>
+            </xpath>
+        </field>
+    </record>
+
+
+
+    <record id="view_account_payment_form_inherited" model="ir.ui.view">
+        <field name="name">account.payment.form.inherited</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='journal_id']" position="before">
+                <field name="partner_id" string="Customer"/>
+            </xpath>
+
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name="string">Payment Method</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='communication']" position="after">
+                <field name="company_id" string="Company"/>
+            </xpath>
+
+            <xpath expr="//field[@name='communication']" position="before">
+                <!-- <field name="payment_ref"/> -->
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='payment_difference']/div/div/field[@name='writeoff_label']"
+                   position="after">
+                <label for="analytic_id" class="oe_edit_only" string="Write-Off Analytic Account"/>
+                <field name="analytic_id"
+                       attrs="{'required': [('payment_difference_handling', '=', 'reconcile'), ('payment_difference', '!=', 0.0)]}"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

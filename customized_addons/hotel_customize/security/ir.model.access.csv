@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hotel_customer_type_user,hotel.customer.type.user,model_hotel_customer_type,hotel.group_hotel_user,1,1,1,0
+access_hotel_customer_type_manager,hotel.customer.type.manager,model_hotel_customer_type,hotel.group_hotel_manager,1,1,1,1
+access_hotel_room_gold_day,hotel.room.gold.day.user,model_hotel_room_gold_day,hotel.group_hotel_user,1,1,1,0
+access_hotel_room_gold_day_manager,hotel.room.gold.day.manager,model_hotel_room_gold_day,hotel.group_hotel_manager,1,1,1,1
+access_hotel_country_type_user,hotel.country.type.user,model_hotel_country_type,hotel.group_hotel_user,1,1,1,0
+access_hotel_country_type_manager,hotel.country.type.manager,model_hotel_country_type,hotel.group_hotel_manager,1,1,1,1
+access_hotel_city_type_user,hotel.city.type.user,model_hotel_city_type,hotel.group_hotel_user,1,1,1,0
+access_hotel_city_type_manager,hotel.city.type.manager,model_hotel_city_type,hotel.group_hotel_manager,1,1,1,1

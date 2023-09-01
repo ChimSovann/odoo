@@ -1,0 +1,20 @@
+
+.custom-class table tbody > tr > td {
+    white-space: normal !important;
+    padding: 0.5rem;
+}
+
+.custom-class table thead > tr > th {
+    white-space: normal !important;
+    padding: 0.5rem;
+}
+
+.custom-list-market-list table tbody > tr > td {
+    white-space: normal !important;
+    padding: 0.5rem;
+}
+
+.custom-list-market-list table thead > tr > th {
+    white-space: normal !important;
+    padding: 0.5rem;
+}

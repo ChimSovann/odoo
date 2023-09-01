@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_payment_report">
+        <field name="name">mk.payment.report.name</field>
+        <field name="model">mk.payment.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Payment Report">
+                <group>
+                    <group col="2">
+                        <field name="type" required="1"/>
+                        <field name="exchange_rate" string="Exchange Rate ($/៛) "/>
+                        <field name="location"/>
+                        <field name="accounting"/>
+                    </group>
+                    <group col="2">
+                        <field name="date_start" required="1"/>
+                        <field name="date_end" required="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="print_report" string="Print Report" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="kr_payment_report_wizard">
+        <field name="name">Details Payment Report</field>
+        <field name="res_model">mk.payment.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+            id="payment_report_menu"
+            parent="market_list_reporting_menu_root"
+            action="kr_payment_report_wizard"
+            sequence="1"
+    />
+
+</odoo>

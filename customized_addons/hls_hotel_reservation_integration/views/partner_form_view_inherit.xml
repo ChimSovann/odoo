@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+<!--        Inherit Res Partner Form View to add some fields-->
+        <record model="ir.ui.view" id="view_partner_form_inherit">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+<!--                Replace default name field with name, first_name and last_name field-->
+                <xpath expr="//form/sheet/div/h1" position="replace">
+                    <h1>
+                        <field name="name" default_focus="1" placeholder="Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
+                    </h1>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

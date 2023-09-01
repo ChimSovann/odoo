@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_market_list_request_tree" model="ir.ui.view">
+        <field name="name">market.list.request.tree</field>
+        <field name="model">market.list.request</field>
+        <field name="arch" type="xml">
+            <tree
+                decoration-warning="state == 'to_approve'"
+                decoration-info="state == 'draft'"
+                decoration-success="state == 'approved'"
+                decoration-danger="state == 'rejected'"
+                string="Market List"
+                default_order="name desc"
+            >
+                <field name="name"/>
+                <field name="creation_date"/>
+                <field name="approve_date"/>
+                <field name="requested_by"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_market_list_request_form" model="ir.ui.view">
+        <field name="name">market.list.request.form</field>
+        <field name="model">market.list.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <!--Color style for state status bar-->
+                <style>
+
+                    <!--default color for status bar-->
+                    <!--box part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled {
+                    color: #F9FAFB;
+                    background: #00A5CF;
+                    }
+
+                    <!--arrow head part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled::after {
+                    border-left-color: #00A5CF;
+                    }
+
+                    <!--approved state-->
+                    <!--box part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="approved"] {
+                    background: #66E16E;
+                    }
+
+                    <!--arrow head part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="approved"]::after {
+                    border-left-color: #66E16E;
+                    }
+
+                    <!--rejected state-->
+                    <!--box part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="rejected"] {
+                    background: #E63946;
+                    }
+
+                    <!--arrow head part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="rejected"]::after {
+                    border-left-color: #E63946;
+                    }
+
+                    <!--done state-->
+                    <!--box part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="done"] {
+                    background: #898980;
+                    }
+
+                    <!--arrow head part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="done"]::after {
+
+                    border-left-color: #898980;
+
+                    }
+                </style>
+                <header>
+                    <button name="button_draft"
+                            states="to_approve,approved"
+                            string="Reset"
+                            type="object"
+                            groups="market_list_odoo13.group_market_list_request_manager"
+                    />
+
+                    <button name="button_to_approve" states="draft"
+                            string="Request approval" type="object"
+                            class="oe_highlight"/>
+
+                    <button name="button_approved"
+                            states="to_approve"
+                            string="Approve"
+                            type="object"
+                            class="oe_highlight"
+                            groups="market_list_odoo13.group_market_list_request_manager"
+                    />
+
+                    <button name="button_generate_po"
+                            states="approved"
+                            string="Generate PO"
+                            type="object"
+                            class="oe_highlight"
+                            groups='market_list_odoo13.group_market_list_purchaser'
+                    />
+
+                    <button name="button_rejected"
+                            states="to_approve"
+                            string="Reject"
+                            type="object"
+                            groups="market_list_odoo13.group_market_list_request_manager"
+                    />
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,to_approve,approved,rejected,done"
+                           decoration-bf="True"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_edit_only">
+                        <label for="name" class="oe_inline"/>
+                    </div>
+                    <h1>
+                        <field name="name" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="requested_by"/>
+                            <field name="approve_by" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}'/>
+                            <field name="analytic_account_id"/>
+                        </group>
+                        <group>
+                            <field name="creation_date"/>
+                            <field name="approve_date"/>
+                            <field name="purchaser" options='{"no_open": True,"no_create": 1, "no_create_edit": 1}'/>
+                        </group>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <!--Day 1 purchase sheet-->
+                        <page name="purchase_day_1" string="Day 1">
+                            <group>
+                                <group>
+                                    <field name="purchase_for_date_day1"/>
+                                    <field name="breakfast_est_day1"/>
+                                    <field name="lunch_est_day1"/>
+                                    <field name="dinner_est_day1"/>
+                                    <field name="total_est_day1"/>
+                                </group>
+                            </group>
+                            <!--Breakfast section-->
+                            <group>
+                                <separator string="Breakfast"/>
+                                <field name="line_ids_day1_breakfast">
+                                    <tree limit="999999" editable="bottom" class="custom-list-market-list">
+                                        <field name="product_id" width="2.5"/>
+                                        <field name="product_type" width="1.5"/>
+                                        <field name="product_qty" width="1.5"/>
+                                        <field name="product_uom_id" width="1"/>
+                                        <field name="price_per_unit_est" width="2.5"/>
+                                        <field name="total_price_est" width="3"/>
+                                        <field name="currency_id" width="1.5"/>
+                                        <field name="name" width="2"/>
+                                        <field name="supplier_id" width="2.5"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <div>
+                                        <label for="amount_total_est_breakfast_day1"/>
+                                    </div>
+                                    <field name="amount_total_est_breakfast_day1"
+                                           nolabel="1"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </group>
+                            <!--Lunch section-->
+                            <group>
+                                <separator string="Lunch"/>
+                                <field name="line_ids_day1_lunch">
+                                    <tree limit="999999" editable="bottom" class="custom-list-market-list">
+                                        <field name="product_id" width="2.5"/>
+                                        <field name="product_type" width="1.5"/>
+                                        <field name="product_qty" width="1.5"/>
+                                        <field name="product_uom_id" width="1"/>
+                                        <field name="price_per_unit_est" width="2.5"/>
+                                        <field name="total_price_est" width="3"/>
+                                        <field name="currency_id" width="1.5"/>
+                                        <field name="name" width="2"/>
+                                        <field name="supplier_id" width="2.5"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <div>
+                                        <label for="amount_total_est_lunch_day1"/>
+                                    </div>
+                                    <field name="amount_total_est_lunch_day1"
+                                           nolabel="1"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </group>
+                            <!--Dinner section-->
+                            <group>
+                                <separator string="Dinner"/>
+                                <field name="line_ids_day1_dinner">
+                                    <tree limit="999999" editable="bottom" class="custom-list-market-list">
+                                        <field name="product_id" width="2.5"/>
+                                        <field name="product_type" width="1.5"/>
+                                        <field name="product_qty" width="1.5"/>
+                                        <field name="product_uom_id" width="1"/>
+                                        <field name="price_per_unit_est" width="2.5"/>
+                                        <field name="total_price_est" width="3"/>
+                                        <field name="currency_id" width="1.5"/>
+                                        <field name="name" width="2"/>
+                                        <field name="supplier_id" width="2.5"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <div>
+                                        <label for="amount_total_est_dinner_day1"/>
+                                    </div>
+                                    <field name="amount_total_est_dinner_day1"
+                                           nolabel="1"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </group>
+                            <!--Dry store section-->
+                            <group>
+                                <separator string="Dry store"/>
+                                <field name="dry_store_line_day1">
+                                    <tree limit="999999" editable="bottom" class="custom-list-market-list">
+                                        <field name="product_id" width="2.5"/>
+                                        <field name="product_type" width="1.5"/>
+                                        <field name="product_qty" width="1.5"/>
+                                        <field name="product_uom_id" width="1"/>
+                                        <field name="price_per_unit_est" width="2.5"/>
+                                        <field name="total_price_est" width="3"/>
+                                        <field name="currency_id" width="1.5"/>
+                                        <field name="name" width="2"/>
+                                        <field name="supplier_id" width="2.5"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <div>
+                                        <label for="amount_total_est_dry_store_day1"/>
+                                    </div>
+                                    <field name="amount_total_est_dry_store_day1"
+                                           nolabel="1"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </group>
+                            <!--Grand total price estimation and PAX-->
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="budget_per_pax_day1" class="oe_subtotal_footer_separator"
+                                       widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="grand_total_est_day1" class="oe_subtotal_footer_separator"
+                                       widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <!--Menu description for the day-->
+                            <group>
+                                <field placeholder="Breakfast day 1 description" name="breakfast_description_day1"/>
+                                <field placeholder="Lunch day 1 description" name="lunch_description_day1"/>
+                                <field placeholder="Dinner day 1 description" name="dinner_description_day1"/>
+                            </group>
+                        </page>
+                        <!--Day 2 purchase sheet-->
+                        <page name="purchase_day_2" string="Day 2">
+                            <group>
+                                <group>
+                                    <field name="purchase_for_date_day2"/>
+                                    <field name="breakfast_est_day2"/>
+                                    <field name="lunch_est_day2"/>
+                                    <field name="dinner_est_day2"/>
+                                    <field name="total_est_day2"/>
+                                </group>
+                            </group>
+                            <!--Breakfast section-->
+                            <group>
+                                <separator string="Breakfast"/>
+                                <field name="line_ids_day2_breakfast">
+                                    <tree limit="999999" editable="bottom" class="custom-list-market-list">
+                                        <field name="product_id" width="2.5"/>
+                                        <field name="product_type" width="1.5"/>
+                                        <field name="product_qty" width="1.5"/>
+                                        <field name="product_uom_id" width="1"/>
+                                        <field name="price_per_unit_est" width="2.5"/>
+                                        <field name="total_price_est" width="3"/>
+                                        <field name="currency_id" width="1.5"/>
+                                        <field name="name" width="2"/>
+                                        <field name="supplier_id" width="2.5"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <div>
+                                        <label for="amount_total_est_breakfast_day2"/>
+                                    </div>
+                                    <field name="amount_total_est_breakfast_day2"
+                                           nolabel="1"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </group>
+                            <!--Lunch section-->
+                            <group>
+                                <separator string="Lunch"/>
+                                <field name="line_ids_day2_lunch">
+                                    <tree limit="999999" editable="bottom" class="custom-list-market-list">
+                                        <field name="product_id" width="2.5"/>
+                                        <field name="product_type" width="1.5"/>
+                                        <field name="product_qty" width="1.5"/>
+                                        <field name="product_uom_id" width="1"/>
+                                        <field name="price_per_unit_est" width="2.5"/>
+                                        <field name="total_price_est" width="3"/>
+                                        <field name="currency_id" width="1.5"/>
+                                        <field name="name" width="2"/>
+                                        <field name="supplier_id" width="2.5"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <div>
+                                        <label for="amount_total_est_lunch_day2"/>
+                                    </div>
+                                    <field name="amount_total_est_lunch_day2"
+                                           nolabel="1"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </group>
+                            <!--Dinner section-->
+                            <group>
+                                <separator string="Dinner"/>
+                                <field name="line_ids_day2_dinner">
+                                    <tree limit="999999" editable="bottom" class="custom-list-market-list">
+                                        <field name="product_id" width="2.5"/>
+                                        <field name="product_type" width="1.5"/>
+                                        <field name="product_qty" width="1.5"/>
+                                        <field name="product_uom_id" width="1"/>
+                                        <field name="price_per_unit_est" width="2.5"/>
+                                        <field name="total_price_est" width="3"/>
+                                        <field name="currency_id" width="1.5"/>
+                                        <field name="name" width="2"/>
+                                        <field name="supplier_id" width="2.5"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <div>
+                                        <label for="amount_total_est_dinner_day2"/>
+                                    </div>
+                                    <field name="amount_total_est_dinner_day2"
+                                           nolabel="1"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </group>
+                            <!--Dry store section-->
+                            <group>
+                                <separator string="Dry store"/>
+                                <field name="dry_store_line_day2">
+                                    <tree limit="999999" editable="bottom" class="custom-list-market-list">
+                                        <field name="product_id" width="2.5"/>
+                                        <field name="product_type" width="1.5"/>
+                                        <field name="product_qty" width="1.5"/>
+                                        <field name="product_uom_id" width="1"/>
+                                        <field name="price_per_unit_est" width="2.5"/>
+                                        <field name="total_price_est" width="3"/>
+                                        <field name="currency_id" width="1.5"/>
+                                        <field name="name" width="2"/>
+                                        <field name="supplier_id" width="2.5"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <div>
+                                        <label for="amount_total_est_dry_store_day2"/>
+                                    </div>
+                                    <field name="amount_total_est_dry_store_day2"
+                                           nolabel="1"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </group>
+                            <!--Grand total price estimation and PAX-->
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="budget_per_pax_day2" class="oe_subtotal_footer_separator"
+                                       widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="grand_total_est_day2" class="oe_subtotal_footer_separator"
+                                       widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <!--Menu description for the day-->
+                            <group>
+                                <field placeholder="Breakfast day 2 description" name="breakfast_description_day2"/>
+                                <field placeholder="Lunch day 2 description" name="lunch_description_day2"/>
+                                <field placeholder="Dinner day 2 description" name="dinner_description_day2"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_market_list_search" model="ir.ui.view">
+        <field name="name">market.list.request.select</field>
+        <field name="model">market.list.request</field>
+        <field name="arch" type="xml">
+            <search string="Search Purchase Request">
+                <field name="requested_by" select="True"/>
+                <field name="approve_by" select="True"/>
+                <field name="analytic_account_id" select="True"/>
+                <field name="creation_date" select="True"/>
+                <field name="approve_date" select="True"/>
+                <field name="purchaser" select="True"/>
+                <filter name="your_request"
+                        string="Your Request"
+                        domain="['|', '|',('requested_by','=', uid),('approve_by','=',uid),('purchaser', '=', uid)]"/>
+                <field name="approve_by"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_market_list_request" model="ir.actions.act_window">
+        <field name="name">Market List Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">market.list.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{"search_default_your_request":1}</field>
+        <field name="search_view_id" ref="view_market_list_search"/>
+    </record>
+
+    <menuitem id="market_list_request_menu"
+              name="Market List request"
+              sequence="0"
+              parent="market_list_request_menu_root"
+              action="action_market_list_request"/>
+
+</odoo>

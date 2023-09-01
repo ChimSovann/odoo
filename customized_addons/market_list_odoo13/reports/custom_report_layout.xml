@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="a2a_header">
+        <div class="header border-bottom border-dark">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-2">
+                    <img src="/market_list_odoo13/static/img/a2a.png" style="width:100px" alt="logo"/>
+                </div>
+                <div class="col-8" align="center">
+                    <div style="font-size:22px">អេ២អេ ថោន (ខេមបូឌា) ខូ.,អិលធីឌី</div>
+                    <div style="font-size:22px;">A2A Town(Cambodia) Co.,ltd</div>
+                    <div style="font-size: 14px;">
+                        #12, St.2001, Phum Paprak Khang Tboung,Sangkat Kakab I, Khan Posenchey, Phnom Penh , Kingdom of
+                        Cambodia
+                        <br/>
+                        Tel: +855 78 777 384 , Web: http://www.asiato.asia
+                    </div>
+                </div>
+                <br/>
+                <br/>
+            </div>
+        </div>
+    </template>
+
+    <template id="a2a_custom_template_layout">
+        <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id">
+            <link rel="stylesheet" href="/market_list_report/static/src/css/style.css"/>
+            <t t-call="market_list_odoo13.a2a_header"/>
+            <t t-raw="0"/>
+        </div>
+    </template>
+</odoo>

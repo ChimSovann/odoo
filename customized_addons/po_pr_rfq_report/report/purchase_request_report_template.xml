@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pr_custom_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+            <!--call custom bridge to connect report to header and footer-->
+                <t t-call="po_pr_rfq_report.custom_pr_bridge">
+                <link rel="stylesheet" href="/po_pr_rfq_report/static/src/css/style.css"/>
+                <div class="page">
+                    <h3 class="text-left">Purchase Request <t t-esc="o.name"/> </h3>
+                    <!--First Table-->
+                    <table class="table table-big table-bordered" style="border:solid 1px;">
+                        <thead>
+                            <tr>
+                                <th class="align-top text-left">
+                                    <strong>Request Reference:</strong>
+                                </th>
+                                <th class="align-top text-left" >
+                                    <strong>Creation Date:</strong>
+                                </th>
+                                <th class="align-top text-left" >
+                                    <strong>Requested By:</strong>
+                                </th>
+                                <th class="align-top text-left" >
+                                    <strong>Assigned To:</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="align-top text-left"  >
+                                    <span t-field="o.name"/>
+                                </td>
+                                <td class="align-top text-left"  >
+                                    <span t-field="o.date_start"/>
+                                </td>
+                                <td class="align-top text-left" >
+                                    <span t-field="o.requested_by"/>
+                                </td>
+                                <td class="align-top text-left" >
+                                    <span t-field="o.assigned_to"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th class="align-top text-left" >
+                                    <strong>Picking Type:</strong>
+                                </th>
+                                <th class="align-top text-left" >
+                                    <strong>Source:</strong>
+                                </th>
+                                <th class="align-top text-left" >
+                                    <strong>Description:</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="align-top text-left"  >
+                                    <span t-field="o.picking_type_id"/>
+                                </td>
+                                <td class="align-top text-left"  >
+                                    <span t-field="o.origin"/>
+                                </td>
+                                <td class="align-top text-left" >
+                                    <span t-field="o.description"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h3 class="text-left">Products</h3>
+                    <table class="table table-sm table-bordered" style="border:solid 1px;">
+                        <thead class="border:solid 1px;">
+                            <tr>
+                                <th class="align-top text-left"  style="border:solid 1px;">
+                                    <strong>Product Image</strong>
+                                </th>
+                                <th class="align-top text-left"  style="border:solid 1px;">
+                                    <strong>Description</strong>
+                                </th>
+                                <th  class="align-top text-left"  style="border:solid 1px;">
+                                    <strong>Project</strong>
+                                </th>
+                                <th class="align-top text-left"  style="border:solid 1px;">
+                                    <strong>Qty</strong>
+                                </th>
+                                <th class="align-top text-left"  style="border:solid 1px;">
+                                    <strong>Unit</strong>
+                                </th>
+                                <th class="align-top text-left"  style="border:solid 1px;">
+                                    <strong>Specification</strong>
+                                </th>
+                                <th class="align-top text-left"  style="border:solid 1px;">
+                                    <strong>Unit Price</strong>
+                                </th>
+                                <th class="align-top text-left"  style="border:solid 1px;">
+                                    <strong>Supplier</strong>
+                                </th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.line_ids" t-as="line_ids">
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span><img t-att-src="'data:image/png;base64,%s' % to_text(line_ids.product_id.image_128)"/></span>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="line_ids.product_id"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="line_ids.analytic_account_id"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="line_ids.product_qty"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="line_ids.product_id.uom_name"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+<!--                                    <span t-field="o.line_ids.product_id.specifications"/>-->
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+            </t>
+        </t>
+    </template>
+</odoo>

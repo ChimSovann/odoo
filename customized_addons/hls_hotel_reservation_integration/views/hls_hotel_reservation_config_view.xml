@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+<!--        create from view for HLS Menu Item Action-->
+        <record id="view_hls_config" model="ir.ui.view">
+            <field name="name">HLS Config</field>
+            <field name="model">hotel.get.booking.hls</field>
+            <field name="arch" type="xml">
+                <form string="Configure HLS" class="oe_form_configuration">
+                    <header>
+<!--                        Create a button Request to HLS which call function get_booking_hls_request to get bookings
+                            from HLS based on selected Start Date and End Date-->
+                        <button name="get_booking_hls_request" string="Request to HLS" type="object" class="oe_highlight"/>
+                    </header>
+                    <separator string="Date Request"/>
+                    <div name="date_start">
+                        <label for="start_end" string="Start Date"/>
+                        <field name="date_start"/>
+                    </div>
+                    <div name="date_end">
+                        <label for="date_end" string="End Date"/>
+                        <field name="date_end"/>
+                    </div>
+                    <div name="type">
+                        <label for="type" string="Data Filter"/>
+                        <field name="type"/>
+                    </div>
+                    <div name="booking_id">
+                        <label for="booking_id" string="HLS Reference"/>
+                        <field name="booking_id"/>
+                    </div>
+                    <separator string="Result"/>
+                    <field name="reservation_lines" nolabel="1">
+                                <tree string="Reservation">
+                                    <field name="reservation_no"/>
+                                    <field name="booking_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="checkin"/>
+                                    <field name="checkout"/>
+                                    <field name="state"/>
+                                    <button name="cancel_reservation_ota" type="object" states="draft,confirm" string="Cancel Reservation OTA" icon="fa-ban"/>
+                                    <button name="force_create_folio" type="object" states="confirm" string="Create Folio" icon="fa-plus-circle"/>
+                                </tree>
+                    </field>
+                    <label for="" string="Please Cancel Reservation From OTA Only"/>
+                    <separator string="Response"/>
+                    <field name="response"/>
+                    <separator string="Reservation Not Created"/>
+                    <field name="reservation_error"/>
+                    <footer>
+<!--                        Create a button Create Reservation which call function create_missed_reservation to create
+                            reservations that haven't created yet-->
+                        <button name="create_missed_reservation" type="object" attrs="{'invisible':[('reservation_error','=',False)]}" string="Create Reservation" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+<!--        Create an Action for HLS Menu Item-->
+        <record id="action_hls_config" model="ir.actions.act_window">
+            <field name="name">Configure HLS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hotel.get.booking.hls</field>
+             <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+<!--        Create a Menu Item for HLS-->
+        <menuitem id="menu_hls_config" name="HLS" parent="hotel.hotel_configuration_menu"
+                  groups="group_hotel_get_booking_hls_user"
+                  sequence="100" action="action_hls_config"/>
+    </data>
+</odoo>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="activity_receipt_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="activity.activity_header_print_report">
+                    <div class="page">
+                        <br/>
+                        <div>
+                            <h3>
+                                <span>
+                                    <strong>
+                                        <center>Activity Receipt</center>
+                                    </strong>
+                                </span>
+                            </h3>
+                        </div>
+
+                        <table width="100%" class="table table-condensed">
+                            <tr>
+                                <td width="50%" style="text-align:left;">
+                                    <strong>Customer Name :</strong>
+                                    <span t-field="o.partner_id"/>
+                                </td>
+                                <td width="50%" style="text-align:right;">
+                                    <strong>Date :</strong>
+                                    <span t-field="o.date_order"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table class="table table-condensed">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>
+                                        <strong>Order No</strong>
+                                    </th>
+                                    <th t-if="o.folio_id.id">
+                                        <strong>Folio No</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Room No</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <td style="white-space: nowrap;">
+                                    <span t-esc="o.name"/>
+                                </td>
+                                <td t-if="o.folio_id.id" style="white-space: nowrap;">
+                                    <span t-att-style="style" t-esc="o.folio_id.name"/>
+                                </td>
+                                <td t-if="o.room_no.id" style="white-space: nowrap;">
+                                    <span t-att-style="style" t-esc="o.room_no.name"/>
+                                </td>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <table class="table table-condensed">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>
+                                        <strong>Product</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Quantity</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Rate</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Discount</strong>
+                                    </th>
+                                    <th>
+                                        <strong>SubTotal</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.booking_items" t-as="rec" style="page-break-inside:avoid">
+                                    <td>
+                                        <span t-esc="rec.destination.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="rec.qty"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="rec.unit_price"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="rec.discount"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="rec.price_subtotal"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td>
+                                        <strong>Sub Total:</strong>
+                                    </td>
+                                    <td style="white-space: nowrap;">
+                                        <span t-esc="o.amount_subtotal"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td>
+                                        <strong>VAT:</strong>
+                                    </td>
+                                    <td style="white-space: nowrap;">
+                                        <span t-esc="o.vat_value"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td>
+                                        <strong>Total:</strong>
+                                    </td>
+                                    <td style="white-space: nowrap;">
+                                        <span t-esc="o.amount_total"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

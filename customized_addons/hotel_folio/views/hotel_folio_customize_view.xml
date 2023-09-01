@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--Inherit Hotel Folio Form View-->
+    <record id="view_hotel_folio_form_inherit" model="ir.ui.view">
+        <field name="name">hotel.folio.inherited</field>
+        <field name="model">hotel.folio</field>
+        <field name="inherit_id" ref="hotel.view_hotel_folio_form"/>
+        <field name="arch" type="xml">
+            <!-- Enable edit for date_order field-->
+            <xpath expr="//group/field[@name='date_order']" position="replace">
+                <field name="date_order" attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}"/>
+            </xpath>
+
+            <!--Add Column to Folio Form View-->
+            <field name="hotel_invoice_id" position="after">
+                <field name="is_paid"/>
+                <field name="x_foreigner"/>
+                <field name="x_cambodian"/>
+                <field name="receipt_no"/>
+                <field name="ref_booking"/>
+                <field name="country_types"/>
+                <field name="city_types"/>
+                <field name="customer_types" widget="selection"/>
+            </field>
+
+            <!--Add Column to Folio Page Fields-->
+            <xpath expr="/form/sheet/notebook/page/newline" position="after">
+
+                <group colspan="4" col="4">
+                    <field name="checkin_date"/>
+                    <field name="checkout_date"/>
+                    <field name="duration" readonly="1"/>
+                </group>
+            </xpath>
+
+            <!--      remove widget date from checkin and checkout field      -->
+            <xpath expr="/form/sheet/notebook/page/field[@name='room_line_ids']/tree/field[@name='checkin_date']"
+                   position="replace">
+                <field name="checkin_date"/>
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page/field[@name='room_line_ids']/tree/field[@name='checkout_date']"
+                   position="replace">
+                <field name="checkout_date"/>
+            </xpath>
+
+            <!--     Compute Button       -->
+            <xpath expr="/form/sheet/notebook/page/group/field[@name='amount_total']" position="after">
+                <button name="compute_button" string="Compute" states="draft" type="object" class="oe_highlight"/>
+            </xpath>
+
+            <!--Add Column to Folio Page Room Lines-->
+            <field name="discount" position="after">
+                <field name="state" string="Status"/>
+            </field>
+
+            <!--Change Column String from "Unit Price" to "Rent" to Folio Page Room Lines-->
+            <field name="price_unit" position="replace">
+                <field name="price_unit" string="Rent"/>
+            </field>
+
+            <!--Add Column to Folio Page Service Lines-->
+            <xpath expr="/form/sheet/notebook/page/field[@name='service_line_ids']/tree/field[@name='product_id']"
+                   position="before">
+                <field name="id"/>
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page/field[@name='service_line_ids']/tree/field[@name='product_id']"
+                   position="after">
+                <field name="product_uom_qty"/>
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page/field[@name='service_line_ids']/tree/field[@name='tax_id']"
+                   position="after">
+                <field name="state" string="Status"/>
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page/field[@name='service_line_ids']/tree/field[@name='name']"
+                   position="after">
+                <field name="ser_checkin_date"/>
+                <field name="ser_checkout_date"/>
+            </xpath>
+
+            <!--Add Column to History Page-->
+            <xpath expr="/form/sheet/notebook/page/field[@name='invoice_ids']" position="replace">
+                <field name="invoice_ids" colspan="4" nolabel="1">
+                    <tree>
+                        <field name="invoice_partner_display_name" string="Customer"/>
+                        <field name="invoice_origin" string="Source Document"/>
+                        <field name="name" string="Invoice Number"/>
+                        <field name="receipt_no"/>
+                        <field name="invoice_user_id" string="Responsible"/>
+                        <field name="invoice_date_due"/>
+                        <field name="fol_no_inv"/>
+                        <field name="amount_untaxed_signed" string="Subtotal" sum="Total"/>
+                        <field name="amount_tax_signed" string="Tax" sum="Total"/>
+                        <field name="amount_total" sum="Total"/>
+                        <field name="amount_residual_signed" string="Balance"/>
+                        <field name="checkin"/>
+                        <field name="checkout"/>
+                        <field name="state"/>
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Inherit Hotel Folio Tree View-->
+    <record id="view_hotel_folio_tree_inherit" model="ir.ui.view">
+        <field name="name">hotel.folio.inherited</field>
+        <field name="model">hotel.folio</field>
+        <field name="inherit_id" ref="hotel.view_hotel_folio_tree"/>
+        <field name="arch" type="xml">
+            <!--Add Column to Folio Tree View-->
+            <field name="name" position="after">
+                <field name="receipt_no"/>
+                <field name="x_foreigner" sum="Total Foreigner"/>
+                <field name="x_cambodian" sum="Total Cambodian"/>
+            </field>
+            <field name="amount_total" position="before">
+                <field name="invoice_ids"/>
+                <field name="id"/>
+            </field>
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-bf">state == 'cancel'</attribute>
+                <attribute name="decoration-info">state == 'draft'</attribute>
+                <attribute name="decoration-muted">state == 'done'</attribute>
+                <attribute name="default_order">name desc</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

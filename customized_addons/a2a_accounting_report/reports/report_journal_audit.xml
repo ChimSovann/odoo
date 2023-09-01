@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo>
+    <template id="a2a_report_journal" inherit_id="accounting_pdf_reports.report_journal">
+        <xpath expr="//table[hasclass('table-reports')]/thead/tr/th[3]" position="after">
+            <th>Account Name</th>
+        </xpath>
+        <xpath expr="//table[hasclass('table-reports')]/tbody/tr/td[3]" position="after">
+            <td><span t-field="aml.account_id.name"/></td>
+        </xpath>
+    </template>
+</odoo>

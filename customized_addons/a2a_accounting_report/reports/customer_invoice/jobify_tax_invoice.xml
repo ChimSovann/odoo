@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+  <template id="jobify_tax_invoice">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="o">
+        <t t-call="a2a_accounting_report.jobify_custom_template_layout">
+          <style>
+            *{font-size: 12px;}
+            table{width: 100%}
+            table, td, tr, thead, tbody, th{border: solid 1px black;padding: 5px;}
+            th *,td{font-size: 12px;}
+          </style>
+          <div class="page" style="padding-top: 40px;">
+            <!--            <div class="mt64" style="background-color: red;"/>-->
+            <div class="text-center" style="font-size:20px">
+              <strong>វិក្កយបត្រ អាករ<br/>Tax Invoice
+              </strong>
+            </div>
+            <table>
+              <tr>
+                <th style="width:60%;">
+                  <div>
+                    <span>ឈ្មោះសហគ្រាស:</span>
+                    <span t-field="o.partner_id.name"/>
+                  </div>
+                  <div>
+                    <span>អាស័យដ្ឋាន/ Address:</span>
+                    <span t-if="o.partner_id.street">
+                      <span t-field="o.partner_id.street"/>
+                      <span t-field="o.partner_id.street2"/>
+                      <span t-field="o.partner_id.city"/>
+                      <span t-field="o.partner_id.state_id"/>
+                    </span>
+                  </div>
+                  <div>
+                    <span>ទូរស័ព្ទ/ Tel:</span>
+                    <span t-if="o.partner_id.mobile">
+                      <span t-field="o.partner_id.mobile"/>
+                    </span>
+                    <span t-if="o.partner_id.phone">
+                      <span t-field="o.partner_id.phone"/>
+                    </span>
+                  </div>
+                  <div>
+                    <span>Email:</span>
+                    <span t-field="o.partner_id.email"/>
+                  </div>
+                  <div>
+                    <span>លេខអត្តសញ្ញាណកម្ម អតប
+                      <strong>(VATTIN):</strong>
+                      <span t-esc="o.partner_id.vat"/>
+                    </span>
+                  </div>
+                </th>
+                <th style="border-top: 1px solid white; border-bottom: 1px solid white;width:10px;"/>
+                <th style="height:50px" colspan="2">
+                  <div>
+                    <strong>
+                      <i>IT Recruitment And Agency</i>
+                    </strong>
+                  </div>
+                  <div>
+                    <span>លេខរៀងវិក្កយបត្រ / Invoice No:</span>
+                    <span t-field="o.name"/>
+                  </div>
+                  <div>
+                    <span>កាលបរិច្ឆេទ / Date:</span>
+                    <span t-field="o.invoice_date"/>
+                  </div>
+                  <div>
+                    <span>កាលបរិច្ឆេទកំណត់ / Payment Due:</span>
+                    <span t-field="o.invoice_date_due"/>
+                  </div>
+                </th>
+              </tr>
+            </table>
+            <div class="row mt32"/>
+            <table>
+              <thead>
+                <tr>
+                  <td class="text-center" style=" width: 30px">
+                    <div>ល.រ</div>
+                    <div>No</div>
+                  </td>
+                  <td class="text-center" style=" width:320px">
+                    <div>បរិយាយមុខទំនិញ ឬ សេវាកម្ម</div>
+                    <div>Description of Goods or Services</div>
+                  </td>
+                  <td class="text-center" style=" width:80px">
+                    <div>បរិមាណ</div>
+                    <div>Quantity</div>
+                  </td>
+                  <td class="text-center" style="width:100px">
+                    <div>ថ្លៃឯកតា</div>
+                    <div>Unit Price</div>
+                  </td>
+                  <td class="text-center" style="width:100px">
+                    <div>ថ្លៃទំនិញ</div>
+                    <div>Amount</div>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody class="product-table">
+                <tr t-foreach="o.invoice_line_ids" t-as="l" style="page-break-inside:avoid">
+                  <td style="text-align:center">
+                    <span t-esc="l_index+1"/>
+                  </td>
+                  <td>
+                    <span t-if="not l.product_id">
+                      <span t-field="l.name"/>
+                    </span>
+                    <span t-if="l.product_id">
+                      <span t-field="l.name"/>
+                      <br/>
+                      <t t-if="l.discount_customize != 0.0">Discount:
+                        <span t-esc="l.discount_customize"/>%
+                      </t>
+                    </span>
+                  </td>
+                  <td>
+                    <span t-field="l.quantity"/>
+                    <span t-field="l.uos_id" groups="product.group_uom"/>
+                  </td>
+                  <td>
+                    $
+                    <span t-esc="'{0:,.2f}'.format(l.price_unit)"/>
+                  </td>
+
+                  <td>
+                    $
+                    <span t-esc="'{0:,.2f}'.format(l.subtotal_customize)"/>
+                  </td>
+                </tr>
+                <tr style="page-break-inside:avoid">
+                  <td/>
+                  <td>
+                    <div>* សូមធ្វើការទូទាត់វិក័យប័ត្រតាមធនាគាខាងក្រោម</div>
+                    <div>Please Kindly make all payable to:</div>
+                    <div style="font-weight:bold">Account Name:Jobify (Cambodia) Co.,Ltd</div>
+                    <div style="font-weight:bold">Account Number: 2200-03-781744-1-5</div>
+                    <div style="font-weight:bold">Bank Name:Acleda Bank Plc.</div>
+                    <div>*រាល់ការចំណាយថ្លៃសេវាកម្មធនាគារត្រូវទូទាត់ដោយអតិថិជន</div>
+                    <div>Please be noted that any bank fee relating to the remittance should be
+                      absorbed by SENDER
+                    </div>
+                    <div t-if="o.x_rate">*អត្រាប្តូរប្រាក់ /Exchange rate :USD 1.00 = រៀល
+                      <t t-esc="'{0:,.2f}'.format(o.x_rate)"/>
+                    </div>
+                  </td>
+                  <td/>
+                  <td/>
+                  <td/>
+                </tr>
+                <div class="total-calc">
+                  <tr style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right;font-weight:bold;">តម្លៃសរុប /Total USD:
+                    </td>
+                    <td style="font-weight:bold;">
+                      <t t-esc="'${0:,.2f}'.format(o.amount_untaxed_customize)"/>
+                    </td>
+                  </tr>
+                  <tr style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right;font-weight:bold;">
+                      អាករលើតម្លៃបន្ថែម(10%) /VAT 10% :
+                    </td>
+                    <td style=";font-weight:bold;">
+                      <t t-esc="'${0:,.2f}'.format(o.tax_amount_customize)"/>
+                    </td>
+                  </tr>
+                  <!--                                    t-if="o.x_rate"-->
+                  <tr style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right;font-weight:bold;">តម្លៃសរុបរួមទាំងអាករ
+                      /Grand Total USD :
+                    </td>
+                    <td style="font-weight:bold;">
+                      <t t-esc="'${0:,.2f}'.format(o.total_customize)"/>
+                    </td>
+                  </tr>
+                  <!--                                    t-if="o.x_rate"-->
+                  <tr t-if="o.x_rate" style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right;font-weight:bold;">សរុបជារៀល /Total KHR
+                      :
+                    </td>
+                    <td style="font-weight:bold;">
+                      KHR
+                      <t t-esc="'{0:,.2f}'.format(o.x_amount_total_khmer)"/>
+                    </td>
+                  </tr>
+                </div>
+              </tbody>
+
+            </table>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

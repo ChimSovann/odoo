@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="rfq_custom_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!--call custom bridge to connect report to header and footer-->
+                <t t-call="po_pr_rfq_report.custom_rfq_bridge">
+                <link rel="stylesheet" href="/po_pr_rfq_report/static/src/css/style.css"/>
+                <t t-set="address">
+                </t>
+                <t t-if="o.dest_address_id">
+                </t>
+                <div class="page">
+                    <t t-if="o.order_line">
+                        <h3 class="text-left">Request For Quotation <t t-esc="o.name"/></h3>
+                    </t>
+                    <table class="table table-sm table-bordered" style="border:solid 1px;">
+                        <thead>
+                            <tr rowspan="2">
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Supplier Name:</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <span t-field="o.partner_id"/>
+                                </th>
+                                <th class="text-left" colspan="5" style="border:solid 1px;">
+                                    <strong>Note</strong>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Purchase Request No</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Order Date:</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Date Approved</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Requester</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Approved By</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Source Document</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Find Quotation by:</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <t t-set="no" t-value="0"/>
+                                <tr>
+                                    <td class="text-left" style="border:solid 1px;">
+                                        <span t-field="o.request_no"/>
+                                    </td>
+                                    <td class="text-left" style="border:solid 1px;">
+                                        <span t-field="o.date_order"/>
+                                    </td>
+                                    <td class="text-left" style="border:solid 1px;">
+                                        <span t-field="o.date_approve"/>
+                                    </td>
+                                    <td class="text-left" style="border:solid 1px;">
+                                        <span t-field="o.requester"/>
+                                    </td>
+                                    <td class="text-left" style="border:solid 1px;">
+                                        <span t-field="o.approver"/>
+                                    </td>
+                                    <td class="text-left" style="border:solid 1px;">
+                                        <span t-field="o.origin"/>
+                                    </td>
+                                    <td class="text-left" style="border:solid 1px;">
+                                        <span t-field="o.quotation"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                    </table>
+                    <br/>
+                    <table class="table table-sm table-bordered" stlye="border: solid 1px;">
+                        <thead>
+                            <tr>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>No</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Product Image</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Product Name</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Analytic Account</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Qty</strong>
+                                </th>
+                                <th class="text-left"  style="border:solid 1px;">
+                                    <strong>UoM</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Unit Price</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Taxes</strong>
+                                </th>
+                                <th class="text-left" style="border:solid 1px;">
+                                    <strong>Subtotal</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody style="border:solid 1px;">
+                            <t t-set="no" t-value='1'/>
+                            <tr t-foreach="o.order_line" t-as="order_line">
+                                <td style="border:solid 1px;">
+                                    <span t-esc="no"/>
+                                    <t t-set="no" t-value="no+1"/>
+                                </td>
+                                <td style="border:solid 1px;">
+                                    <span><img t-att-src="'data:image/png;base64,%s' % to_text(order_line.product_id.image_128)"/></span>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="order_line.name"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="order_line.account_analytic_id"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="order_line.product_qty"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="order_line.product_uom"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="order_line.currency_id.symbol"/><span t-field="order_line.price_unit"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="order_line.taxes_id"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="order_line.price_subtotal"/>
+                                </td>
+                            </tr>
+                            <tr class="text-right">
+                                <th colspan="7"><strong>Amount Untaxed:</strong></th>
+                                <th>
+                                    <span t-field="o.amount_untaxed"/>
+                                </th>
+                            </tr>
+                            <tr class="text-right">
+                                <th colspan="7"><strong>Taxes:</strong></th>
+                                <th>
+                                    <span t-field="o.amount_tax"/>
+                                </th>
+                            </tr>
+                            <tr class="text-right">
+                                <th colspan="7">Total</th>
+                                <th>
+                                    <span t-field="o.amount_total"/>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+            </t>
+        </t>
+    </template>
+</odoo>

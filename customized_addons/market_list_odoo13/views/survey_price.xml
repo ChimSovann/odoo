@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<data>
+    <record model="ir.ui.view" id="view_mk_survey_price_form">
+        <field name="name">survey.price.form</field>
+        <field name="model">survey.price</field>
+        <field name="arch" type="xml">
+            <form string="Survey Price">
+                <sheet>
+                    <h1>
+                        <field name="name" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="date_start"/>
+                        </group>
+                    </group>
+                    <group>
+                        <button name="view_supplier_line" string="Supplier Line Search" type="object"/>
+                    </group>
+                    <field name="lines" colspan="4">
+                        <tree string="Purchase Survey Price lines" editable="bottom" limit="999999">
+                            <field name="supplier_id"/>
+                            <field name="product_id" domain="[('supplier_ids', 'ilike', supplier_id)]"/>
+                            <field name="uom_id"/>
+                            <field name="price"/>
+                            <field name="price_khr" invisible="1"/>
+                            <field name="currency_id"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_mk_survey_price_tree">
+        <field name="name">survey.price.tree</field>
+        <field name="model">survey.price</field>
+        <field name="arch" type="xml">
+            <tree
+                string="Supplier"
+                default_order="name desc"
+            >
+                <field name="name"/>
+                <field name="date_start"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_mk_survey_price">
+        <field name="name">Survey Price</field>
+        <field name="res_model">survey.price</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="view_mk_survey_price_line_tree">
+        <field name="name">survey.price.line.tree</field>
+        <field name="model">survey.price.line</field>
+        <field name="arch" type="xml">
+            <tree string="Supplier" editable="bottom">
+                <field name="supplier_id"/>
+                <field name="product_id" domain="[('supplier_ids', 'ilike', supplier_id)]"/>
+                <field name="uom_id"/>
+                <field name="price"/>
+                <field name="currency_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_mk_survey_line_price">
+        <field name="name">Survey Price Line</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">survey.price.line</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{"search_default_month": 1,"search_default_week": 1,"search_default_supplier": 1}</field>
+    </record>
+
+    <menuitem
+        id="market_list_survey_price"
+        sequence="3"
+        parent="market_list_reporting_menu_root"
+        action="action_mk_survey_price"
+    />
+</data>

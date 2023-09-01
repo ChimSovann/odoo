@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="supplier_view_tree" model="ir.ui.view">
+        <field name="name">Kirirom supplier view tree</field>
+        <field name="model">kirirom.supplier</field>
+        <field name="arch" type="xml">
+            <tree string="Supplier">
+                <field name="name"/>
+                <field name="supplier_id"/>
+                <field name="tel"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="supplier_view_form" model="ir.ui.view">
+        <field name="name">Kirirom supplier view form</field>
+        <field name="model">kirirom.supplier</field>
+        <field name="arch" type="xml">
+          <form string="Supplier">
+              <sheet>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="supplier_id"/>
+                    </group>
+                    <group>
+                        <field name="tel"/>
+                    </group>
+                </group>
+                <field name="product_ids">
+                    <tree string="Product List">
+                        <field name="name"/>
+                        <field name="uom_id"/>
+                        <field name="categ_id"/>
+                    </tree>
+                </field>
+              </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record id="action_supplier_configuration" model="ir.actions.act_window">
+            <field name="name">Kirirom Supplier</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kirirom.supplier</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="market_list_supplier_configuration"
+          name="Supplier"
+          sequence="0"
+          parent="market_list_configuration_menu_root"
+          action="action_supplier_configuration"
+    />
+</odoo>

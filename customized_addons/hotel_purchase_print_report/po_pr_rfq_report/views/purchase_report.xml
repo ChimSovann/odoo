@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    <report-->
+    <!--            id="report_custom_purchase_order"-->
+    <!--            string="Purchase Order1"-->
+    <!--            model="purchase.order"-->
+    <!--            report_type="qweb-pdf"-->
+    <!--            name="po_pr_rfq_report.purchase_report_custom"-->
+    <!--            file="po_pr_rfq_report.purchase_report_custom"-->
+    <!--            attachment_use="True"/>-->
+</odoo>

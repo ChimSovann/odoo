@@ -1,0 +1,56 @@
+<odoo>
+    <template id="custom_hotel_bridge_layout">
+        <t t-if="not o and doc">
+            <t t-set="o" t-value="doc"/>
+        </t>
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id.sudo()"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <!--call to the header template-->
+        <!-- t-call = "module_name.header template id"-->
+        <t t-call="hotel_report_customize.hotel_custom_header"/>
+        <div class="article">
+            <t t-raw="0"/>
+        </div>
+
+    </template>
+    <template id="hotel_custom_header">
+        <!--Custom Header-->
+        <div t-attf-class="header o_company_#{company.id}_layout" position="attributes">
+            <br/>
+            <div class="row" style="">
+                <div class="col-2 mb12">
+                    <img src="/hotel_report_customize/static/img/vkirirom_logo.png" style="max-height: 120px;"/>
+                </div>
+                <div class="col-10" style="">
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Moul"/>
+                    <div class="h5 text-center">
+                        <span style="font-family: 'Moul', Moul;">អេ២អេ ថោន (ខេមបូឌា) ខូ.,អិលធីឌី
+                        </span>
+                        <br/>
+                        <span>A2A Town(Cambodia) Co.,ltd</span>
+                    </div>
+                    <div class="text-center" style="font-size: 14px; font-weight: bold; letter-spacing: 0.2px;">
+                        <span class="">
+                            #12, St.2001, Phum Paprak Khang Tboung, Sangkat Kakab I, Khan Posenchey, Phnom
+                            Penh, Cambodia
+                            <br/>
+                            Street 2011 (Ouknhar Tri Heng Road), Street E, Sangkat Kraing Thnung, Khan Sen Sok,
+                            Phnom Penh, Kingdom of Cambodia
+                            <br/>
+                            Tel: +(855) 78 777 384 , Website: www.asiato.asia
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                <div class="col-12">
+                    <div style="border-bottom: 1px solid black;"/>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

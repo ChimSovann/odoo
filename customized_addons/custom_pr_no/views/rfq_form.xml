@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Implementing fields and changing Receipt to Shipment"-->
+    <record id="purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+
+            <field name="picking_count" position="attributes">
+                <attribute name="string">Shipment</attribute>
+            </field>
+
+            <field name="partner_ref" position="after">
+                <field name="request_no"/>
+                <field name="approver"/>
+                <field name="requester" required="1"/>
+                <field name="quotation"/>
+            </field>
+            <field name="date_approve" position="replace">
+                <field name="date_approve" string="Approved Date"/>
+            </field>
+            <field name="company_id" position="after">
+                <field name="picking_type_id"/>
+                <field name="new_analytic_account_id" attrs="{'required': [('state','in', 'draft')]}"/>
+<!--                <field name="route_ids" widget="many2many_tags" domain="[('isRouteActive','=',True)]" force_save="1"/>-->
+                <field name="note" attrs="{'required': [('state','in', 'draft')]}"/>
+            </field>
+            <field name="date_planned" position="after">
+                <field name="company_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_form_bi_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.bi.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <field name="discount"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="purchase_analytic_id_form_view" model="ir.ui.view">
+        <field name="name">purchase.order.analytic.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='account_analytic_id']" position="replace">
+                <field name="account_analytic_id"
+                       context="{'default_partner_id':parent.partner_id}"
+                       groups="analytic.group_analytic_accounting"
+                       domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                       force_save="1"
+                        optional="hide"
+                />
+            </xpath>
+        </field>
+    </record>
+    <!--            take the deposit button outside from locked button-->
+    <record id="view_purchase_order_form_deposit_inherit" model="ir.ui.view">
+        <field name="name">view.purchase.order.deposit.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase_deposit.view_purchase_order_form_inherit" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(purchase_deposit.action_view_purchase_advance_payment_inv)d']" position="replace">
+                <button
+                    name="%(purchase_deposit.action_view_purchase_advance_payment_inv)d"
+                    states="purchase,done"
+                    type="action"
+                    string="Register Deposit"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

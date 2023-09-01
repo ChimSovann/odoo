@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    Tree view of the Purchase Order-->
+    <record id="view_kr_purchase_order_tree" model="ir.ui.view">
+        <field name="name">kr.purchase.order.tree</field>
+        <field name="model">kr.purchase.order</field>
+        <field name="arch" type="xml">
+            <tree
+                decoration-info="state == 'draft'"
+                decoration-warning="state == 'progress'"
+                decoration-success="state == 'validate'"
+                string="Info" delete="false" create="false"
+                default_order="name desc"
+            >
+                <field name="name"/>
+                <field name="origin"/>
+                <field name="request_date"/>
+                <field name="approved_date"/>
+                <field name="approved_by"/>
+                <field name="date_order"/>
+                <field name="payment_date"/>
+                <field name="analytic_account_id"/>
+                <field name="validate_by"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_kr_purchase_order_form" model="ir.ui.view">
+        <field name="name">kr.purchase.order.form</field>
+        <field name="model">kr.purchase.order</field>
+        <field name="arch" type="xml">
+            <form string="vKirirom Purchase">
+                <style>
+
+                    <!--default color for status bar-->
+                    <!--box part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled {
+                    color: #F9FAFB;
+                    background: #00A5CF;
+                    }
+
+                    <!--arrow head part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled::after {
+                    border-left-color: #00A5CF;
+                    }
+
+                    <!--approved state-->
+                    <!--box part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="approved"] {
+                    background: #66E16E;
+                    }
+
+                    <!--arrow head part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="approved"]::after {
+                    border-left-color: #66E16E;
+                    }
+
+                    <!--arrow head part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="rejected"]::after {
+                    border-left-color: #E63946;
+                    }
+
+                    <!--done state-->
+                    <!--box part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="done"] {
+                    background: #898980;
+                    }
+
+                    <!--arrow head part-->
+                    .o_form_view .o_form_statusbar > .o_statusbar_status >
+                    .o_arrow_button.btn-primary.disabled[data-value="done"]::after {
+
+                    border-left-color: #898980;
+
+                    }
+                </style>
+                <header>
+                    <button name="button_to_progress" states="draft"
+                            string="Submit" type="object"
+                            class="oe_highlight"
+                            groups="market_list_odoo13.group_market_list_purchaser"
+                    />
+                    <button name="button_validate"
+                            states="progress"
+                            string="Validate"
+                            type="object"
+                            class="oe_highlight"
+                            groups="market_list_odoo13.group_market_list_officer"
+                    />
+                    <button name="create_move" states="validate"
+                            string="Payment" type="object"
+                            class="oe_highlight"
+                            groups="market_list_odoo13.group_market_list_officer"
+                    />
+                    <button name="button_to_draft" states="progress"
+                            string="Reset" type="object"
+                            groups="market_list_odoo13.group_market_list_officer"
+                    />
+                    <button name="button_receiver_product"
+                            attrs="{'invisible': ['|', '|', ('picking', '!=', False), ('state', 'in', ('progress', 'validate', 'done')), ('receive_btn_tracker', '=', 'HAS NO PRODUCT')]}"
+                            string="Receive Product" type="object"
+                            class="oe_highlight"
+                            groups="market_list_odoo13.group_market_list_purchaser"
+                    />
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,progress,validate,done"
+                           statusbar_colors='{"done":"blue"}'/>
+
+                </header>
+                <sheet>
+                    <div class="oe_edit_only">
+                        <label for="name" class="oe_inline"/>
+                    </div>
+                    <h1>
+                        <field name="name" class="oe_inline"/>
+                        <span style="margin-right: 1em"></span>
+                        <field name="origin" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="date_order"/>
+                            <field name="payment_date" attrs="{'required':[('state','=','validate')],
+                                                                'invisible':[('state','=','draft')]}"/>
+                            <field name="journal_id" attrs="{'invisible':[('state','=','draft')]}"/>
+                            <field name="debit_acc" attrs="{'invisible':[('state','in',('draft'))]}"/>
+                            <field name="credit_acc" attrs="{'invisible':[('state','=','draft')]}"/>
+                            <field name="entry_ref" readonly="1"/>
+                            <field name="validate_by" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="picking"/>
+                            <field name="is_a2a" invisible="1"/>
+                            <field name="receive_btn_tracker" invisible="1"/>
+                        </group>
+
+                        <group>
+                            <field name="request_date" readonly="1"/>
+                            <field name="requested_by" readonly="1"/>
+                            <field name="approved_date" readonly="1"/>
+                            <field name="approved_by" readonly="1"/>
+                            <field name="analytic_account_id"/>
+                            <field name="budget_controller"
+                                   attrs="{'invisible':['|',('is_a2a','!=',True),('state','=','draft')]}"/>
+                        </group>
+
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Add the description here ..."/>
+                    </group>
+                    <!--                    This is order line from kr.purchse.order.line-->
+                    <notebook>
+                        <page string="Product">
+                            <field name="order_line" widget="one2many">
+                                <tree limit="999999" string="Purchase Order Line" editable="bottom"
+                                      class="custom-class">
+                                    <field name="category_id"/>
+                                    <field name="product_id"/>
+                                    <field name="product_type" width="1.5"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="price_per_unit"/>
+                                    <field name="real_price"/>
+                                    <field name="price_diff"/>
+                                    <field name="price_diff_percent"/>
+                                    <field name="sub_total"/>
+                                    <field name="currency_id"/>
+                                    <field name="debit_acc" readonly="1"
+                                           attrs="{'column_invisible':[('parent.state','=','draft')]}"/>
+<!--                                    <field name="total_amount"/>-->
+                                    <field name="supplier_id"/>
+                                    <field name="invoice_number"/>
+                                    <field name="state" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="currency_id_khr" invisible="1"/>
+                        <field name="currency_id_usd" invisible="1"/>
+                        <field name="amount_riel" widget="monetary" options="{'currency_field': 'currency_id_khr'}"/>
+                        <field name="exchange_rate" widget="monetary" options="{'currency_field': 'currency_id_khr'}"/>
+                        <hr/>
+                        <field name="amount_riel_usd" widget="monetary"
+                               options="{'currency_field': 'currency_id_usd'}"/>
+                        <field name="amount_usd" widget="monetary" options="{'currency_field': 'currency_id_usd'}"/>
+                        <hr/>
+                        <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id_usd'}"/>
+                    </group>
+                    <div class="oe_clear"/>
+                </sheet>
+                <footer>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!--    Search function -->
+    <record id="view_purchase_order_search" model="ir.ui.view">
+        <field name="name">kr.purchase.order.select</field>
+        <field name="model">kr.purchase.order</field>
+        <field name="arch" type="xml">
+            <search string="Purchase Order">
+                <field name="name" select="True"/>
+                <field name="origin" select="True"/>
+                <field name="request_date" select="True"/>
+                <field name="approved_date" select="True"/>
+                <field name="approved_by" select="True"/>
+                <field name="date_order" select="True"/>
+                <field name="payment_date" select="True"/>
+                <field name="analytic_account_id" select="True"/>
+                <field name="validate_by" select="True"/>
+                <field name="state" select="True"/>
+                <filter name="draft" string="Draft"
+                        domain="[('state','=', 'draft')]"/>
+
+                <filter name="progress" string="Progress"
+                        domain="[('state','=', 'progress')]"/>
+
+                <filter name="validate" string="Validate"
+                        domain="[('state','=', 'validate')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Analytic Account" name="analytic_account_id"
+                            context="{'group_by':'analytic_account_id'}"/>
+                    <filter string="Date" name="date_order" context="{'group_by':'date_order'}"/>
+                    <!--                        <filter string="Period" context="{'group_by':'period_id'}"/>-->
+                    <!--                        <filter string="Journal" context="{'group_by':'journal_id'}"/>-->
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="market_list_kr_purchase_action" model="ir.actions.act_window">
+        <field name="name">vKirirom Purchase</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">kr.purchase.order</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_a2a','!=',True)]</field>
+    </record>
+
+    <record id="market_list_a2a_purchase_action" model="ir.actions.act_window">
+        <field name="name">A2A Purchase</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">kr.purchase.order</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_a2a','=',True)]</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="purchase_order_action_progress">
+        <field name="name">Purchase Order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">kr.purchase.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','!=','draft'),('validate_by','=',uid)]</field>
+    </record>
+
+    <menuitem id="menu_item_market_kr_purchase_order"
+              name="vKirirom Purchase"
+              parent="market_list_purchase_order_menu_root"
+              sequence="1"
+              action="market_list_kr_purchase_action"
+    />
+
+    <menuitem id="menu_item_market_a2a_purchase_order"
+              name="A2A Purchase"
+              parent="market_list_purchase_order_menu_root"
+              sequence="2"
+              action="market_list_a2a_purchase_action"
+    />
+
+    <menuitem id="menu_market_purchase_order_validation"
+              name="Purchase Order"
+              parent="market_list_validation_menu_root"
+              sequence="1"
+              action="purchase_order_action_progress"
+              groups="market_list_odoo13.group_market_list_officer"
+    />
+</odoo>

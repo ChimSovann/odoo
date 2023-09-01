@@ -1,0 +1,11 @@
+<odoo>
+
+    <record model="res.groups" id="group_hotel_restaurant">
+        <field name="name">HotelRestaurant / Manager</field>
+    </record>
+
+     <record model="res.groups" id="group_hotel_restaurant_user">
+        <field name="name">HotelRestaurant / User</field>
+    </record>
+
+</odoo>

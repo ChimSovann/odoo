@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="supplier_payment_voucher_template_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="market_list_odoo13.a2a_custom_template_layout">
+                        <div class="page px-4">
+                            <style type="text/css">
+                                <![CDATA[
+                                /* United */
+                                @font-face {
+                                  font-style: heavy;
+                                  font-weight: normal;
+                                }
+                                ]]>
+                            </style>
+                            <link rel="stylesheet" href="/market_list_odoo13/static/src/css/payment_voucher.css"/>
+
+                            <!--                         Title                      -->
+                            <div class="row mt32 mb32 wk-flex wk-center">
+                                        <h3>
+                                            <strong>Payment Voucher</strong>
+                                        </h3>
+                            </div>
+                            <!--                         Header                     -->
+                            <div class="row wk-flex wk-space-between">
+                               <div class="col-xs-7">
+                                <table>
+                                    <tr>
+                                        <td style="text-align:left;">
+                                            <strong>Pay to: ......................</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;">
+                                            <strong>Tel: ...........................</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;">
+                                            <strong>Address: ..................</strong>
+                                        </td>
+                                    </tr>
+                                </table></div>
+                                <div class="col-xs-5">
+                                <table>
+                                    <tr>
+                                        <td style="text-align:left;">
+                                            <strong>Voucher Number:</strong>
+                                            <span class="wk-font-normal" t-field="o.entry_ref.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;">
+                                            <strong>Date:</strong>
+                                            <span class="wk-font-normal" t-field="o.entry_ref.date"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;">
+                                            <strong>Analytic Account:</strong>
+                                            <span class="wk-font-normal" t-field="o.analytic_account_id.name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            </div>
+                            <!--            Payment types check box                 -->
+                            <div class="row mt32 wk-flex wk-center">
+                                    <table class="w-50 table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;border:1px solid black;">Cheque</th>
+                                                <th style="text-align: center;border:1px solid black;">Cash</th>
+                                                <th style="text-align: center;border:1px solid black;">Credit Card</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align: center;border:1px solid black;">
+                                                    <div style="width:35px;height:35px;border:1px solid #000;margin-left:36px;"></div>
+                                                </td>
+                                                <td style="text-align: center;border:1px solid black;">
+                                                    <div style="width:35px;height:35px;border:1px solid #000;margin-left:37px;"></div>
+                                                </td>
+                                                <td style="text-align: center;border:1px solid black;">
+                                                    <div style="width:35px;height:35px;border:1px solid #000;margin-left:43px;"></div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <!--                  Payment line                      -->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center; border:1px solid black; font-size:12px; width: 12px">
+                                            <strong>No.</strong>
+                                        </th>
+                                        <th style="text-align:center; border:1px solid black; font-size:12px;">
+                                            <strong>Date</strong>
+                                        </th>
+                                        <th style="text-align:center; border:1px solid black; font-size:12px;">
+                                            <strong>Memo</strong>
+                                        </th>
+                                        <th style="text-align:center; border:1px solid black; font-size:12px">
+                                            <strong>Account</strong>
+                                        </th>
+                                        <th style="text-align:center; border:1px solid black; font-size:12px">
+                                            <strong>Qty</strong>
+                                        </th>
+                                        <th style="text-align:center; border:1px solid black; font-size:12px">
+                                            <strong>Debit</strong>
+                                        </th>
+                                        <th style="text-align:center; border:1px solid black; font-size:12px">
+                                            <strong>Credit</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr t-foreach="o.entry_ref.line_ids" t-as="rec">
+                                        <td style="border:1px solid black; font-size:12px">
+                                            <span t-esc="rec_index+1"/>
+                                        </td>
+                                        <td style="border:1px solid black; font-size:12px;">
+                                            <span t-esc="o.date_order"/>
+                                        </td>
+                                        <td style="border:1px solid black; font-size:12px;">
+                                            <span t-esc="o.description"/>
+                                        </td>
+                                        <td style="border:1px solid black; font-size:12px;">
+                                            <span t-esc="rec.account_id.code"/> -
+                                            <span t-esc="rec.account_id.name"/>
+                                        </td >
+                                        <td style="border:1px solid black; font-size:12px;"></td>
+                                        <td style="border:1px solid black; font-size:12px">
+                                          $  <span t-esc="rec.debit" />
+                                        </td>
+                                        <td style="border:1px solid black; font-size:12px">
+                                         $   <span t-esc="rec.credit" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" style="border:1px solid black; font-size:12px;text-align:right">Total (USD)</td>
+                                        <td style="border:1px solid black; font-size:12px">
+                                        $<t t-esc="sum(l.debit for l in o.entry_ref.line_ids) " />
+                                       </td>
+                                         <td style="border:1px solid black; font-size:12px">
+                                        $<t t-esc="sum(l.credit for l in o.entry_ref.line_ids) " />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row mt32 mb32">
+                            <!--                  Footer                            -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center">Post by</th>
+                                            <th style="text-align:center">Request by</th>
+                                            <th style="text-align:center">Approve by</th>
+                                            <th style="text-align:center">Purchase by</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <span t-esc="o.entry_ref.write_uid.name"></span>
+                                            </td>
+                                            <td style="text-align:center"></td>
+                                            <td style="text-align:center"></td>
+
+                                            <td style="text-align:center">
+                                                <span t-esc="o.create_uid.name"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+</odoo>

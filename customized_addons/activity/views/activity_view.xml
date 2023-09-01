@@ -1,0 +1,125 @@
+<odoo>
+    <data>
+        <!-- Notebook of activity in hotel.folio.form -->
+        <record model="ir.ui.view" id="view_hotelfolio_activity_form_inherited">
+            <field name="name">hotel.folio.activity.form.inherited</field>
+            <field name="model">hotel.folio</field>
+            <field name="inherit_id" ref="hotel.view_hotel_folio_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[4]" position="after">
+                    <page name="activity" string="Activity">
+                        <separator string="Activity Orders Details" colspan="4"/>
+                        <field name="activity_order_id" colspan="4" nolabel="1">
+                            <tree string="Booking" decoration-success="state=='done'" decoration-info="state=='draft'">
+                                <field name="name"/>
+                                <field name="date_order"/>
+                                <field name="folio_id"/>
+                                <field name="partner_id"/>
+                                <field name="state"/>
+                                <field name="amount_total" sum="Amount total"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Form view of hotel activity -->
+        <record id="view_activity_form" model="ir.ui.view">
+            <field name="name">activity.form</field>
+            <field name="model">activity</field>
+            <field name="arch" type="xml">
+                <form string="Booking Form">
+                    <header>
+                        <button name="confirm" string="Confirm"
+                                attrs="{'invisible':[('state','!=','draft')]}"
+                                type="object" icon="fa-check" class="oe_highlight"/>
+                        <button name="generate_to_folio" string="Generate to Folio"
+                                class="oe_highlight" attrs="{'invisible':[('state','!=','confirm')]}"
+                                type="object"/>
+                        <button name="done_cancel" string="Cancel" states="confirm,done"
+                                class="oe_highlight" type="object"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,confirm,manual_invoice,done,cancel"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group colspan="4" col="4">
+                                <field name="name"/>
+                                <field name="date_order"/>
+                                <newline/>
+                                <field name="folio_id"/>
+                                <field name="partner_id"/>
+                                <field name="room_no"/>
+                                <field name="pos_activity_ids" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Booking Items">
+                                <field name="booking_items" nolabel="1">
+                                    <tree string="Booking Line" editable="bottom">
+                                        <field name="destination"/>
+                                        <field name="qty"/>
+                                        <field name="discount"/>
+                                        <field name="unit_price"/>
+                                        <field name="price_subtotal"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group col="2" class="oe_subtotal_footer oe_right">
+                            <field name="amount_subtotal" widget="monetary"/>
+                            <field name="vat_value" widget="monetary"/>
+                            <div class="oe_subtotal_footer_separator oe_inline">
+                                <label for="amount_total"/>
+                            </div>
+                            <field name="amount_total" nolabel="1" widget='monetary'/>
+                        </group>
+                        <div class="oe_clear"/>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view of Activity -->
+        <record id="view_activity_tree" model="ir.ui.view">
+            <field name="name">activity.tree</field>
+            <field name="model">activity</field>
+            <field name="arch" type="xml">
+                <tree string="Activity">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="folio_id"/>
+                    <field name="room_no"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action of Activity -->
+        <record model="ir.actions.act_window" id="action_activity">
+            <field name="name">Activity</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">activity</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu -->
+        <menuitem name="Activity"
+                  id="activity_menu"
+                  parent="hotel.hotel_management_menu"
+                  sequence="3"
+        />
+
+        <!-- Sub menu -->
+        <menuitem name="Activity"
+                  id="activity_booking_menu"
+                  action="action_activity"
+                  parent="activity_menu"
+        />
+
+        <!--groups="group_activity_user"-->
+    </data>
+</odoo>

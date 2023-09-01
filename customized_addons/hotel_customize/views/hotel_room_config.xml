@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Config Room tree view -->
+    <record id="view_hotel_room_tree_inherit" model="ir.ui.view">
+        <field name="name">hotel.room.tree.inherited</field>
+        <field name="model">hotel.room</field>
+        <field name="inherit_id" ref="hotel.view_hotel_room_tree"/>
+        <field name="arch" type="xml">
+            <field name="list_price" position="after">
+                <field name="list_red_day_price" string="Red Day Room rate"/>
+                <field name="list_blue_day_price" string="Blue Day Room rate"/>
+                <field name="list_gold_day_price" string="Gold Day Room rate"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Config Room form view -->
+    <record id="view_hotel_room_form_inherit" model="ir.ui.view">
+        <field name="name">hotel.room.form.inherited</field>
+        <field name="model">hotel.room</field>
+        <field name="inherit_id" ref="hotel.view_hotel_room_form"/>
+        <field name="arch" type="xml">
+            <field name="list_price" position="after">
+                <field name="list_red_day_price"/>
+            </field>
+            <field name="rental" position="after">
+                <field name="list_blue_day_price"/>
+                <field name="list_gold_day_price"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="custom_reservation_bridge">
+        <t t-if="not o and doc">
+            <t t-set="o" t-value="doc"/>
+        </t>
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id.sudo()"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <!--call to the header template-->
+        <!-- t-call = "module_name.header template id"-->
+        <t t-call="hotel_report_customize.reservation_custom_header"/>
+        <div class="article">
+            <t t-raw="0"/>
+        </div>
+        <t t-call="hotel_report_customize.reservation_custom_footer"/>
+    </template>
+    <template id="reservation_custom_header">
+        <!--Custom Header-->
+        <div t-attf-class="header o_company_#{company.id}_layout" position="attributes">
+            <br/>
+            <div class="row" style="">
+                <div class="col-2 mb12">
+                    <img src="/hotel_report_customize/static/img/vkirirom_logo.png" style="max-height: 120px;"/>
+                </div>
+                <div class="col-10" style="margin-top: 50px">
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Moul"/>
+                    <div class="h5 text-left" style="margin-left: 210px">
+                        <strong>Vkirirom Pine Resort</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+<!--custom footer-->
+    <template id="reservation_custom_footer">
+        <!--Custom Footer-->
+            <div class="footer">
+                <div class="text-left" style="margin-top: 50px;">
+                    <div t-if="report_type == 'pdf'" class="text-left h6">
+                        <span/> Reservation by<span/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <span/>................................<span/>
+                    </div>
+                </div>
+            </div>
+    </template>
+<!--    report body-->
+    <template id="reservation_custom_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!--call custom bridge to connect report to header and footer-->
+                <t t-call="hotel_report_customize.custom_reservation_bridge">
+                <link rel="stylesheet" href="/hotel_report_customize/static/src/css/style.css"/>
+                <div class="page">
+                        <div class="text-center" style="font-size: 18px;">
+                        <span class="">
+                            Greeting From Vkirirom Pine Resort
+                            <br/>
+                            We would like to confirm your room booking as below:
+                        </span>
+                            <br/>
+                    </div>
+                        <h6 class="text-left">Reservation No: </h6>
+                    <table class="table able-bordered" style="border:1px solid black;font-size: 10px;">
+                        <thead>
+                            <tr rowspan="3">
+                                <tr class="text-left" style="border:1px solid black;font-size: 10px;" >
+                                    <td style="border: 1px solid black; width: 80px;">
+                                        <span>Name:</span>
+                                    </td>
+                                    <td style="border: 1px solid black; width: 150px;">
+                                         <span t-field="o.partner_id"/>
+                                    </td>
+                                    <td style="border: 1px solid black; width: 80px;" >
+                                        <span>Nation:         </span>
+                                    </td>
+                                    <td style="border: 1px solid black; width: 150px;">
+                                        <span>        </span>
+                                    </td>
+                                </tr>
+                                <tr class="text-left" style="border:1px solid black;font-size: 10px;" >
+                                    <td style="border: 1px solid black">
+                                        <span>Sex:</span>
+                                    </td>
+                                    <td style="border: 1px solid black; width:200px;" >
+                                         <span>  </span>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span>Email:         </span>
+                                    </td>
+                                    <td style="border: 1px solid black" colspan="2">
+                                        <span t-field="o.partner_id.email"/>
+                                    </td>
+                                </tr>
+                                <tr class="text-left" style="border:1px solid black;font-size: 10px;" >
+                                    <td style="border: 1px solid black">
+                                        <span>H/P:</span>
+                                    </td>
+                                    <td style="border: 1px solid black" colspan="3">
+                                        <span t-field="o.partner_id.mobile"/>
+                                    </td>
+                                </tr>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table class="table able-bordered" style="border:1px solid black;font-size: 10px;">
+                        <thead>
+                            <tr rowspan="2">
+                                <tr class="text-left" style="border:1px solid black;font-size: 10px;" >
+                                    <td style="border: 1px solid black">
+                                        <span>Expect Arrival:</span>
+                                    </td>
+                                    <td style="border: 1px solid black" colspan="3">
+                                         <span t-field="o.checkin"/>
+                                    </td>
+                                </tr>
+                                <tr class="text-left" style="border:1px solid black;font-size: 10px;" >
+                                    <td style="border: 1px solid black">
+                                        <span>Expect Arrival:</span>
+                                    </td>
+                                    <td style="border: 1px solid black" colspan="3">
+                                         <span t-field="o.checkout"/>
+                                    </td>
+                                </tr>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table class="table able-bordered" style="border:1px solid black;font-size: 10px;">
+                        <thead>
+                            <th class="text-left" style="border:solid 1px;">
+                                    <span>No</span>
+                            </th>
+                            <th class="text-left" style="border:solid 1px;">
+                                    <span>Room Type</span>
+                            </th>
+                            <th class="text-left" style="border:solid 1px;">
+                                    <span>Notice</span>
+                            </th>
+                        </thead>
+                        <tbody style="border:solid 1px;">
+                            <t t-set="no" t-value='1'/>
+                            <tr t-foreach="o.reservation_line_ids" t-as="reserve_line">
+                                <td style="border:solid 1px;">
+                                    <span t-esc="no"/>
+                                    <t t-set="no" t-value="no+1"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span t-field="reserve_line.reserve"/>
+                                </td>
+                                <td class="text-left" style="border:solid 1px;">
+                                    <span> </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <h6 class="text-center">
+                        <strong>Remark</strong>
+                    </h6>
+                    <table class="table able-bordered" style="border:1px solid black;font-size: 10px;">
+                        <thead>
+                            <tr rowspan="5">
+                                <td class="text-left" style="border:solid 1px; height: 200px;">
+                                    <span> </span>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </t>
+            </t>
+        </t>
+    </template>
+</odoo>

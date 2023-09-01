@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+<!--        Inherit Hotel Reservation From View to add some customize field-->
+        <record model="ir.ui.view" id="view_hotel_reservation_form_inherit">
+            <field name="name">hotel.reservation.form.inherit</field>
+            <field name="model">hotel.reservation</field>
+            <field name="inherit_id" ref="hotel_reservation.view_hotel_reservation_form"/>
+            <field name="arch" type="xml">
+                <data>
+<!--                    Add booking_id and memo fields after warehouse_id field-->
+                    <field name="warehouse_id" position="after">
+                        <field name="booking_id" attrs="{'readonly':[('state', '==', 'cancel')]}"/>
+                        <field name="memo" attrs="{'readonly':[('state', '==', 'cancel')]}"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

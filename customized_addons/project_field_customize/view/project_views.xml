@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Start Project form view inheritance -->
+      <record id="view_edit_project" model="ir.ui.view">
+            <field name="name">project.project.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="x_code" placeholder="Project Code" style="margin-right: 10px;"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="estimated_start_date"/>
+                    <field name="estimated_end_date"/>
+                    <field name="real_start_date"/>
+                    <field name="real_end_date"/>
+                    <field name="estimated_cost"/>
+                    <field name="reality_cost"/>
+                </xpath>
+
+                 <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="project_status"/>
+                    <field name="link"/>
+                    <field name="description"/>
+                </xpath>
+            </field>
+        </record>
+
+     <!-- End Project form view inheritance -->
+    <record id="view_edit_project_inherit" model="ir.ui.view">
+        <field name="name">project.project.view.form.simplified.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="x_code" class="o_project_name oe_inline"
+                                string="Project Code" placeholder="code"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- Start Project Kanban view inheritance -->
+      <record id="view_project_kanban" model="ir.ui.view">
+            <field name="name">project.project.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='analytic_account_id']" position="after">
+                    <field name="estimated_start_date"/>
+                    <field name="estimated_end_date"/>
+                    <field name="estimated_cost"/>
+                    <field name="project_status"/>
+                </xpath>
+                <xpath expr="//div[@class='o_primary']" position="replace">
+                        <span>&#160; &#160; &#160; &#160;<t t-esc="record.name.value"/></span>
+                        <span t-if="record.partner_id.value"><br></br>
+                            <strong>&#160; &#160; &#160;<t t-esc="record.partner_id.value"/></strong>
+                        </span>
+                        <br></br><br></br>
+                        <span>
+                            <strong>&#160; &#160; &#160;Estimated start date: <t t-esc="record.estimated_start_date.value"/></strong>
+                        </span>
+                        <br></br>
+                        <span>
+                            <strong>&#160; &#160; &#160;Estimated end date: <t t-esc="record.estimated_end_date.value"/></strong>
+                        </span>
+                        <br></br>
+                        <span>
+                            <strong>&#160; &#160; &#160;Estimated cost: $ <t t-esc="record.estimated_cost.value"/></strong>
+                        </span>
+                       <span>
+                            <strong>&#160; &#160; &#160;Status: <t t-esc="record.project_status.value"/></strong>
+                        </span>
+                    </xpath>
+            </field>
+        </record>
+
+     <!-- End Project Kanban view inheritance -->
+</odoo>

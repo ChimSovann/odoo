@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Payslip form view inheritance -->
+    <record id="view_employee_payslip_form" model="ir.ui.view">
+        <field name="name">hr.payslip.inherit</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="om_hr_payroll.view_hr_payslip_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@col='4']" position="after">
+                <group>
+                    <group>
+                        <field name="additional_allowance" />
+                        <field name="exchange_rate"/>
+                        <field name="remain_al"/>
+                        <field name="att_bonus"/>
+                        <field name="incentive"/>
+                        <field name="mission"/>
+                    </group>
+                    <group>
+                        <field name="ot_weekday_150"/>
+                        <field name="ot_weekday_200"/>
+                        <field name="ot_ph"/>
+                        <field name="ot_day_off"/>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="deduction"/>
+                        <field name="deduction_dollar"/>
+                        <field name="severance"/>
+                        <field name="other"/>
+                    </group>
+                    <group>
+                        <label for="senior_months" string="Seniority Period"/>
+                            <div>
+                                <field name="senior_months" class="oe_inline"/>
+                                Months /
+                                <field name="senior_days" class="oe_inline"/>
+                                Days
+                            </div>
+                        <field name="senior_bonus"/>
+                        <field name="senior_payment"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

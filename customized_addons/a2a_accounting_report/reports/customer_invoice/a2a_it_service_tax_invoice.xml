@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+  <template id="a2a_it_service_tax_invoice" inherit_id="a2a_accounting_report.a2a_tax_invoice" primary="True">
+    <xpath expr="//div[@id='header-spacing']" position="replace"/>
+    <xpath expr="//div[@id='invoice']" position="before">
+      <div id="service-type" style="text-align: right;" t-if="o.company_id.name!='CASSTACK Co,.Ltd'">
+        <span style="font-size: 20px;">
+          សេវាកម្មព័ត៌មានវិទ្យា
+          <br/>
+        </span>
+        <span style="font-size: 20px;">
+          <strong>IT Service</strong>
+        </span>
+      </div>
+    </xpath>
+    <xpath expr="//t[@t-call='a2a_accounting_report.a2a_town_dev_kit_footer']" position="replace">
+      <t t-if="o.company_id.name=='Kirirom Digital (Cambodia) Co,.Ltd'">
+        <t t-call="a2a_accounting_report.a2a_kdc_footer"/>
+      </t>
+      <t t-if="o.company_id.name=='CASSTACK Co,.Ltd'">
+        <t t-call="a2a_accounting_report.a2a_casstack_footer"/>
+      </t>
+      <t t-else="">
+        <t t-call="a2a_accounting_report.a2a_town_dev_kit_footer"/>
+      </t>
+    </xpath>
+  </template>
+</odoo>

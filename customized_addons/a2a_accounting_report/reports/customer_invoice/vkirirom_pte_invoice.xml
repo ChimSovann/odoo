@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+  <template id="vkirirom_pte_invoice">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="o">
+        <t t-call="a2a_accounting_report.vkirirom_pte_custom_template_layout">
+          <div class="page">
+            <table class="table" style="margin: 15px 17px 0 17px ">
+              <tr style="border:0px; ">
+                <th style="width:61%;background-color:#a8d9ff;border:1px solid black;">
+                  <span>BILL TO</span>
+                </th>
+                <th style="border:0px"/>
+              </tr>
+              <tr style="border:0px">
+                <th style="width:61%;border:1px solid black;">
+                  <span t-field="o.partner_id.parent_id.name"/>
+                  <br/>
+                  <span t-field="o.partner_id.function"/>
+                  <span t-field="o.partner_id.title"/>
+                  <span t-field="o.partner_id.name"/>
+                  <br/>
+                  <span t-field="o.partner_id.street"/>
+                  <span t-field="o.partner_id.street2"/>,
+                  <span t-field="o.partner_id.city"/>
+                  <span t-field="o.partner_id.zip"/>
+                  <br/>
+                  <span t-if="o.partner_id.email">
+                    <span t-field="o.partner_id.email"/>
+                    <br/>
+                  </span>
+                  <span t-if="o.partner_id.mobile">
+                    <span t-field="o.partner_id.mobile"/>
+                    <br/>
+                  </span>
+                  <address t-field="o.partner_id.name"
+                           t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+                </th>
+                <th style="border:0px"/>
+              </tr>
+            </table>
+            <table class="table table-striped"
+                   style="border:1px solid black; margin: 15px 17px 0 17px; width:95% ">
+              <thead>
+                <tr>
+                  <th style="border:1px solid black; width: 12px;background-color:#a8d9ff;">
+                    <div>No</div>
+                  </th>
+                  <th style="border:1px solid black;width:400px; background-color:#a8d9ff;">
+
+                    <div>DESCRIPTION</div>
+                  </th>
+
+                  <th style="border:1px solid black;background-color:#a8d9ff; width:100px">
+
+                    <div style="text-align:center">AMOUNT (USD)</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="invoice_tbody">
+                <tr t-foreach="o.invoice_line_ids" t-as="l" style="page-break-inside:avoid;">
+                  <td style="border:1px solid black">
+                    <span t-esc="l_index+1"/>
+                  </td>
+                  <td style="border:1px solid black;width:400px">
+                    <span t-field="l.name"/>
+                    <!--                                        <br/>-->
+                    <!--                                        <br/>-->
+                    <!--                                                t-if="o.comment"-->
+                    <!--                                        <t>-->
+                    <!--                                            <span style="font-size:10px">-->
+                    <!--                                                <strong>OTHER COMMENTS:</strong>-->
+                    <!--                                            </span>-->
+                    <!--                                            <br/>-->
+                    <!--                                                    <span t-field="o.comment" style="font-size:10px; padding-left: 30px"/>-->
+                    <!--                                        </t>-->
+                  </td>
+                  <td style="border:1px solid black;width:100px;text-align:right">
+                    <span t-esc="'${0:,.2f}'.format(l.subtotal_customize)"
+                          t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                  </td>
+                </tr>
+
+                <tr style="page-break-inside:avoid">
+                  <td colspan="2" style="text-align:right">SUBTOTAL:</td>
+                  <td style="border:1px solid black;text-align:right">
+
+                    <t t-esc="'${0:,.2f}'.format(o.amount_untaxed_customize)"/>
+                  </td>
+                </tr>
+                <tr style="page-break-inside:avoid">
+                  <td colspan="2" style="text-align:right">TAX RATE (GST):</td>
+                  <td style="border:1px solid black;text-align:right">
+
+                    <t t-esc="'${0:,.2f}'.format(o.tax_amount_customize)"/>
+                  </td>
+                </tr>
+                <tr style="page-break-inside:avoid">
+                  <td colspan="2" style="text-align:right;font-weight:bold;">
+                    TOTAL:
+                  </td>
+                  <td style="border:1px solid black;text-align:right;font-weight:bold;">
+                    <t t-esc="'${0:,.2f}'.format(o.total_customize)"/>
+                  </td>
+                </tr>
+                <!--                                        t-if="o.x_rate"-->
+                <tr t-if="o.x_rate" style="page-break-inside:avoid">
+                  <td colspan="2" style="text-align:right">Exchange Rate:</td>
+                  <td style="border:1px solid black;text-align:right">
+                    <t t-esc="'៛{0:,.2f}'.format(o.x_rate)"/>
+                  </td>
+                </tr>
+                <!--                                        t-if="o.x_rate"-->
+                <tr t-if="o.x_rate" style="page-break-inside:avoid">
+                  <td colspan="2" style="text-align:right;font-weight:bold;">
+                    TOTAL ( KHR ):
+                  </td>
+                  <td style="border:1px solid black;text-align:right;font-weight:bold;">
+                    <t t-esc="'៛{0:,.2f}'.format(o.x_amount_total_khmer)"/>
+                  </td>
+                </tr>
+                <tr style="page-break-inside:avoid"
+                    t-if="o.amount_residual != o.total_customize and o.amount_residual != 0">
+                  <td colspan="2" style="text-align:right;font-weight:bold;">
+                    TOTAL AMOUNT DUE:
+                  </td>
+                  <td style="border:1px solid black;text-align:right;font-weight:bold;">
+                    <t t-esc="'${0:,.2f}'.format(o.amount_residual)"/>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

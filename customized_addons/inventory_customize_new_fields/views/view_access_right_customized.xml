@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <!-- Access Right for Scrap -->
+    <record model="ir.ui.menu" id="stock.menu_stock_scrap">
+        <field name="groups_id" eval="[(6,0,[ref('stock.group_stock_manager')])]"/>
+    </record>
+
+    <!-- Add new field in Inventory & Invisible button Scrap -->
+    <record id="operation_picking_form_view" model="ir.ui.view">
+        <field name="name"> .picking.form.view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_id']" position="after">
+                <field name="request_reference"/>
+                <field name="boolean_required" invisible="1"/>
+                <field name="boolean_hotel_required" invisible="1"/>
+            </xpath>
+            <xpath expr="//header/button[@name='button_scrap']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group/group/field[@name='origin']" position="replace">
+                <field name="origin" placeholder="e.g. PO0032" attrs="{'required': [('boolean_required', '=', True)]}"/>
+            </xpath>
+            <xpath expr="//group/field[@name='project_analytic_id']" position="attributes">
+                <attribute name="attrs">{'required': [('boolean_hotel_required', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//group/field[@name='new_requester_id']" position="attributes">
+                <attribute name="attrs">{'required': [('boolean_hotel_required', '=', True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- adding Analytics account and Source document for tree and form view of stock move-->
+    <record id="inventory_stock_move_tree_view" model="ir.ui.view">
+        <field name="name">inventory.stock.move.tree.view</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_dest_id']" position="after">
+                <field name="origin"/>
+                <field name="project_analytic_id" string="Analytic Account"/>
+            </xpath>
+            <!-- change default_order to desc -->
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="default_order">date desc</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_move_inherit_form_view" model="ir.ui.view">
+        <field name="name">stock.move.inherit.form.view</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/group/field[@name='origin']" position="after">
+                <field name="project_analytic_id" string="Analytic Account"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Sort date desc for Transfer tree view -->
+    <record id="stock_vpicktree_view_tree_inherit" model="ir.ui.view">
+            <field name="name">stock.vpicktree.view.tree.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree[1]" position="attributes">
+                    <attribute name="default_order">scheduled_date desc</attribute>
+                </xpath>
+            </field>
+    </record>
+
+</odoo>

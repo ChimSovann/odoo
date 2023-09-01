@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_vkirirom_picking">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="po_pr_rfq_report.custom_bridge_layout">
+                        <link rel="stylesheet" href="/po_pr_rfq_report/static/src/css/style.css"/>
+                        <div class="page">
+                            <div class="col-12 text-center">
+                                <div class="text-center">
+                                    <span>
+                                        <h4>
+                                            <strong>GOOD RECEIVE NOTE</strong>
+                                        </h4>
+                                    </span>
+                                </div>
+                                <div class="text-center">
+                                    <span>ផ្ញើរជូន វ៉ិត អុន និង បង ចក់ សាន</span>
+                                </div>
+                                <div class="text-center">
+                                    <span>SEND TO: Mr. Veth Onn, Mr. Chak San</span>
+                                </div>
+                                <div class="text-center">
+                                    <span>Tel: 093 504 669 / 081 284 546/ 098 305 003</span>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end mb16">
+                                <div class="col-4" name="right_box">
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"
+                                         style="width:300px;height:50px;" alt="Barcode"/>
+                                </div>
+                            </div>
+                            <h4 class="text-left">Phnom Penh: Receipts:
+                                <t t-esc="o.name" class="mt0 float-left"/>
+                            </h4>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th name="th_origin">
+                                            <strong>Order(Origin)</strong>
+                                        </th>
+                                        <th name="th_state">
+                                            <strong>Project</strong>
+                                        </th>
+                                        <th name="th_create_date">
+                                            <strong>Creation Date</strong>
+                                        </th>
+                                        <th name="th_transfer_date">
+                                            <strong>Date of Transfer</strong>
+                                        </th>
+                                        <th name="th_arrive_date">
+                                            <strong>Date to Arrive</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span t-field="o.origin"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.project_analytic_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.date_done"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.scheduled_date"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-sm" t-if="o.move_line_ids and o.move_ids_without_package"
+                                   style="border:solid 1px;">
+                                <t t-set="has_barcode"
+                                   t-value="any([move_ids_without_package.product_id and move_ids_without_package.product_id.sudo().barcode or move_ids_without_package.package_id for move_ids_without_package in o.move_line_ids])"/>
+                                <t t-set="has_serial_number"
+                                   t-value="o.move_line_ids.filtered(lambda ml: ml.lot_id or ml.lot_name)"
+                                   groups="stock.group_production_lot"/>
+                                <thead style="border:solid 1px;">
+                                    <tr>
+                                        <th name="th_product_no" style="border:solid 1px;">
+                                            <strong>No</strong>
+                                        </th>
+                                        <th name="th_product" style="border:solid 1px;">
+                                            <strong>Product</strong>
+                                        </th>
+                                        <th name="th_quantity" style="border:solid 1px;">
+                                            <strong>Quantity</strong>
+                                        </th>
+                                        <th name="th_source" style="border:solid 1px;">
+                                            <strong>Source</strong>
+                                        </th>
+                                        <th name="th_destination" style="border:solid 1px;">
+                                            <strong>Destination</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="1"/>
+                                    <t t-foreach="o.move_ids_without_package.sorted(key=lambda m: m.product_id.id)"
+                                       t-as="move">
+                                        <!-- In case you come accross duplicated lines, ask NIM or LAP -->
+                                        <t t-foreach="move.move_line_ids.sorted(key=lambda ml: ml.location_id.id)"
+                                           t-as="ml">
+                                            <tr>
+                                                <td style="border:solid 1px;">
+                                                    <span t-esc="no"/>
+                                                    <t t-set="no" t-value="no+1"/>
+                                                </td>
+                                                <td style="border:solid 1px;">
+                                                    <span t-field="ml.product_id.display_name"/>
+                                                    <span t-field="ml.product_id.description_picking"/>
+                                                </td>
+                                                <td style="border:solid 1px;">
+                                                    <span t-if="o.state != 'done'" t-field="ml.product_uom_qty"/>
+                                                    <span t-if="o.state == 'done'" t-field="ml.qty_done"/>
+                                                    <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
+                                                </td>
+                                                <td style="border:solid 1px;">
+                                                    <span t-field="ml.location_id.name"/>
+                                                </td>
+                                                <td style="border:solid 1px;">
+                                                    <span t-field="ml.location_dest_id.name"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

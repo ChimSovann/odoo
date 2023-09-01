@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <record id="reprint_button_pos_order" model="ir.ui.view">
+    <field name="name">pos.order.inherit</field>
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//header" position="inside">
+        <button name="reprint_receipt" string="Reprint Receipt" class="oe_highlight" type="object"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>

@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_product,product.product.creation.authorize,product.model_product_product,group_product_creation,1,1,1,1
+access_product_template,product.template.creation.authorize,product.model_product_template,group_product_creation,1,1,1,1
+access_product_category,product.category.creation.authorize,product.model_product_category,group_product_creation,1,1,1,1
+access_product_supplierinfo,product.supplierinfo.creation.authorize,product.model_product_supplierinfo,group_product_creation,1,1,1,1
+access_hotel_room,hotel.room.creation.authorize,hotel.model_hotel_room,group_product_creation,1,1,1,1
+access_hotel_room_amenities,hotel.room.amenities.creation.authorize,hotel.model_hotel_room_amenities,group_product_creation,1,1,1,1
+access_hotel_services,hotel.services.creation.authorize,hotel.model_hotel_services,group_product_creation,1,1,1,1
+access_hotel_activity,hotel.activity.creation.authorize,hotel_housekeeping.model_hotel_activity,group_product_creation,1,1,1,1
+access_hotel_menucard,hotel.menucard.creation.authorize,hotel_restaurant.model_hotel_menucard,group_product_creation,1,1,1,1

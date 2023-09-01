@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <template id="jobify_quotation_custom_template_layout">
+    <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+         t-att-data-oe-lang="o and o.env.context.get('lang')">
+      <t t-call="a2a_sale_customize.jobify_quotation_header"/>
+      <t t-raw="0"/>
+      <t t-call="a2a_sale_customize.jobify_quotation_footer"/>
+    </div>
+  </template>
+
+  <template id="jobify_quotation_header">
+    <div class="header border-bottom border-dark">
+      <div class="row">
+        <div class="col-2 mt16">
+          <img t-att-src="image_data_uri(o.company_id.logo)" style="width:100px" alt="logo"/>
+        </div>
+        <div class="col-9" align="center">
+          <div style="font-size:25px;color: blue">
+            <t t-esc="o.company_id.name"/>
+          </div>
+          <div id="company-info">
+          <span>
+            <strong style="font-size:12px;">អាស័យដ្ឋាន៖ ផ្ទះលេខ១២ ផ្លូវលេខ២០០១ ភូមិប៉ប្រកខាងត្បូង
+              សង្កាត់កាកាបទី១ ខណ្ឌពោធិ៍សែនជ័យ រាជធានីភ្នំពេញ.
+            </strong>
+          </span>
+          <br/>
+          <span style="font-size:11px;">Address: #12, St.2001, Phum Paprak Khang Tboung,Sangkat Kakab I,
+            Khan Posenchey, Phnom Penh, Cambodia,
+            <br/>
+            ទូរស័ព្ទ/Tel: (+855) 095 777 845, 093 739 400, E-mail: jobify@kit.edu.kh
+          </span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="jobify_quotation_footer">
+    <div class="footer border-top border-dark">
+      <style>
+        .signature{
+        display: -webkit-box; /* wkhtmltopdf uses this one */
+        -webkit-box-pack: justify; /* wkhtmltopdf uses this one */
+        }
+        .footer .note span{
+        font-size: 12px;
+        }
+        .signature{
+        font-size: 12px;
+        }
+        .signature > div{
+        border-top: solid black 1px;
+        width: 230px;
+        }
+        .page{
+        margin-bottom: solid green 50px !important;
+        }
+      </style>
+      <div class="mt128">
+        <div class="signature">
+          <div style="text-align:left;">
+            <div>ហត្ថលេខា និង ឈ្មោះអ្នកទទួលសេវា</div>
+            <strong style="white-space: nowrap;">Customer's Signature &amp; Name</strong>
+          </div>
+          <div style="text-align:right;">
+            <div>ហត្ថលេខា និង ឈ្មោះអ្នកផ្ដល់សេវា</div>
+            <strong>Seller's Signature/Sale &amp; Name</strong>
+          </div>
+        </div>
+
+        <div style="float: bottom; text-align: right; font-size: 12px;" class="mt32">
+          <span>Page:</span>
+          <span class="page"/>
+          <span>/</span>
+          <span class="topage"/>
+        </div>
+
+      </div>
+    </div>
+  </template>
+
+
+  <template id="jobify_quotation">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="o">
+        <t t-call="a2a_sale_customize.jobify_quotation_custom_template_layout">
+          <div class="page" style="font-size:12px;">
+            <p class="text-center mt64" style="font-size: 20px;">Quotation</p>
+
+            <div class="mt32" style="width:100%;font-size:12px">
+              <div style="display:inline-block;width:80%">
+                Customer:
+                <span t-esc="o.partner_id.name"/>
+                <br/>
+                Deliver to:
+                <span t-esc="o.deliver_to"/>
+                <br/>
+                Tel &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;:
+                <span t-esc="o.tel"/>
+              </div>
+              <div style="display:inline-block;vertical-align:top;">
+                Date:
+                <span t-esc="o.date_order"/>
+                <br/>
+                Quotation No:
+                <span t-esc="o.name"/>
+              </div>
+            </div>
+
+            <div id="product-table">
+              <table class="table table-sm table-bordered table-striped mt32" id="second-table">
+                <thead style="text-align:center;">
+                  <tr>
+                    <th>ល.រ<br/>No
+                    </th>
+                    <th>បរិយាយមុខទំនិញ ឬ សេវាកម្ម<br/>Description of Goods or Services
+                    </th>
+                    <th>បរិមាណ<br/>Quantity
+                    </th>
+                    <th>ថ្លៃឯកតា<br/>Unit Price
+                    </th>
+                    <th id="amount">ថ្លៃទំនិញ<br/>Amount
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr t-foreach="o.order_line" t-as="l" style="page-break-inside:avoid">
+                    <t t-set="tax_value" t-value="0"/>
+                    <t t-if="l.tax_id and not l.tax_id.price_include">
+                        <t t-set="tax_value" t-value="l.tax_id.amount"/>
+                    </t>
+                    <td style="text-align: center">
+                      <span t-esc="l_index+1"/>
+                    </td>
+                    <td>
+                      <span t-field="l.name"/>
+                    </td>
+                    <td>
+                      <t t-if="l.product_uom_qty==int(l.product_uom_qty)">
+                        <span t-esc="int(l.product_uom_qty)"/>
+                      </t>
+                      <t t-else="">
+                      <span t-esc="'{0:,.2f}'.format(l.product_uom_qty)"/>
+                      </t>
+                    </td>
+                    <td>
+                      <span t-esc="'${0:,.2f}'.format(l.price_unit)"/>
+                    </td>
+                    <td>
+                      <span t-esc="'${0:,.2f}'.format(l.price_subtotal)" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                    </td>
+                  </tr>
+                  <tr style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right;font-weight:bold;">
+                      សរុបជាដុល្លារ / Total USD:
+                    </td>
+                    <td style="font-weight:bold;">
+                      <t t-esc="'${0:,.2f}'.format(o.amount_untaxed)"/>
+                    </td>
+                  </tr>
+                  <tr style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right">
+                      អាករលើតម្លៃបន្ថែម(10%) / VAT 10%:
+                    </td>
+                    <td>
+                      <t t-esc="'${0:,.2f}'.format(o.amount_tax)"/>
+                    </td>
+                  </tr>
+                  <tr style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right;font-weight:bold;">
+                      តម្លៃសរុបរួមទាំងអាករ / Grand Total USD:
+                    </td>
+                    <td>
+                      <t t-esc="'${0:,.2f}'.format(o.amount_total)"/>
+                    </td>
+                  </tr>
+
+                  <tr t-if="o.x_rate" style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right;font-weight:bold;">
+                      សរុបជារៀល / Total KHR:
+                    </td>
+                    <td>
+                      <t t-esc="'{0:,.2f}៛'.format(o.amount_total*o.x_rate)"/>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="mt64">* សូមធ្វើការទូទាត់វិក័យប័ត្រតាមធនាគាខាងក្រោម</div>
+            <div>Please Kindly make all payable to:</div>
+            <div style="font-weight:bold">Account Name:Jobify (Cambodia) Co.,Ltd</div>
+            <div style="font-weight:bold">Bank Name:Acleda Bank Plc.</div>
+            <div style="font-weight:bold">Account Number: 2200-03-781744-1-5</div>
+            <div style="font-weight:bold">Bank Name: Wing Bank (Cambodia) Co., Ltd</div>
+            <div style="font-weight:bold">Account Number: 04418777</div>
+            <div t-if="o.x_rate">*អត្រាប្តូរប្រាក់ /Exchange rate :USD 1.00 = រៀល
+              <t t-esc="'{0:,.2f}'.format(o.x_rate)"/>
+            </div>
+
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

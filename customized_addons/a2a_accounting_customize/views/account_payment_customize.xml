@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <record id="customer_payment" model="ir.ui.view">
+        <field name="name">customer.payment.tree</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="create_uid"/>
+                    <field name="write_uid"/>
+                </field>
+        </field>
+    </record>
+</odoo>

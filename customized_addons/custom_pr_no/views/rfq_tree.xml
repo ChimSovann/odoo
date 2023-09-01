@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Sequence for ID in RFQ and Purchase Order -->
+    <record id="seq_reference_id" model="ir.sequence">
+        <field name="name">ID Sequence</field>
+        <field name="code">reference.id</field>
+        <field name="active">TRUE</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Implementing ID, Request No, Approver column into RFQ Tree View -->
+    <record id="purchase_order_tree_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="reference_id" readonly="1"/>
+                <field name="request_no"/>
+                <field name="date_approve" string="Approved Date"/>
+                <field name="approver"/>
+                <field name="requester"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

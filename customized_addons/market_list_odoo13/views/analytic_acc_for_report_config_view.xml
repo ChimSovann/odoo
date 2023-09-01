@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="analytic_acc_view_tree" model="ir.ui.view">
+        <field name="name">location.tree</field>
+        <field name="model">analytic.account.for.report</field>
+        <field name="arch" type="xml">
+            <tree string="Locations">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="analytic_acc_view_form" model="ir.ui.view">
+        <field name="name">location.form</field>
+        <field name="model">analytic.account.for.report</field>
+        <field name="arch" type="xml">
+            <form string="Analytic Accounts">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <br/><br/>
+                            <field name="analytic_account_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_analytic_acc_for_report_config" model="ir.actions.act_window">
+        <field name="name">Analytic Account for Reporting</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">analytic.account.for.report</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="market_list_analytic_acc_for_report_config"
+              name="Analytic Account for Reporting"
+              sequence="1"
+              parent="market_list_configuration_menu_root"
+              action="action_analytic_acc_for_report_config"
+    />
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_financial_font_style" inherit_id="accounting_pdf_reports.report_financial">
+        <xpath expr="//div[hasclass('page')]/table[1]/tbody/tr/t/td" position="before">
+            <t t-if="a.get('type')=='account'"><t t-set="style" t-value="'font-weight: normal;'"/></t>
+            <t t-if="not a.get('type')=='account'"><t t-set="style" t-value="'font-weight: bold;'"/></t>
+        </xpath>
+        <xpath expr="//div[hasclass('page')]/table[2]/tbody/tr/t/td" position="before">
+            <t t-if="a.get('type')=='account'"><t t-set="style" t-value="'font-weight: normal;'"/></t>
+            <t t-if="not a.get('type')=='account'"><t t-set="style" t-value="'font-weight: bold;'"/></t>
+        </xpath>
+        <xpath expr="//div[hasclass('page')]/table[3]/tbody/tr/t/td" position="before">
+            <t t-if="a.get('type')=='account'"><t t-set="style" t-value="'font-weight: normal;'"/></t>
+            <t t-if="not a.get('type')=='account'"><t t-set="style" t-value="'font-weight: bold;'"/></t>
+        </xpath>
+        <xpath expr="//div[hasclass('page')]/table[3]/tbody/tr/t/td/span" position="replace">
+            <span style="color: white;" t-esc="'..' * int(a.get('level', 0))"/>
+        </xpath>
+    </template>
+</odoo>

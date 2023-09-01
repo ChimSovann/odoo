@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="kit_tax_invoice" inherit_id="a2a_accounting_report.a2a_tax_invoice" primary="True">
+        <xpath expr="//div[@id='header-spacing']" position="replace"/>
+        <xpath expr="//div[@id='invoice']" position="before">
+            <div class="text-right" style="font-size: 15px; line-height: 0.5;">
+                <p class="pt-2">វិទ្យាស្ថានបច្ចេកវិទ្យាគិរីរម្យ</p>
+                <p style="font-weight:bold;">Kirirom Institute of Technology</p>
+            </div>
+        </xpath>
+    </template>
+</odoo>

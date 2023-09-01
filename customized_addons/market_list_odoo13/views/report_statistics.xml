@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_report_statistics_order_line_pivot" model="ir.ui.view">
+        <field name="name">kr.purchase.order.line.pivot</field>
+        <field name="model">kr.purchase.order.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Kirirom Purchase Analysis">
+                <field name="product_id" type="row"/>
+                <field name="date_order" type="col"/>
+                <field name="product_qty" type="measure"/>
+                <field name="price_per_unit" type="measure"/>
+                <field name="sub_total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_report_statistics_order_line_graph" model="ir.ui.view">
+        <field name="name">kr.purchase.order.line.graph</field>
+        <field name="model">kr.purchase.order.line</field>
+        <field name="arch" type="xml">
+            <graph string="Kirirom Purchase Analysis">
+                <field name="product_id" type="row"/>
+                <field name="date_order" type="col"/>
+                <field name="product_qty" type="measure"/>
+                <field name="price_per_unit" type="measure"/>
+                <field name="sub_total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_report_statistic_price_search" model="ir.ui.view">
+        <field name="name">kr.purchase.order.line.search</field>
+        <field name="model">kr.purchase.order.line</field>
+        <field name="arch" type="xml">
+            <search string="Purchase Analysis">
+                <field name="date_order"/>
+                <group expand="1" string="Group By">
+                    <filter name="draft" string="Draft"
+                        domain="[('state','=', 'draft')]"/>
+
+                    <filter name="progress" string="Progress"
+                        domain="[('state','=', 'progress')]"/>
+
+                    <filter name="validate" string="Validate"
+                        domain="[('state','=', 'validate')]"/>
+
+                    <filter name="done" string="Done"
+                        domain="[('state','=', 'done')]"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="report_statistic_price_action">
+        <field name="name">Report Statistic</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">kr.purchase.order.line</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="context">{"search_default_validate": 1}</field>
+        <field name="search_view_id" ref="view_report_statistic_price_search"/>
+    </record>
+
+    <menuitem
+            id="report_statistic_price_report"
+            parent="market_list_reporting_menu_root"
+            action="report_statistic_price_action"
+            sequence="4"
+    />
+</odoo>

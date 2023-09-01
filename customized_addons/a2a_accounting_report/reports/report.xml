@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <report
+                id="report_general_ledger_xlsx"
+                model="account.report.general.ledger"
+                string="Print to XLSX"
+                report_type="xlsx"
+                name="a2a_accounting_report.generate_general_ledger_xlsx"
+                file="a2a_accounting_report.generate_general_ledger_xlsx"
+                attachment_use="False"
+        />
+
+        <report
+                id="report_partner_ledger_xlsx"
+                model="account.report.partner.ledger"
+                string="Print to XLSX"
+                report_type="xlsx"
+                name="a2a_accounting_report.generate_partner_ledger_xlsx"
+                file="a2a_accounting_report.generate_partner_ledger_xlsx"
+                attachment_use="False"
+        />
+
+        <report
+                id="report_balance_sheet_xlsx"
+                model="account.financial.report"
+                string="Print to XLSX"
+                report_type="xlsx"
+                name="a2a_accounting_report.generate_balance_sheet_xlsx"
+                file="a2a_accounting_report.generate_partner_ledger_xlsx"
+                attachment_use="False"
+        />
+
+        <report
+                id="action_report_trial_balance_xlsx"
+                model="account.balance.report"
+                string="Trial Balance xlsx"
+                report_type="xlsx"
+                name="a2a_accounting_report.report_trial_balance_xlsx"
+                file="a2a_accounting_report.report_trial_balance_xlsx"
+        />
+
+        <report
+                id="action_report_tax_report_xlsx"
+                model="account.tax.report"
+                string="Tax Report xlsx"
+                report_type="xlsx"
+                name="a2a_accounting_report.report_tax_report_xlsx"
+                file="a2a_accounting_report.report_tax_report_xlsx"
+        />
+
+        <report
+                id="action_report_journal_audit_xlsx"
+                model="account.print.journal"
+                string="Journal Audit xlsx"
+                report_type="xlsx"
+                name="a2a_accounting_report.generate_journal_audit_xlsx"
+                file="a2a_accounting_report.generate_journal_audit_xlsx"
+        />
+
+    </data>
+</odoo>

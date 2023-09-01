@@ -1,0 +1,7 @@
+<odoo>
+    <template id="custom_field_css" name="custom field css" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/market_list_odoo13/static/src/css/custom_field.css"/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <template id="receipt_template">
+    <t t-call="web.html_container">
+      <style>
+        .pos-receipt {
+          width: 340px;
+        }
+        .pos-receipt-print {
+        width: 512px;
+        height: 0;
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-align: left;
+        direction: ltr;
+        font-size: 28px;
+        color: #000000;
+        }
+
+        .pos-receipt .pos-receipt-right-align {
+        float: right;
+        }
+
+        .pos-receipt .pos-receipt-center-align {
+        text-align: center;
+        }
+
+        .pos-receipt .pos-receipt-left-padding {
+        padding-left: 2em;
+        }
+
+        .pos-receipt .pos-receipt-logo {
+        width: 50%;
+        display: block;
+        margin: 0 auto;
+        }
+
+        .pos-receipt .pos-receipt-contact {
+        text-align: center;
+        font-size: 75%;
+        }
+
+        .pos-receipt .pos-receipt-order-data {
+        text-align: center;
+        font-size: 75%;
+        }
+
+        .pos-receipt .pos-receipt-amount {
+        font-size: 125%;
+        padding-left: 6em;
+        }
+
+        .pos-receipt .pos-receipt-title {
+        font-weight: bold;
+        font-size: 125%;
+        text-align: center;
+        }
+
+        .pos-receipt .pos-receipt-header {
+        font-size: 125%;
+        text-align: center;
+        }
+
+        .pos-receipt .pos-order-receipt-cancel {
+        color: red;
+        }
+
+        .pos-payment-terminal-receipt {
+        text-align: center;
+        font-size: 75%;
+        }
+
+      </style>
+      <t t-foreach="docs" t-as="o">
+        <div class="pos-receipt">
+          <t t-set="receipt" t-value="o"/>
+          <t t-set="pos" t-value="o.config_id"/>
+          <t t-set="paymentlines" t-value="o.payment_ids"/>
+          <t t-set="hasdiscount" t-value="0"/>
+          <t t-set="taxes" t-value="dict()"/>
+
+          <t t-if='receipt.company_id.logo'>
+            <img class="pos-receipt-logo" t-att-src='image_data_uri(receipt.company_id.logo)' alt="Logo"/>
+            <br/>
+          </t>
+          <t t-if='not receipt.company_id.logo'>
+            <h2 class="pos-receipt-center-align">
+              <t t-esc='receipt.company_id.name'/>
+            </h2>
+            <br/>
+          </t>
+          <div class="pos-receipt-contact">
+            <div style="font-size: 150%; font: bold;">
+                <t t-esc="pos.name"/>
+            </div>
+            <div style="font-size: 125%; font: bold;">REPRINT RECEIPT</div>
+            <t t-if='receipt.company_id.partner_id.name'>
+              <div>
+                <t t-esc='receipt.company_id.partner_id.name'/>
+              </div>
+            </t>
+            <t t-if='receipt.company_id.vat'>
+              <div>
+                <t t-if="receipt.company_id.country_id.vat_label">
+                  <t t-esc='receipt.company_id.country_id.vat_label'/>:
+                </t>
+                <t t-if="not receipt.company_id.country_id.vat_label">
+
+                  VATTIN:
+                </t>
+                <t t-esc='receipt.company_id.vat'/>
+              </div>
+            </t>
+
+            <t t-if='pos.receipt_header'>
+              <t t-raw='pos.receipt_header'/>
+            </t>
+
+            <t t-if='receipt.user_id.name'>
+              <div class='cashier'>
+                <div>Cashier Name:
+                  <t t-esc='receipt.user_id.name'/>
+                </div>
+                <t t-if='receipt.table_id.name'>
+                    Table No: <t t-esc='receipt.table_id.name' />
+                </t>
+                <t t-if='receipt.customer_count'>
+                    <div>No Customer: <t t-esc='receipt.customer_count' /></div>
+                </t>
+              </div>
+            </t>
+          </div>
+          <br/>
+          <br/>
+
+          <!-- Orderlines -->
+
+          <div class='orderlines'>
+            <t t-foreach='receipt.lines' t-as='line'>
+              <t t-set='simple'
+                 t-value='(line.discount == 0 and line.product_uom_id.name == "Units" and line.qty == 1)'/>
+              <t t-if='simple'>
+                <div>
+                  <t t-esc='line.product_id.name'/>
+                  <span t-esc="'%.2f' %round(line.price_unit, 2)" class="price_display pos-receipt-right-align"/>
+                </div>
+              </t>
+              <t t-if='not simple'>
+                <div t-esc='line.product_id.name'/>
+                <t t-if='line.discount != 0'>
+                  <t t-set="hasdiscount" t-value="1"/>
+                  <div class="pos-receipt-left-padding">
+                    <t t-esc="'%.2f' %round(line.price_unit, 2)"/>
+                  </div>
+                  <div class="pos-receipt-left-padding">
+                    Discount:<t t-esc='line.discount'/>%
+                  </div>
+                </t>
+                <div class="pos-receipt-left-padding">
+                  <t t-esc="int(line.qty)"/>
+                  <t t-if='line.product_uom_id.name != "Units"' t-esc='line.product_uom_id.name'/>
+                  x
+                  <t t-esc="'%.2f' %round(line.price_unit*(100-line.discount)/100, 2)"/>
+                  <span class="price_display pos-receipt-right-align">
+                    <t t-esc="'%.2f' %round(line.price_unit*line.qty*(100-line.discount)/100, 2)"/>
+                  </span>
+                </div>
+              </t>
+            </t>
+          </div>
+
+          <!-- Subtotal -->
+
+
+          <t t-set='taxincluded'
+             t-value='abs(sum([i.price_subtotal_incl if i.tax_ids_after_fiscal_position.price_include else i.price_subtotal for i in receipt.lines]) - receipt.amount_total) &lt;= 0.000001'/>
+          <t t-foreach="receipt.lines" t-as="line">
+            <t t-foreach="line.tax_ids" t-as="tax">
+              <t t-esc="taxes.update({tax.name:taxes.get(tax.name, 0)+tax._compute_amount(line.price_unit*line.qty*(100-line.discount)/100, line.price_unit, line.qty)})"/>
+            </t>
+          </t>
+          <t t-if='not taxincluded'>
+            <div class="pos-receipt-right-align">--------</div>
+            <br/>
+            <div>Subtotal
+              <span t-esc="'%.2f' %round(sum([line.price_unit*line.qty*(100-line.discount)/100 for line in receipt.lines]), 2)" class="pos-receipt-right-align"/>
+            </div>
+
+            <t t-foreach="taxes.items()" t-as="tax">
+              <div>
+                <t t-esc="tax[0]"/>
+                <span t-esc="'%.2f' %round(tax[1], 2)" class="pos-receipt-right-align"/>
+              </div>
+            </t>
+
+          </t>
+
+          <!-- Total -->
+          <div class="pos-receipt-right-align">--------</div>
+          <br/>
+          <div class="pos-receipt-amount">
+            TOTAL
+            <span t-esc="'$ ' + '%.2f' %round(receipt.amount_total, 2)" class="pos-receipt-right-align"/>
+          </div>
+          <br/>
+          <br/>
+
+          <!-- Payment Lines -->
+          <t t-set="change" t-value="0"/>
+          <t t-foreach="o.payment_ids" t-as="payment">
+            <t t-if="payment.amount&lt;0">
+              <t t-set="change" t-value="payment.amount"/>
+            </t>
+            <t t-else="">
+              <div>
+                <t t-esc="payment.payment_method_id.name"/>
+                <span t-esc="'%.2f' %round(payment.amount, 2)" class="pos-receipt-right-align"/>
+              </div>
+            </t>
+          </t>
+
+          <br/>
+
+          <div class="pos-receipt-amount receipt-change">
+            CHANGE
+            <span t-esc="'$ ' + '%.2f' %round(abs(change), 2)" class="pos-receipt-right-align"/>
+          </div>
+          <br/>
+
+          <!-- Extra Payment Info -->
+
+          <t t-if='hasdiscount'>
+            <div>
+              Discounts
+              <span t-esc="'$ ' + '%.2f' %round(sum([i.qty*i.price_unit*i.discount/100 for i in receipt.lines]), 2)"
+                    class="pos-receipt-right-align"/>
+            </div>
+          </t>
+          <t t-if='taxincluded'>
+            <t t-foreach="taxes.items()" t-as="tax">
+              <div>
+                <t t-esc="tax[0]"/>
+                <span t-esc="'%.2f' %round(tax[1], 2)" class="pos-receipt-right-align"/>
+              </div>
+            </t>
+            <div>
+              Total Taxes
+              <span t-esc="'%.2f' %round(receipt.amount_tax, 2)" class="pos-receipt-right-align"/>
+            </div>
+
+            <div class="pos-receipt-center-align">
+                    <img t-att-src='receipt.qrcode' />
+                </div>
+          </t>
+
+          <div class='before-footer'/>
+
+          <!-- Footer -->
+          <div t-if='pos.receipt_footer' class="pos-receipt-center-align">
+            <t t-raw='pos.receipt_footer'/>
+          </div>
+          <br/>
+          <div class="pos-receipt-order-data">
+            <div>
+              <t t-esc='receipt.name'/>
+            </div>
+            <div>
+              <t t-esc='receipt.date_order'/>
+            </div>
+          </div>
+
+        </div>
+      </t>
+    </t>
+  </template>
+</odoo>

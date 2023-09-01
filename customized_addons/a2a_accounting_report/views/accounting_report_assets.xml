@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="accounting_report_assets" inherit_id="web.report_assets_common">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/a2a_accounting_report/static/src/css/style.css"/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="vkirirom_commercial_invoice_product_table">
+    <tbody>
+      <tr t-foreach="o.invoice_line_ids" t-as="l" style="page-break-inside:avoid">
+        <t t-set="tax_value" t-value="0"/>
+        <t t-if="l.tax_ids and not l.tax_ids.price_include">
+          <t t-set="tax_value" t-value="l.tax_ids.amount"/>
+        </t>
+        <td style="text-align: center">
+          <span t-esc="l_index+1"/>
+        </td>
+        <td>
+          <t t-if="not l.product_id">
+            <span t-field="l.name"/>
+          </t>
+          <t t-if="l.product_id">
+            <span t-field="l.name"/>
+          </t>
+          <br/>
+          <t t-if="l.discount_customize != 0.0">Discount:
+            <span t-esc="l.discount_customize"/>%
+          </t>
+        </td>
+        <td>
+          <span t-esc="'{0:,.2f}'.format(l.quantity)"/>
+          <span t-field="l.product_uom_id"/>
+        </td>
+        <td>
+
+          <span t-esc="'${0:,.2f}'.format(round(l.price_unit+l.price_unit*tax_value/100, 2))"/>
+        </td>
+        <td>
+          <span t-esc="'${0:,.2f}'.format(round(l.subtotal_customize*(1 + tax_value/100), 2))"
+                t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+        </td>
+      </tr>
+      <tr style="page-break-inside:avoid">
+        <td colspan="4" style="text-align:right;font-weight:bold;">
+          សរុប (បូកបញ្ចូលទាំងអាករ)
+          <br>Total (VAT Included):</br>
+        </td>
+        <td style="font-weight:bold;">
+          <t t-esc="'${0:,.2f}'.format(o.total_customize)"/>
+        </td>
+      </tr>
+      <tr t-if="o.x_rate" style="page-break-inside:avoid"> <!--                    t-if="o.x_rate"-->
+        <td colspan="4" style="text-align:right">
+          អត្រាប្តូរប្រាក់ជារៀល
+          <br>Exchange Rate ( KHR ):</br>
+        </td>
+        <td>
+          <t t-esc="'{0:,.2f}៛'.format(o.x_rate)"/>
+        </td>
+      </tr>
+      <tr t-if="o.x_rate" style="page-break-inside:avoid"> <!--                    t-if="o.x_rate"-->
+        <td colspan="4" style="text-align:right;font-weight:bold;">
+          សរុបជារៀល (បូកបញ្ចូលទាំងអាករ)
+          <br>Total KHR (VAT Included):</br>
+        </td>
+        <td>
+          <t t-esc="'{0:,.2f}៛'.format(o.x_amount_total_khmer)"/>
+        </td>
+      </tr>
+    </tbody>
+  </template>
+  <template id="vkirirom_commercial_invoice" inherit_id="a2a_accounting_report.commercial_invoice_package_2020"
+            primary="True">
+    <xpath expr="//table[@id='second-table']/thead/tr/th[last()]" position="replace">
+      <th id="amount">ថ្លៃទំនិញរួមទាំងអាករ<br/>Amount
+      </th>
+    </xpath>
+    <xpath expr="//div[@id='customer-info']/table/thead/tr[3]/th[3]" position="replace">
+      <th class="pl-2">ថ្ងៃចូល និងថ្ងៃចាកចេញ៖<br/>Event Date:
+      </th>
+    </xpath>
+    <xpath expr="//div[@id='customer-info']/table/thead/tr[3]/th[4]" position="replace">
+      <th colspan="2">
+        <span t-field="o.checkin"/>
+        <span t-if="o.checkout">-</span>
+        <span t-field="o.checkout"/>
+      </th>
+    </xpath>
+    <xpath expr="//table[@id='second-table']/tbody" position="replace">
+      <t t-call="a2a_accounting_report.vkirirom_commercial_invoice_product_table"/>
+    </xpath>
+  </template>
+</odoo>

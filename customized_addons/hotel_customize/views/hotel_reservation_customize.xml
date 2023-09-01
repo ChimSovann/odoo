@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_hotel_reservation_form_inherit" model="ir.ui.view">
+        <field name="name">hotel.reservation.inherited</field>
+        <field name="model">hotel.reservation</field>
+        <field name="inherit_id" ref="hotel_reservation.view_hotel_reservation_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_invoice_id" position="after">
+                <field name="ref_booking"/>
+                <field name="check_bool" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_hotel_reservation_tree_inherit" model="ir.ui.view">
+        <field name="name">hotel.reservation.inherited</field>
+        <field name="model">hotel.reservation</field>
+        <field name="inherit_id" ref="hotel_reservation.view_hotel_reservation_tree"/>
+        <field name="arch" type="xml">
+            <field name="reservation_no" position="before">
+                <field name="id"/>
+            </field>
+            <field name="reservation_no" position="after">
+                <field name="booking_id" string="HLS Reference"/>
+                <field name="booking" string="Reference Booking By"/>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="memo" string="Memo"/>
+            </field>
+            <field name="state" position="after">
+                <field name="booking" string="Created by"/>
+                <field name="create_date"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Room Reservation Summary Inherit -->
+    <record id="room_reservation_summary_form_view_inherit" model="ir.ui.view">
+        <field name="name">room.reservation.summary.form.view</field>
+        <field name="model">room.reservation.summary</field>
+        <field name="inherit_id" ref="hotel_reservation.room_reservation_summary_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_to']" position="after">
+                <span style="margin-right: 15px;"/>
+                Room Type
+                <field name="room_type_summary" string="Room Type" style="width: 150px; margin-right: 50px;"
+                       class="oe_inline"/>
+                <button name="get_room_summary" string="Generate" type="object" class="btn btn-primary"
+                        style="width: 120px; height: 33px;"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit form of Reservation -->
+    <record model="ir.ui.view" id="hotel_reservation_form_inherit_view">
+        <field name="name">hotel.reservation.form.inherit.view</field>
+        <field name="model">hotel.reservation</field>
+        <field name="inherit_id" ref="hotel_reservation.view_hotel_reservation_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_order']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='warehouse_id']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_order_id']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='checkin']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='checkout']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='adults']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='children']" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('state', 'in', ('done', 'cancel'))]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='ref_booking']" position="before">
+                <field name="customer_types" widget="selection"/>
+            </xpath>
+            <xpath expr="//field[@name='ref_booking']" position="before">
+                <field name="country_types"/>
+            </xpath>
+            <xpath expr="//field[@name='ref_booking']" position="before">
+                <field name="city_types"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Disable Reservation Summary Header -->
+    <record id="hotel_reservation.action_hotel_reservation_summary" model="ir.actions.act_window">
+        <field name="name">Reservation Summary</field>
+        <field name="res_model">room.reservation.summary</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+    <!-- Sort date desc for Transfer tree view -->
+    <record id="stock_vpicktree_view_tree_inherit" model="ir.ui.view">
+            <field name="name">stock.vpicktree.view.tree.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree[1]" position="attributes">
+                    <attribute name="default_order">scheduled_date desc</attribute>
+                </xpath>
+            </field>
+    </record>
+</odoo>

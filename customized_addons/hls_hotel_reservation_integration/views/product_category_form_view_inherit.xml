@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+<!--        Inherit Product Category Form View to add some customize field-->
+        <record model="ir.ui.view" id="rate_plan_line_product_category">
+            <field name="name">product.category.form.inherit</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+<!--                    Add room_type_id field after parent_id field-->
+                    <field name="parent_id" position="after">
+                        <field name="room_type_id"/>
+                    </field>
+<!--                    Add rate_plan_line field-->
+                    <xpath expr="//form/sheet" position="inside">
+                        <notebook>
+                            <page name="hls rate plane line" string="HLS Rate Plans">
+                                <field name="rate_plan_line" widget="one2many" context="{'show_attribute': False}">
+                                    <tree string="HLS Rate Plans" editable="bottom">
+                                        <field name="name"/>
+                                        <field name="rate_plan_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

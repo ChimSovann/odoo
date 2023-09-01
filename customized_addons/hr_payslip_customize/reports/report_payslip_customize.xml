@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <template id="report_payslip_inherit" inherit_id="om_hr_payroll.report_payslip">
+    <xpath expr="//div[@class='page']/p[2]" position="replace">
+      <div class="row">
+         <div class="col-6">
+             <p>
+                 <strong>Employee signature</strong>
+             </p>
+         </div>
+         <div class="col-6">
+             <p class="text-right">
+                 <strong>Authorized signature</strong>
+             </p>
+         </div>
+      </div>
+    </xpath>
+  </template>
+</odoo>

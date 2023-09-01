@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="custom_rfq_bridge">
+        <t t-if="not o and doc">
+            <t t-set="o" t-value="doc"/>
+        </t>
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id.sudo()"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <!--call to the header template-->
+        <!-- t-call = "module_name.header template id"-->
+        <t t-call="po_pr_rfq_report.rfq_custom_header"/>
+        <div class="article">
+            <t t-raw="0"/>
+        </div>
+        <t t-call="po_pr_rfq_report.rfq_custom_footer"/>
+    </template>
+    <template id="rfq_custom_header">
+        <!--Custom Header-->
+            <div class="header">
+                <div class="row">
+                    <div class="col-1">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;" alt="Logo"/>
+                    </div>
+                    <div class="col-10 text-center ">
+                        <div style="font-size:20px">
+                            <t t-if="o.company_id.name == 'A2A Development Co.,Ltd'">
+                              អេ២អេ ឌីវេសឡុបម៉ិន ឯ.ក
+                            </t>
+                            <t t-if="o.company_id.name == 'A2A Town (Cambodia) Co., Ltd.'">
+                              អេ២អេ ថោន (ខេមបូឌា) ខូ.,អិលធីឌី
+                            </t>
+                            <t t-if="o.company_id.name == 'A2A Consolidate'">
+                              អេ២អេ ខុនសូលីដេត
+                            </t>
+                            <t t-if="o.company_id.name == 'Coin Cloud Co., Ltd'">
+                                ខញ ខ្លោថ ខូ.,អិលធីឌី
+                            </t>
+                            <t t-if="o.company_id.name == 'Jobify (Cambodia) Co,.Ltd'">
+                                ចបប៊ីហ្វាយ (ខេមបូឌា) ឯ.ក
+                            </t>
+                            <t t-if="o.company_id.name == 'KIT Management Co., Ltd'">
+                                ឃេអាយធី មេនេចមិន ឯ.ក
+                            </t>
+                            <t t-if="o.company_id.name == 'Quadusk Pte.,Ltd'">
+                              ខ្វ័រដាស់ ភីធីអុី .,អិលធីឌី
+                            </t>
+                            <t t-if="o.company_id.name == 'vKirirom Japan Inc'">
+                              វីគិរីរម្យ ជប៉ុន អីនខរផូរេស្យិន
+                            </t>
+                            <t t-if="o.company_id.name == 'vKirirom Pte.'">
+                                វីគិរីរម្យ .,ភីធីអុី
+                            </t>
+                        </div>
+                        <div class=" text-center" style="font-size:20px" t-field="company.partner_id"/>
+                        <div class="h4 small text-center">
+                            <span class="d-block">
+                                <div style="display:inline; font-size:11px" t-field="company.street"/>
+                                <div>
+                                    <span style="display:inline; font-size:11px">Tel: </span>
+                                    <span style="display:inline; font-size:11px" t-field="company.phone"/>
+                                    <span>,</span>
+                                    <span style="display:inline; font-size:11px" t-field="company.website"/>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                    <div class="col-12">
+                        <div style="border-bottom: 1px solid black;"/>
+                    </div>
+                </div>
+            </div>
+    </template>
+</odoo>

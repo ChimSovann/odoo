@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_report_survey_price_line_pivot" model="ir.ui.view">
+        <field name="name">survey.price.line.pivot</field>
+        <field name="model">survey.price.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Kirirom Survey Price">
+                <field name="supplier_id" type="row"/>
+                <field name="product_id" type="row"/>
+                <field name="date_start" interval="month" type="col"/>
+                <field name="survey_price_id" type="col"/>
+                <field name="price_khr" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_report_survey_price_line_graph" model="ir.ui.view">
+        <field name="name">survey.price.line.graph</field>
+        <field name="model">survey.price.line</field>
+        <field name="arch" type="xml">
+            <graph string="Kirirom Survey Price">
+                <field name="supplier_id" type="row"/>
+                <field name="product_id" type="row"/>
+                <field name="date_start" interval="month" type="col"/>
+                <field name="survey_price_id" type="col"/>
+                <field name="price_khr" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_report_survey_price_search" model="ir.ui.view">
+        <field name="name">survey.price.line.search</field>
+        <field name="model">survey.price.line</field>
+        <field name="arch" type="xml">
+            <search string="Survey Price">
+                <field name="supplier_id" string="Supplier Name"/>
+                <field name="survey_price_id" string="Week"/>
+                <field name="product_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="Month" name="month" context="{'group_by':'date_start:month'}"/>
+                    <filter string="Week" name="week" context="{'group_by':'survey_price_id'}"/>
+                    <filter string="Supplier" name="supplier" context="{'group_by':'supplier_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="report_survey_price_action">
+        <field name="name">Survey Price Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">survey.price.line</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_report_survey_price_search"/>
+    </record>
+
+    <menuitem
+            id="order_survey_price_report"
+            parent="market_list_reporting_menu_root"
+            action="report_survey_price_action"
+            sequence="0"
+    />
+</odoo>

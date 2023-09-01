@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_purchase_order_wrap_text_custom" model="ir.ui.view">
+            <field name="name">purchase.order.inherit.custom</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[1]/field[@name='order_line']/tree[1]/field[@name='name']" position="replace">
+                    <field name="name" widget="section_and_note_text"/>
+                </xpath>
+                <xpath expr="//page[1]/field[@name='order_line']/tree[1]/field[@name='product_id']" position="replace">
+                    <field name="product_id" class="text-wrap"/>
+                </xpath>
+                <xpath expr="//page[1]/field[@name='order_line']/tree[1]/field[@name='account_analytic_id']" position="replace">
+                    <field name="account_analytic_id" class="text-wrap"/>
+                </xpath>
+            </field>
+        </record>
+
+<!--        to add the state field to tree view in purchase order-->
+        <record id="view_purchase_order_status_custom" model="ir.ui.view">
+            <field name="name">purchase.order.inherit.status.custom</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree[1]/field[@name='invoice_status']" position="after">
+                <field name="state"/>
+            </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

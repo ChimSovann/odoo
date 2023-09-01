@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <template id="a2a_commercial_invoice">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="o">
+        <t t-call="a2a_accounting_report.accounting_custom_template_layout">
+          <xpath expr="//div[hasclass('footer')]" position="before">
+            <t t-call="a2a_accounting_report.a2a_town_dev_kit_footer"/>
+          </xpath>
+          <div class="page">
+            <style>
+              table.table-bordered {
+              border:1px solid black;
+              }
+              table.table-bordered > thead > tr > th{
+              border:1px solid black;
+              vertical-align: top;
+              }
+              table.table-bordered > tbody > tr > td{
+              border:1px solid black;
+              padding-left: 5px;
+              vertical-align: middle;
+
+              }
+            </style>
+            <div style="height: 25px" id="header-spacing"/>
+            <div class="text-center" style="font-size: 20px; line-height: 0.5;" id="invoice">
+              <p class="pt-1">វិក្កយបត្រ</p>
+              <p style="font-weight:bold;">Invoice</p>
+            </div>
+
+            <div id="customer-info">
+              <b>អតិថិជន / Customer:</b>
+              <table class="table table-sm table-bordered">
+                <thead>
+                  <tr>
+                    <th width="25%" class="pl-2">ឈ្មោះក្រុមហ៊ុន ឬអតិថិជន៖<br/>Customer Name
+                    </th>
+                    <th colspan="2" class="pl-2">
+                      <span t-esc="o.partner_id.khmer_name"/>
+                      <br/>
+                      <span t-esc="o.partner_id.eng_name or o.partner_id._get_computed_name(o.partner_id.lastname, o.partner_id.firstname)"/>
+                    </th>
+                    <th class="pl-2">លេខរៀងវិក្កយបត្រ៖ Invoice No:</th>
+                    <th width="15%" class="pl-2">
+                      <span t-field="o.name"/>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="pl-2">អាស័យដ្ឋាន<br/>Customer Address:
+                    </th>
+                    <th colspan="2" class="pl-2">
+                      <span t-esc="o.partner_id._display_address(without_company=True)"/>
+                    </th>
+                    <th class="pl-2">កាលបរិច្ឆេទ៖<br/>Date៖<br/>កាលបរិច្ឆេទផុតកំណត់៖<br/>Due Date៖
+                    </th>
+                    <th width="15%" class="pl-2">
+                      <span t-field="o.invoice_date"/>
+                      <br/>
+                      <br/>
+                      <span t-field="o.invoice_date_due"/>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="pl-2">លេខទូរស័ព្ទ៖<br/>Telephone No៖
+                    </th>
+                    <th width="20%" class="pl-2">
+                      <span t-field="o.partner_id.phone"/>
+                    </th>
+                    <th class="pl-2">សារអេឡិចត្រូនិក៖<br/>Email៖
+                    </th>
+                    <th colspan="2">
+                      <span t-field="o.partner_id.email"/>
+                    </th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+
+            <div id="product-table">
+              <table class="table table-sm table-bordered table-striped mt32" id="second-table">
+                <thead style="text-align:center;">
+                  <tr>
+                    <th>ល.រ<br/>No
+                    </th>
+                    <th>បរិយាយមុខទំនិញ ឬ សេវាកម្ម<br/>Description of Goods or Services
+                    </th>
+                    <th>បរិមាណ<br/>Quantity
+                    </th>
+                    <th>ថ្លៃឯកតា<br/>Unit Price
+                    </th>
+                    <th id="amount">ថ្លៃទំនិញ<br/>Amount
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr t-foreach="o.invoice_line_ids" t-as="l" style="page-break-inside:avoid">
+                    <t t-set="tax_value" t-value="0"/>
+                    <t t-if="l.tax_ids and not l.tax_ids.price_include">
+                      <t t-set="tax_value" t-value="l.tax_ids.amount"/>
+                    </t>
+                    <td style="text-align: center">
+                      <span t-esc="l_index+1"/>
+                    </td>
+                    <td>
+                      <span t-field="l.name"/>
+                      <br/>
+                      <t t-if="l.discount_customize != 0.0">Discount:
+                        <span t-esc="l.discount_customize"/>%
+                      </t>
+                    </td>
+                    <td>
+                      <span t-esc="'{0:,.2f}'.format(l.quantity)"/>
+                      <span t-field="l.product_uom_id"/>
+                    </td>
+                    <td>
+                      <span t-esc="'${0:,.2f}'.format(round(l.price_unit+l.price_unit*tax_value/100, 2))"/>
+                    </td>
+                    <td>
+                      <span t-esc="'${0:,.2f}'.format(round(l.subtotal_customize*(1 + tax_value/100), 2))"
+                            t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                    </td>
+                  </tr>
+                  <tr style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right;font-weight:bold;">
+                      សរុប (បូកបញ្ចូលទាំងអាករ)
+                      <br>Total (VAT Included):</br>
+                    </td>
+                    <td style="font-weight:bold;">
+                      <t t-esc="'${0:,.2f}'.format(o.total_customize)"/>
+                    </td>
+                  </tr>
+                  <!--                    "-->
+                  <tr t-if="o.x_rate" style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right">
+                      អត្រាប្តូរប្រាក់ជារៀល
+                      <br>Exchange Rate ( KHR ):</br>
+                    </td>
+                    <td>
+                      <t t-esc="'{0:,.2f}៛'.format(o.x_rate)"/>
+                    </td>
+                  </tr>
+                  <!--                    t-if="o.x_rate"-->
+                  <tr t-if="o.x_rate" style="page-break-inside:avoid">
+                    <td colspan="4" style="text-align:right;font-weight:bold;">
+                      សរុបជារៀល (បូកបញ្ចូលទាំងអាករ)
+                      <br>Total KHR (VAT Included):</br>
+                    </td>
+                    <td>
+                      <t t-esc="'{0:,.2f}៛'.format(o.x_amount_total_khmer)"/>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div t-if="o.invoice_payments_widget!='false'" id="payment-transaction">
+              <div class="row justify-content-end mt32">
+                <div class="col-xs-6 mr-3">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>
+                          Payment
+                        </th>
+                        <th>
+                          Amount
+                        </th>
+                        <th>
+                          Date
+                        </th>
+                        <th>
+                          Receipt No.
+                        </th>
+                        <th>
+                          Remark
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr t-foreach="o.get_payment_data(o.invoice_payments_widget)"
+                          t-as="payment">
+                        <td>
+                          <span t-esc="payment['journal']"/>
+                        </td>
+                        <td>
+                          <span t-esc="'{0:,.2f}'.format(payment['amount'])"/>
+                        </td>
+                        <td>
+                          <span t-esc="payment['date']"/>
+                        </td>
+                        <td>
+                          <span t-field="o.ref"/>
+                        </td>
+                        <td>
+                          <span t-esc="payment['remark']"/>
+                        </td>
+                      </tr>
+                      <tr t-if="o.amount_residual">
+                        <td colspan="5" style="text-align:center">
+                          Amount Due: $
+                          <span t-esc="o.amount_residual"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <!--  A2A Header, Footer, Footer With Bank Detail and Template  -->
+  <!--  a2a town, dev, KIT, -->
+  <template id="a2a_header">
+    <t t-if="o.company_id.name == 'KIT Management Co., Ltd'">
+      <t t-call="a2a_accounting_report.kit_header"/>
+    </t>
+    <t t-else="">
+      <t t-call="a2a_accounting_report.a2a_town_dev_kdc_header"/>
+    </t>
+  </template>
+
+  <template id="kit_header">
+    <div class="header border-bottom border-dark">
+      <div class="row">
+        <div class="col-2 mt16">
+          <img t-att-src="image_data_uri(o.company_id.logo)"
+               style="width:100px" alt="logo"/>
+        </div>
+        <div class="col-8" align="center">
+          <div style="font-size:14px">
+            គីត មេនេចម៉ិន ឯ.ក
+          </div>
+          <div style="font-size:14px;">
+            <t t-esc="o.company_id.name"/>
+          </div>
+          <div style="font-size:11px; ">
+            <table>
+              <tr>
+                <th>លេខអតសញ្ញាណកម្ម អតប (VATTIN):</th>
+                <t t-foreach="o.company_id.vat" t-as="letter">
+                  <th>
+                    <t t-if="letter=='-'">
+                      <span t-esc="letter" style="margin-right:5px"/>
+                    </t>
+                    <t t-if="letter!='-'">
+                      <div t-esc="letter"
+                           style="width:14px;height:14px;border:1px solid #000;font-size:10px;text-align:center;margin-right:5px"/>
+                    </t>
+                  </th>
+                </t>
+              </tr>
+            </table>
+          </div>
+          <div style="font-size: 9px;" id="kh-address">
+            អាស័យដ្ឋាន៖ ភូមិ ថ្មី ឃុំ ចំបក់ ស្រុក ភ្នំស្រួច ខេត្ត កំពង់ស្ពឺ
+            <br/>
+            ទូរស័ព្ទលេខ៖ +(៨៥៥) ១៧ ៧៣៧ ៨០០
+            <br/>
+          </div>
+          <div style="font-size: 9px;">
+            Address: Thmey Village, Khom Chombok Commune, Phnom Sruch District, Kompong Speu Province, Cambodia,
+            <br/>
+            Tel: (+855) 17 737 800, Website: www.kit.edu.kh
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="a2a_town_dev_kdc_header">
+    <div class="header border-bottom border-dark">
+      <div class="row">
+        <div class="col-1">
+          <img t-if="o.company_id.name == 'A2A Town (Cambodia) Co., Ltd.'" t-att-src="image_data_uri(o.company_id.logo)"
+               style="width:60px" alt="logo"/>
+          <img t-if="o.company_id.name == 'A2A Development Co.,Ltd'" t-att-src="image_data_uri(o.company_id.logo)"
+               style="width:100px" alt="logo"/>
+          <img t-if="o.company_id.name == 'Kirirom Digital (Cambodia) Co,.Ltd'"
+               t-att-src="image_data_uri(o.company_id.logo)"
+               style="width:90px; padding-top:20px" alt="logo"/>
+        </div>
+        <div class="col-11" align="center">
+          <div style="font-size:18px">
+            <t t-if="o.company_id.name == 'A2A Development Co.,Ltd'">
+              អេ២អេ ឌីវេលឡុបម៉ិន ខូ.,អិលធីឌី
+            </t>
+            <t t-if="o.company_id.name == 'A2A Town (Cambodia) Co., Ltd.'">
+              អេ២អេ ថោន (ខេមបូឌា) ខូ.,អិលធីឌី
+            </t>
+            <t t-if="o.company_id.name == 'Kirirom Digital (Cambodia) Co,.Ltd'">
+              គិរីរម្យ ឌីជីធល (ខេមបូឌា) ឯ.ក
+            </t>
+            <t t-if="o.company_id.name == 'CASSTACK Co,.Ltd'">
+              កាសស្តេក ឯ.ក
+            </t>
+          </div>
+          <div style="font-size:18px;">
+            <t t-esc="o.company_id.name"/>
+          </div>
+          <div style="font-size:14px;">
+            <table>
+              <tr>
+                <th>លេខអត្តសញ្ញាណកម្ម អតប (VATTIN):</th>
+                <t t-foreach="o.company_id.vat" t-as="letter">
+                  <th>
+                    <t t-if="letter=='-'">
+                      <span t-esc="letter" style="margin-right:5px"/>
+                    </t>
+                    <t t-if="letter!='-' and letter!=' '">
+                      <div t-esc="letter"
+                           style="width:14px;height:14px;border:1px solid #000;font-size:10px;text-align:center;margin-right:5px"/>
+                    </t>
+
+                  </th>
+                </t>
+              </tr>
+            </table>
+          </div>
+          <div style="font-size: 12px;" id="kh-address">
+            អាស័យដ្ឋាន៖ ផ្ទះលេខ ១២
+            <t t-if="o.company_id.name in ['Kirirom Digital (Cambodia) Co,.Ltd', 'CASSTACK Co,.Ltd']">
+              (ជាន់ទី២)
+            </t>
+            , ផ្លូវលេខ២០០១, ភូមិ ប៉ប្រកខាងត្បូង, សង្កាត់ កាកាបទី១, ខណ្ឌ ពោធិ៍សែនជ័យ,
+            រាជធានីភ្នំពេញ
+            <br/>
+            <t t-if="o.company_id.name == 'Kirirom Digital (Cambodia) Co,.Ltd'">
+              ទូរស័ព្ទលេខ៖ +(៨៥៥) ៩៥ ៧៧៧ ៨៤៤
+            </t>
+            <t t-if="o.company_id.name == 'CASSTACK Co,.Ltd'">
+              ទូរស័ព្ទលេខ៖ +(៨៥៥)៩៥ ៧៧៧ ៨៤៥ / +(៨៥៥)៩៥ ៤៤៨ ៨៨៥
+            </t>
+            <t t-else="">
+              ទូរស័ព្ទលេខ៖ +(៨៥៥) ៧៨ ៧៧៧ ៣៨៤
+            </t>
+            <br/>
+          </div>
+          <div style="font-size: 12px;">
+            Address: #12
+            <t t-if="o.company_id.name in ['Kirirom Digital (Cambodia) Co,.Ltd', 'CASSTACK Co,.Ltd']">
+              (2nd Floor)
+            </t>
+            , St.2001, Phum Paprak Khang Tboung, Sangkat Kakab I, Khan Posenchey, Phnom Penh,
+            Cambodia,
+            <br/>
+            <t t-if="o.company_id.name == 'Kirirom Digital (Cambodia) Co,.Ltd'">
+              Tel: 095 777 844, Website: kirirom-digital.com.kh
+            </t>
+            <t t-if="o.company_id.name == 'CASSTACK Co,.Ltd'">
+              Tel: +(855)95 777 845 / +(855)95 448 885, Website: hr.casstack@kit.edu.kh
+            </t>
+            <t t-else="">
+              Tel: +(855) 78 777 384, Website: www.asiato.asia
+            </t>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+
+  <template id="a2a_town_dev_kit_footer">
+    <div class="footer border-top border-dark">
+      <style>
+        .signature{
+        display: -webkit-box; /* wkhtmltopdf uses this one */
+        -webkit-box-pack: justify; /* wkhtmltopdf uses this one */
+        }
+        .footer .note span{
+        font-size: 14px;
+        width: 100%;
+        }
+        .signature{
+        font-size: 14px;
+        }
+        .signature > div{
+        border-top: solid black 1px;
+        width: 230px;
+        }
+        .page{
+        margin-bottom: solid green 50px !important;
+        }
+      </style>
+      <div class="mt128">
+        <div class="signature">
+          <div style="text-align:left;">
+            <div>ហត្ថលេខា និង ឈ្មោះអ្នកទិញ</div>
+            <strong style="white-space: nowrap;">Customer's Signature &amp; Name</strong>
+          </div>
+          <div style="text-align:right;">
+            <div>ហត្ថលេខា និង ឈ្មោះអ្នកលក់</div>
+            <strong>Seller's Signature/Sale &amp; Name</strong>
+          </div>
+        </div>
+
+        <div class="note">
+          <span style="display: inline-block">
+            <br/>
+            សំគាល់៖ ច្បាប់ដើមសម្រាប់អ្នកទិញ ច្បាប់ចម្លងសំរាប់អ្នកលក់
+            <strong>Note:</strong>Original invoice for customer, copied invoice for seller
+            <t t-if="o.company_id.name == 'A2A Development Co.,Ltd'">
+              <br/>The bank transfer should be made using the following details:
+              Account Name:
+              <strong>A2A Development Co.,Ltd</strong>
+              <br/>
+              Account Number:
+              <strong>2200-03-891621-1-2, ACLEDA Bank plc.</strong>
+            </t>
+            <t t-if="o.company_id.name == 'A2A Town (Cambodia) Co., Ltd.'">
+              <br/>The bank transfer should be made using the following details:
+              Account Name:
+              <strong>A2A Town (Cambodia) Co,.Ltd</strong>
+              <br/>
+              Account Number:
+              <strong>2200-02-928428-1-0, ACLEDA Bank plc.</strong>
+            </t>
+            <t t-if="o.company_id.name == 'KIT Management Co., Ltd'">
+              <br/>The bank transfer should be made using the following details:
+              Bank Name:
+              <strong>ACLEDA Bank</strong>
+              Branch Name:
+              <strong>POCHENTONG BRANCH</strong>
+              Bank Address:
+              <strong>Bank address: #46, Russian Federation Blvd., Group 1, Paprak Khangtbong Village, Sangkat Kakab,
+                Khan
+                Posenchey, Phnom Penh.
+              </strong>
+              Account Name:
+              <strong>KIT MANAGEMENT CO., LTD.</strong>
+              <br/>
+              Account Number:
+              <strong>2200-04-377150-1-0</strong>
+              SWIFT Code:
+              <strong>ACLBKHPP</strong>
+            </t>
+            <br/>
+          </span>
+
+          <div style="float: bottom; text-align: right; font-size: 14px;">
+            <span>Page:</span>
+            <span class="page"/>
+            <span>/</span>
+            <span class="topage"/>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </template>
+
+  <template id="a2a_kdc_footer" inherit_id="a2a_accounting_report.a2a_town_dev_kit_footer" primary="True">
+    <xpath expr="//div[hasclass('note')]/span" position="inside">
+      The bank transfer should be made using the following details
+      <br/>
+      Account Name: <strong>KIRIROM DIGITAL (CAMBODIA) CO., LTD.</strong>, Account Number:
+      <strong>004205260</strong>
+      <br/>
+      Bank Name: <strong>ADVANCED BANK OF ASIA LIMITED</strong>, SWIFT CODE:
+      <strong>ABAAKHPP</strong>
+    </xpath>
+  </template>
+
+    <template id="a2a_casstack_footer" inherit_id="a2a_accounting_report.a2a_town_dev_kit_footer" primary="True">
+    <xpath expr="//div[hasclass('note')]/span" position="inside">
+      The bank transfer should be made using the following details
+      <br/>
+      Account Name: <strong>CASSTACK CO., LTD.</strong>, Account Number:
+      <strong>220000459000099</strong>
+      <br/>
+      Bank Name: <strong>ACLEDA BANK</strong>, SWIFT CODE:
+      <strong>ACLBKHPP</strong>
+    </xpath>
+  </template>
+
+  <template id="a2a_footer_with_bank_detail">
+    <div class="footer border-top border-dark">
+      <div class="mt128" style="font-size:11px;">
+        <div class="float-right text-right" style="font-size: 11px;border-top: solid black 1px;width: 230px;">
+          ហត្ថលេខា និង ឈ្មោះអ្នកលក់
+          <br/>
+          Seller's Signature/Sale &#38; Name
+          <div class="mt64" style="font-size: 10px">
+            <span>Page:</span>
+            <span class="page"/>
+            <span>/</span>
+            <span class="topage"/>
+          </div>
+        </div>
+        <div class="float-left">
+          <div>
+            <div style="font-size: 11px;border-top: solid black 1px;width: 230px;">
+              ហត្ថលេខា និង ឈ្មោះអ្នកទិញ
+              <br/>
+              Customer's Signature &#38; Name
+            </div>
+            សំគាល់៖ ច្បាប់ដើមសម្រាប់អ្នកទិញ ច្បាប់ចម្លងសំរាប់អ្នកលក់
+            <br/>
+            <strong>Note:</strong>
+            Original invoice for customer, copied invoice for seller
+            <br/>
+            The bank transfer should be made using the following details:
+          </div>
+          <div class="d-flex flex-row">
+            <div class="pr-2 border-right text-left border-dark">
+              <strong>
+                ឈ្មោះធនាគារ / Bank Name :
+                <br/>
+                ឈ្មោះគណនី / Account Name:
+                <br/>
+                លេខគណនី / Account Number:
+              </strong>
+            </div>
+            <div class="text-center border-right px-2 border-dark">
+              <strong>ACLEDA Bank plc.</strong>
+              <br/>
+              A2A Town (Cambodia) Co.,Ltd
+              <br/>
+              3469-01-731058-1-0
+            </div>
+            <div class="text-center border-right px-2 border-dark">
+              <strong>ABA Bank Cambodia</strong>
+              <br/>
+              A2A Town (Cambodia) Co.,Ltd
+              <br/>
+              000-401-504
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="accounting_custom_template_layout">
+    <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+         t-att-data-oe-lang="o and o.env.context.get('lang')">
+      <t t-call="a2a_accounting_report.a2a_header"/>
+      <t t-raw="0"/>
+      <t t-call="a2a_accounting_report.a2a_footer_with_bank_detail"/>
+    </div>
+  </template>
+  <!--  vKirirom Pte Invoice Header, Footer  -->
+  <template id="vkirirom_pte_header">
+    <div class="header">
+      <table class="table">
+        <tr>
+          <td rowspan="3">
+            <div style="font-size:22px;">
+              <strong>vKirirom Pte. Ltd.</strong>
+            </div>
+            <div style="font-size:14px;">Unique Entity Number (UEN):
+              <strong>201403399D</strong>
+            </div>
+            <div style="font-size:14px;">#03-00 57 Ubi Crescent Singapore 408596</div>
+          </td>
+          <td class="text-center" style="background-color:#a8d9ff; width:34%" colspan="2">
+            <span style="font-size: 14px;">INVOICE</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-left" style=" width:17% ">
+            <span style="font-size: 11px;">
+              <strong>INVOICE NO:<br/>DATE:
+                <br/>
+                DUE DATE:
+              </strong>
+            </span>
+          </td>
+          <td class="text-left" style=" width:17%">
+            <span style="font-size: 11px;" t-field="o.name"/>
+            <br/>
+            <span style="font-size: 11px;" t-field="o.invoice_date"/>
+            <br/>
+            <span style="font-size: 11px;" t-field="o.invoice_date_due"/>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </template>
+  <template id="vkirirom_pte_footer">
+    <div class="footer">
+      <table style="width:100%;border:1px solid black;" cellpadding="10">
+        <tr>
+          <th style="padding:10px;">
+            <strong>WIRE INSTRUCTION</strong>
+          </th>
+          <td/>
+        </tr>
+        <tr>
+          <th style="padding: 0 0 0 10px">
+            <strong>Bank Name:</strong>
+          </th>
+          <td style="padding:0 10px 0 10px">Oversea-Chinese Banking Corporation Limited,
+            Singapore (OCBC Bank)
+          </td>
+        </tr>
+        <tr>
+          <th style="padding: 0 0 0 10px">
+            <strong>Bank Branch Name:</strong>
+          </th>
+          <td style="padding:0 10px 0 10px">North Branch</td>
+        </tr>
+        <tr>
+          <th style="padding: 0 0 0 10px">
+            <strong>Bank Address:</strong>
+          </th>
+          <td style="padding:0 10px 0 10px">460 North Bridge Road #01-00 Singapore 188734</td>
+        </tr>
+        <tr>
+          <th style="padding: 0 0 0 10px">
+            <strong>SWIFT Code:</strong>
+          </th>
+          <td style="padding:0 10px 0 10px">OCBCSGSG</td>
+        </tr>
+        <tr>
+          <th style="padding: 0 0 0 10px">
+            <strong>Beneficiary Name:</strong>
+          </th>
+          <td style="padding:0 10px 0 10px">VKIRIROM PTE LTD</td>
+        </tr>
+        <tr>
+          <th style="padding: 0 0 0 10px">
+            <strong>Beneficiary Account No:</strong>
+          </th>
+          <td style="padding:0 10px 0 10px">503203051301 USD</td>
+        </tr>
+        <tr>
+          <th style="padding: 0 0 0 10px">
+            <strong>Beneficiary Address:</strong>
+          </th>
+          <td style="padding:0 10px 0 10px">#03-00 57 Ubi Crescent Singapore 408596</td>
+        </tr>
+        <tr>
+          <th style="padding: 0 0 10px 10px">
+            <strong>Intermediary Bank:</strong>
+          </th>
+          <td style="padding:0 10px 10px 10px">JP Morgan Chase Bank. New York. USA (SWIFT
+            Code:CHASUS33)
+          </td>
+        </tr>
+      </table>
+      <div>
+        <div style="text-align: center; width: 250px; float: right;">
+          <div>
+            <span style="padding-left:5px">Acknowledged and agreed<br/>on behalf of vKirirom
+              Pte. Ltd.
+            </span>
+          </div>
+          <div style="border-top: solid black 1px; margin-top: 50px">
+            <span style="padding-left:15px">
+              <strong>Authorized Signature<br/>Kenzaburo Bekku, Director
+              </strong>
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </template>
+  <template id="vkirirom_pte_custom_template_layout">
+    <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+         t-att-data-oe-lang="o and o.env.context.get('lang')">
+      <!-- Multicompany -->
+      <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+      </t>
+      <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+      </t>
+      <t t-call="a2a_accounting_report.vkirirom_pte_header"/>
+      <t t-raw="0"/>
+      <t t-call="a2a_accounting_report.vkirirom_pte_footer"/>
+    </div>
+  </template>
+  <!--  Jobify Header, Footer and Template  -->
+  <template id="jobify_header">
+    <div class="header border-bottom border-dark">
+      <style>
+        span{
+        display: block;
+        }
+        #company-name{
+        font-size: 25px;
+        color: blue;
+        text-align: center;
+        padding-top: 2px;
+        }
+        #company-info{
+        font-size: 12px;
+        text-align: center;
+        }
+      </style>
+      <div style="width: 100%">
+        <div id="company-name" class="row" style="margin-left: 90px">
+
+          <img t-att-src="image_data_uri(o.company_id.logo)" style="width:70px" alt="logo"/>
+          <div style="margin-left: 90px">
+            <span>ចបប៊ីហ្វាយ (ខេមបូឌា) ឯ.ក</span>
+            <span>JOBIFY (CAMBODIA) Co., Ltd</span>
+          </div>
+
+        </div>
+        <div id="company-info">
+          <span>
+            លេខអត្តសញ្ញាណកម្ម អតប (VATTIN):
+            <t t-foreach="o.company_id.vat" t-as="letter">
+              <t t-if="letter=='-'">
+                <span t-esc="letter" style="margin-right:5px;display:inline-block;"/>
+              </t>
+              <t t-if="letter!='-'">
+                <div t-esc="letter"
+                     style="width:14px;height:14px;border:1px solid #000;font-size:10px;text-align:center;margin-right:5px;display:inline-block;"/>
+              </t>
+            </t>
+          </span>
+          <span>
+            <strong style="font-size:12px;">អាស័យដ្ឋាន៖ ផ្ទះលេខ១២ ផ្លូវលេខ២០០១ ភូមិប៉ប្រកខាងត្បូង
+              សង្កាត់កាកាបទី១ ខណ្ឌពោធិ៍សែនជ័យ រាជធានីភ្នំពេញ.
+            </strong>
+          </span>
+          <span style="margin-top: 10px;">Address: #12, St.2001, Phum Paprak Khang Tboung,Sangkat Kakab I,
+            Khan Posenchey, Phnom Penh, Cambodia,
+            <br/>
+            ទូរស័ព្ទ/Tel: (+855) 095 777 845, E-mail: jobify@kit.edu.kh
+          </span>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="jobify_footer">
+    <div class="footer border-top border-dark">
+      <style>
+        .signature{
+        display: -webkit-box; /* wkhtmltopdf uses this one */
+        -webkit-box-pack: justify; /* wkhtmltopdf uses this one */
+        }
+        .footer .note span{
+        font-size: 12px;
+        }
+        .signature{
+        font-size: 12px;
+        }
+        .signature > div{
+        border-top: solid black 1px;
+        width: 230px;
+        }
+        .page{
+        margin-bottom: solid green 50px !important;
+        }
+      </style>
+      <div class="mt128">
+        <div class="signature">
+          <div style="text-align:left;">
+            <div>ហត្ថលេខា និង ឈ្មោះអ្នកទទួលសេវា</div>
+            <strong style="white-space: nowrap;">Customer's Signature &amp; Name</strong>
+          </div>
+          <div style="text-align:right;">
+            <div>ហត្ថលេខា និង ឈ្មោះអ្នកផ្ដល់សេវា</div>
+            <strong>Seller's Signature/Sale &amp; Name</strong>
+          </div>
+        </div>
+
+        <div class="note">
+          <span style="display: inline-block">
+            សំគាល់៖ ច្បាប់ដើមសម្រាប់អ្នកទិញ ច្បាប់ចម្លងសំរាប់អ្នកលក់
+            <br/>
+            <strong>Note:</strong>Original invoice for customer, copied invoice for seller
+            <br/>
+          </span>
+
+          <div style="float: bottom; text-align: right; font-size: 12px;">
+            <span>Page:</span>
+            <span class="page"/>
+            <span>/</span>
+            <span class="topage"/>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </template>
+  <template id="jobify_custom_template_layout">
+    <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+         t-att-data-oe-lang="o and o.env.context.get('lang')">
+      <t t-call="a2a_accounting_report.jobify_header"/>
+      <t t-raw="0"/>
+      <t t-call="a2a_accounting_report.jobify_footer"/>
+    </div>
+  </template>
+</odoo>

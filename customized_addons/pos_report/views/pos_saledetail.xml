@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="pos_layout">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+
+            <div class="header">
+                <br/>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        <img src="/pos_report/static/img/vkirirom_logo.png" style="max-height: 90px;"/>
+                    </div>
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Moul"/>
+                    <div class="col-4 offset-1 h5 text-center">
+                        <span style="white-space: nowrap">អេ២អេ ថោន (ខេមបូឌា) ខូ.,អិលធីឌី</span>
+                        <br/>
+                        <span style="white-space: nowrap">A2A Town(Cambodia) Co.,ltd</span>
+                    </div>
+                    <div class="col-3 text-right">
+                        <img src="/pos_report/static/img/a2a_logo.png" style="max-height: 90px;"/>
+                    </div>
+                </div>
+                <hr style="height:1px;border-width:0;color:gray;background-color:black"/>
+            </div>
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-raw="0"/>
+            </div>
+
+            <hr style="height:2px;border-width:0;color:gray;background-color:black"/>
+            <div class="footer">
+                <div class="text-center">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <span>Page:</span>
+                            <span/>
+                            <span class="page"/>
+                        </li>
+                        <li class="list-inline-item">/</li>
+                        <li class="list-inline-item">
+                            <span class="topage"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </template>
+        <template id="report_sale">
+            <t t-set="company" t-value="env.company"/>
+            <t t-call="web.html_container">
+                <t t-call="pos_report.pos_layout">
+
+                    <div class="page">
+
+                        <h2 style="margin-left:-4px;">Details of Sales</h2>
+                        <div class="row mt16" style="margin-left: -1px;">
+                            <div class="col-xs-3" style="width:20%;">
+                                <strong>Company</strong>:
+                                <br/>
+
+                                <span t-esc="res_company.name"/>
+                            </div>
+
+                            <div class="col-xs-6" style="width:20%;">
+                                <strong>Start Period</strong>:
+                                <br/>
+                                <span t-esc="date_start" t-options="{'widget': 'date'}"/>
+                            </div>
+
+                            <div class="col-xs-6" style="width:20%;">
+                                <strong>End Period</strong>:
+                                <br/>
+                                <t t-esc="date_stop" t-options="{'widget': 'date'}"/>
+                            </div>
+                            <div class="col-xs-6" style="width:20%;">
+                                <strong>Number Customer</strong>:
+                                <br/>
+                                <span t-esc="No_customer"/>
+                            </div>
+                            <div class="col-xs-6" style="width:20%;">
+                                <strong>Location</strong>:
+                                <br/>
+                                <t t-esc="location"/>
+                            </div>
+                        </div>
+                        <div class="row mt32" style="margin-left: -1px;">
+                            <div class="col-xs-6" style="width:20%; margin-top: -10px">
+                                <strong>Print Date</strong>:
+                                <br/>
+                                <span t-esc="print_date"/>
+                            </div>
+                            <div class="col-xs-6" style="width:80%; margin-top: -10px">
+                                <strong>Number Receipt</strong>:
+                                <br/>
+                                <span t-esc="count"/>
+                                <span t-esc="ref"/>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <!-- POS sales order -->
+                        <table class="table table-bordered" width="100%">
+                            <thead>
+                                <th style="width: 3%">
+                                    <strong style="font-size: 14px">No.</strong>
+                                </th>
+                                <th style="width: 15%">
+                                    <strong style="font-size: 14px">Order Date</strong>
+                                </th>
+                                <th style="width: 18%">
+                                    <strong style="font-size: 14px">Receipt Reference</strong>
+                                </th>
+                                <th style="width: 17%">
+                                    <strong style="font-size: 14px">Payment Method</strong>
+                                </th>
+                                <th style="width: 8%">
+                                    <strong style="font-size: 14px">Discount</strong>
+                                </th>
+                                <th style="width: 9%">
+                                    <strong style="font-size: 14px">Subtotal</strong>
+                                </th>
+                                <th style="width: 7%">
+                                    <strong style="font-size: 14px; min-width:50px;">VAT</strong>
+                                </th>
+                                <th style="width: 9%">
+                                    <strong style="font-size: 14px">Total</strong>
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="column_lst" t-as="order_date_lst">
+                                    <td class="text-center">
+                                        <span t-esc="order_date_lst['i']" style="font-size: 12px"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="order_date_lst['order_date']" style="font-size: 12px"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="order_date_lst['pos_reference']" style="font-size: 12px"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="order_date_lst['payment_method']" style="font-size: 12px"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="order_date_lst['discount_lst']" style="font-size: 12px"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="order_date_lst['sub_total']" style="font-size: 12px"/>
+                                    </td>
+
+                                    <td>
+                                        <span t-esc="order_date_lst['tax_str']" style="font-size: 12px"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="order_date_lst['total_tax_dis_str']"
+                                              style="font-size: 12px"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="font-size: 12px" colspan="4">
+                                        Total
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="sum_discount" style="font-size: 12px"/>
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="sum_subtotal" style="font-size: 12px"/>
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="sum_tax" style="font-size: 12px"/>
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="amount_total_order" style="font-size: 12px"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h5>Point of Sale Summary</h5>
+                        <table class="table table-sm">
+                            <tr>
+                                <td colspan="2">
+                                    <strong>Taxes</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    VAT 10.00%
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="sum_tax"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <strong>Payment</strong>
+                                </td>
+                            </tr>
+                            <tr t-foreach="payment_summary.items()" t-as="payment">
+                                <td>
+                                    <span t-esc="payment[0]"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'$ ' + '%.2f' % round(payment[1], 2)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <strong>Summary</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Sale total (Revenue)</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="sum_subtotal"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Qty of Product</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="product_total_quantity"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Total discount</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="sum_discount"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Total paid</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="sum_subtotal"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Total of the day</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="sum_subtotal"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+
+                        <!-- Breakfast Lunch Dinner -->
+                        <table class="table table-sm">
+                            <thead>
+                                <th/>
+                                <th class="text-center">Morning</th>
+                                <th class="text-center">Afternoon</th>
+                                <th class="text-center">Evening</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <t>Total</t>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="total_morning"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="total_afternoon"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="total_evening"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <t>No Receipt</t>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="receipt_morning"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="receipt_afternoon"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="receipt_evening"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <t>No Customer</t>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="no_customer_morning"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="no_customer_afternoon"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="no_customer_evening"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+
+                        <!-- POS Product Order lines -->
+                        <h5>Products</h5>
+                        <table class="table table-sm">
+                            <thead>
+                                <th>Category</th>
+                                <th class="text-center">Product Quantity</th>
+                                <th class="text-center">Total Discount</th>
+                                <th class="text-center">Subtotal</th>
+                                <th class="text-center" style="min-width:50px;">VAT</th>
+                                <th class="text-center">Total Price</th>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach='product_category' t-as='line'>
+                                    <td>
+                                        <t t-esc="line['name']"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="line['qty']"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="'$ ' + '%.2f' % line['discount']"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="'$ ' + '%.2f' % line['sub_lst']"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="'$ ' + '%.2f' % line['tax']"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="'$ ' + '%.2f' % line['total_price']"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+
+                        <!-- Hotel Card Detail : Restaurant -->
+                        <t t-if="is_restaurant">
+                            <br/>
+                            <br/>
+                            <h2 style="margin-left:-4px;">Hotel Card Details</h2>
+                            <table class="table table-sm">
+                                <thead>
+                                    <th>Order Date</th>
+                                    <th class="text-center">Order Reference</th>
+                                    <th class="text-center">Discount</th>
+                                    <th class="text-center">Subtotal</th>
+                                    <th class="text-center" style="min-width:50px;">VAT</th>
+                                    <th class="text-center">Total</th>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="hotel_card_order" t-as="hotel_order">
+                                        <td>
+                                            <t t-esc="hotel_order['hotel_order_date']" style="font-size: 16px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="hotel_order['hotel_order_number']" style="font-size: 18px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="hotel_order['hotel_discount_lst']" style="font-size: 18px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="hotel_order['hotel_sub_total']" style="font-size: 16px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="hotel_order['hotel_tax']" style="font-size: 16px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="hotel_order['hotel_total']" style="font-size: 16px"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <table class="table table-sm">
+                                <thead>
+                                    <th>Category</th>
+                                    <th class="text-center">Product Quantity</th>
+                                    <th class="text-center">Total Discount</th>
+                                    <th class="text-center">Subtotal</th>
+                                    <th class="text-center" style="min-width:50px;">VAT</th>
+                                    <th class="text-center">Total Price</th>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach='hotel_product_category' t-as='hotel_categ'>
+                                        <td>
+                                            <t t-esc="hotel_categ['hotel_name']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'%.1f' % hotel_categ['hotel_qty']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'$ ' + '%.2f' % hotel_categ['hotel_discount']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'$ ' + '%.2f' % hotel_categ['hotel_sub_lst']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'$ ' + '%.2f' % hotel_categ['hotel_tax']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'$ ' + '%.2f' % hotel_categ['hotel_total_price']"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <!-- Hotel Card Summary -->
+                            <h5>Hotel Card Summary</h5>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td>
+                                        <strong>VAT 10.00%</strong>
+                                    </td>
+                                    <td class="text-right">
+                                       <strong t-esc="hotel_vat"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Sales total (Revenue)</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="hotel_subtotal"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Total discount</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="hotel_total_discount"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Total Quantity</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="hotel_total_quantity"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                        </t>
+
+                        <!-- Hotel Card Detail : Activity -->
+                        <t t-if="is_activity">
+                            <br/>
+                            <br/>
+                            <h2 style="margin-left:-4px;">Hotel Card Details</h2>
+                            <table class="table table-sm">
+                                <thead>
+                                    <th>Order Date</th>
+                                    <th class="text-center">Order Reference</th>
+                                    <th class="text-center">Discount</th>
+                                    <th class="text-center">Subtotal</th>
+                                    <th class="text-center" style="min-width:50px;">VAT</th>
+                                    <th class="text-center">Total</th>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="activity_card_order" t-as="activity_order">
+                                        <td>
+                                            <t t-esc="activity_order['activity_order_date']" style="font-size: 16px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="activity_order['activity_order_number']" style="font-size: 18px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="activity_order['activity_discount_lst']" style="font-size: 18px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="activity_order['activity_sub_total']" style="font-size: 16px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="activity_order['activity_tax']" style="font-size: 16px"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="activity_order['activity_total']" style="font-size: 16px"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <table class="table table-sm">
+                                <thead>
+                                    <th>Category</th>
+                                    <th class="text-center">Product Quantity</th>
+                                    <th class="text-center">Total Discount</th>
+                                    <th class="text-center">Subtotal</th>
+                                    <th class="text-center" style="min-width:50px;">VAT</th>
+                                    <th class="text-center">Total Price</th>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach='activity_product_category' t-as='activity_categ'>
+                                        <td>
+                                            <t t-esc="activity_categ['activity_name']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'%.1f' % activity_categ['activity_qty']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'$ ' + '%.2f' % activity_categ['activity_discount']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'$ ' + '%.2f' % activity_categ['activity_sub_lst']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'$ ' + '%.2f' % activity_categ['activity_tax']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="'$ ' + '%.2f' % activity_categ['activity_total_price']"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <!-- Hotel Card Summary -->
+                            <h5>Hotel Card Summary</h5>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td>
+                                        <strong>VAT 10.00%</strong>
+                                    </td>
+                                    <td class="text-right">
+                                       <strong t-esc="activity_vat"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Sales total (Revenue)</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="activity_subtotal"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Total discount</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="activity_total_discount"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Total Quantity</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="activity_total_quantity"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                        </t>
+
+                        <!-- Total summary of pos -->
+                        <h5>Total summary</h5>
+                        <table class="table table-sm">
+                            <tr>
+                                <td>
+                                    <strong>Sales total (Revenue)</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="total_sum_subtotal"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Total Taxes</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="total_sum_tax"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Total discount</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="total_sum_discount"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Total Quantity</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="total_sum_qty"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Sales total with Taxes (Revenue)</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="total_amount_tax_total_order"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table class="table table-based">
+                            <tr>
+                                <td style="width: 50%">*Total Amount in USD: _ _ _ _ _ _ _ _ _ _ _</td>
+                                <td class="text-center" style="width: 50%">*Total Amount in Reils: _ _ _ _ _ _ _ _ _ _
+                                    _
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%">Cash Float: _ _ _ _ _ _ _ _ _ _ _</td>
+                                <td class="text-center" style="width: 50%">Total Cash Daily: _ _ _ _ _ _ _ _ _ _ _</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Daily Report Closed: _ _ _ _ _ _ _ _ _ _ _</td>
+                            </tr>
+                        </table>
+                        <table class="table table-sm" style="margin-left: 9px;">
+                            <tr>
+                                <td style="width: 25%">Prepared by Cashier</td>
+                                <td style="width: 25%">Checked by</td>
+                                <td style="width: 25%">Rechecked by</td>
+                                <td style="width: 25%">Approved by</td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table class="table table-sm" style="margin-left: 9px;">
+                            <tr>
+                                <td>Name: _ _ _ _ _ _ _ _ _ _</td>
+                                <td>Name: _ _ _ _ _ _ _ _ _ _</td>
+                                <td>Name: _ _ _ _ _ _ _ _ _ _</td>
+                                <td>Name: _ _ _ _ _ _ _ _ _ _</td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

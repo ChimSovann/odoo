@@ -1,0 +1,92 @@
+<templates id="template" xml:space="preserve">
+   <t t-extend="OrderReceipt">
+       <t t-jquery=".pos-receipt .pos-receipt-contact" t-operation='replace'>
+           <div class="pos-receipt-contact">
+                <t t-if="pos.config.name">
+                    <div style="font-size: 150%; font: bold;">
+                        <t t-esc="pos.config.name"/>
+                    </div>
+                </t>
+                <t t-if='receipt.reprint === true or order.reprint === true'>
+                    <div style="font-size: 125%; font: bold;">REPRINT RECEIPT</div>
+                </t>
+                <t t-elif='receipt.bill === true'>
+                    <div style="font-size: 140%; font: bold;">BILL</div>
+                </t>
+                <t t-else="">
+                    <div style="font-size: 140%; font: bold;">RECEIPT</div>
+                </t>
+                <t t-if='receipt.company.contact_address'>
+                    <div><t t-esc='receipt.company.contact_address' /></div>
+                </t>
+                <t t-if='receipt.header_html'>
+                    <t t-raw='receipt.header_html' />
+                </t>
+                <t t-if='!receipt.header_html and receipt.header'>
+                    <div><t t-esc='receipt.header' /></div>
+                </t>
+                <t t-if='receipt.company.vat'>
+                    <div>VATTIN: <t t-esc='receipt.company.vat' /></div>
+                </t>
+                <t t-if='receipt.cashier'>
+                    <div class='cashier-section'>
+                        <div>Cashier Name: <t t-esc='receipt.cashier' /></div>
+                    </div>
+
+                    <t t-if='receipt.table'>
+                        Table No: <t t-esc='receipt.table' />
+                    </t>
+                    <t t-if='order.customer_count'>
+                        <div>No Customer: <t t-esc='order.customer_count' /></div>
+                    </t>
+                </t>
+            </div>
+       </t>
+
+       <t t-jquery=".pos-receipt .receipt-change" t-operation='before'>
+           <t t-if='order.reprint_paymentlines'>
+                <t t-foreach='order.reprint_paymentlines' t-as='line'>
+                    <div>
+                        <t t-esc='line.name' />
+                        <span t-esc='widget.format_currency_no_symbol(line.amount)' class="pos-receipt-right-align"/>
+                    </div>
+                </t>
+               <br/><br/>
+            </t>
+
+           <t t-if="receipt.total_quantity">
+               <div>
+                    No Item:
+                    <span t-esc='receipt.total_quantity' class="pos-receipt-right-align"/>
+                </div>
+               <br/><br/>
+           </t>
+       </t>
+
+       <t t-jquery=".pos-receipt .receipt-change" t-operation='replace'>
+           <div class="pos-receipt-amount receipt-change">
+                CHANGE
+                <span t-esc='widget.format_currency(order.change or receipt.change)' class="pos-receipt-right-align"/>
+           </div>
+       </t>
+
+       <t t-jquery=".pos-receipt .pos-receipt-order-data" t-operation='replace'>
+           <div>
+               <div class="pos-receipt-order-data">
+                   <div><t t-esc='order.order_ref' /></div>
+                   <div><t t-esc='receipt.date.localestring or receipt.order_date' /></div>
+               </div>
+           </div>
+       </t>
+
+       <t t-jquery=".pos-receipt .before-footer" t-operation="replace">
+
+               <div t-if='receipt.bill === true' class="pos-receipt-center-align">
+                    <img t-att-src='receipt.qrcode' />
+                </div>
+
+           <div class='before-footer' />
+       </t>
+
+   </t>
+</templates>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.menu" id="menu_payroll_reports">
+        <field name="parent_id" ref="om_hr_payroll.menu_hr_payroll_root" />
+        <field name="groups_id" eval="[(6, 0, [  ref('om_hr_payroll.group_hr_payroll_manager'), ])]" />
+    </record>
+    <record model="ir.ui.menu" id="menu_paysliplines_beforelast">
+        <field name="groups_id" eval="[(6, 0, [  ref('om_hr_payroll.group_hr_payroll_manager'), ])]" />
+    </record>
+    <record model="ir.ui.menu" id="menu_paysliplines_last">
+        <field name="groups_id" eval="[(6, 0, [  ref('om_hr_payroll.group_hr_payroll_manager'), ])]" />
+    </record>
+    <record model="ir.ui.menu" id="menu_paysliplines_current">
+        <field name="groups_id" eval="[(6, 0, [  ref('om_hr_payroll.group_hr_payroll_manager'), ])]" />
+    </record>
+    <record model="ir.ui.menu" id="menu_allpaysliplines">
+        <field name="groups_id" eval="[(6, 0, [  ref('om_hr_payroll.group_hr_payroll_manager'), ])]" />
+    </record>
+
+</odoo>

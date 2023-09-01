@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_country_type" model="ir.ui.view">
+            <field name="name">country.type.tree</field>
+            <field name="model">hotel.country.type</field>
+            <field name="arch" type="xml">
+                <tree string="Country">         
+                    <field name="name"/>
+                </tree>
+            </field>
+    </record>
+
+    <record id="view_country_type_form" model="ir.ui.view">
+            <field name="name">country.type.form</field>
+            <field name="model">hotel.country.type</field>
+            <field name="arch" type="xml">
+                <form string="Country">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Name"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+    </record>
+
+
+
+    <record model="ir.actions.act_window" id="country_type_action">
+            <field name="name">Country</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hotel.country.type</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+    </record>
+
+        <!-- Sub menu -->
+        <menuitem name="Country"
+                  id="country_type"
+                  action="country_type_action"
+                  parent="customer_menu"
+        />
+</odoo>

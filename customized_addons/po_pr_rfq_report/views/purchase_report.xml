@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <report
+                id="po_report_customize_view"
+                string="Purchase Order"
+                model="purchase.order"
+                report_type="qweb-pdf"
+                name="po_pr_rfq_report.po_report_customize"
+                file="po_pr_rfq_report.po_report_customize"
+                attachment_use="True"
+                print_report_name="(object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or 'Purchase Order - %s' % (object.name))"/>
+
+
+        <delete id="purchase.action_report_purchase_order" model="ir.actions.report"/>
+        <delete id="purchase_request.action_report_purchase_requests" model="ir.actions.report"/>
+        <delete id="purchase.report_purchase_quotation" model="ir.actions.report"/>
+
+
+</odoo>

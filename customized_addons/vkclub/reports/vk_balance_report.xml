@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <report
+            id="vk_balance_report"
+            model="vk.pos.order"
+            string="Vk point balance report"
+            report_type="qweb-pdf"
+            name="vkclub.report_vkpoint_balance_template"
+            file="vkclub.report_vkpoint_balance_template"
+
+
+        />
+
+    <template id="report_vkpoint_balance_template">
+        <style type="text/css">
+            .example-css-class {
+            background-color: #f9f9f9;
+            }
+        </style>
+        <t t-call="web.html_container">
+            <t t-call="market_list_odoo13.a2a_custom_template_layout">
+
+
+                    <div class="page">
+                        <div class="row">
+                            <h3>
+                                <span>
+                                    <strong>
+                                        <center>vkPoint Balance Report</center>
+                                    </strong>
+                                </span>
+                            </h3>
+                        </div>
+
+                        <br/>
+                        <table width="100%">
+                            <tr>
+                                <td width="33%" style="text-align:left;">
+                                    <strong>Start Date: </strong>
+                                    <span t-esc="form['start_date']"/>
+                                </td>
+                                <td width="33%" style="text-align:left;">
+                                    <strong>End Date:</strong>
+                                    <span t-esc="form['end_date']"/>
+                                </td>
+                                <td width="34%" style="text-align:right;">
+                                    <strong>Type:</strong>
+                                    <t t-set="type" t-value="'Cash and Non-Cash vkPoint'"/>
+                                    <t t-if="form['type']=='cash'">
+                                        <t t-set="type" t-value="'Cash vkPoint'"/>
+                                    </t>
+                                    <t t-if="form['type']=='noncash'">
+                                        <t t-set="type" t-value="'Non-Cash vkPoint'"/>
+                                    </t>
+                                    <t t-if="form['type']=='cash_top_up'">
+                                        <t t-set="type" t-value="'Cash Top-up'"/>
+                                    </t>
+                                    <t t-if="form['type']=='cash_payment'">
+                                        <t t-set="type" t-value="'Cash Payment'"/>
+                                    </t>
+                                    <span t-esc="type"/>
+                                </td>
+                           </tr>
+                        </table>
+                        <br/>
+
+                        <table class="table table-border" style="border:1px solid black;">
+                            <thead>
+                                <tr style="border: 1px solid black;background-color: #f9f9f9;">
+                                    <th style="border: 1px solid black; text-align:center;">
+                                        <strong>Type</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:38%;text-align:center;">
+                                        <strong>Date</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:16%; text-align:center;">
+                                        <strong>Ref No</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:15%; text-align:center;">
+                                        <strong>Transaction ID</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:16%; text-align:center;">
+                                        <strong>Remark</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:16%; text-align:center;">
+                                        <strong>Membership Status</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:16%; text-align:center;">
+                                        <strong>Membership User</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:16%; text-align:center;">
+                                        <strong>Amount</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:16%; text-align:center;">
+                                        <strong>Balance</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:16%; text-align:center;">
+                                        <strong>Payment Method</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="transactions" t-value="transactions"/>
+                                <t t-set="balance" t-value="balance"/>
+                                <t t-set="transactions_ex" t-value="transactions_ex"/>
+
+                                <t t-set="balance_sum" t-value="0"/>
+                                <tr style="page-break-inside: avoid;">
+                                    <td colspan="7" style="vertical-align: middle;text-align:right;">
+                                        <strong>Starting Balance</strong>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <strong><span t-esc="'{:,.2f}'.format(balance)" /></strong>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr t-foreach="transactions" t-as="transaction" style="page-break-inside: avoid;">
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="transaction['type']"/>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="transaction['date']"/>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="transaction['ref_num']"/>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="transaction['name']"/>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="transaction['remark']"/>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="transaction['membership_status']"/>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="transaction['membership_name']"/>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="'{:,.2f}'.format(transaction['amount'])"/>
+                                        <t t-set="balance" t-value="balance+transaction['amount']"/>
+                                        <t t-set="balance_sum" t-value="balance_sum+transaction['amount']"/>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="'{:,.2f}'.format(balance)"/>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="transaction['payment_method']"/>
+                                    </td>
+                                </tr>
+
+
+                                <tr style="page-break-inside: avoid;">
+                                    <td colspan="9" style="vertical-align: middle;text-align:center;">
+                                        <strong>Expired Transaction</strong>
+                                    </td>
+                                </tr>
+                                <tr t-foreach="transactions_ex" t-as="transaction_ex" style="page-break-inside: avoid;">
+                                    <t t-if="transaction_ex['balance']!=0">
+                                        <td style="vertical-align: middle;text-align:center;">
+                                            <span t-esc="transaction_ex['type']"/>
+                                        </td>
+                                        <td style="vertical-align: middle;text-align:center;">
+                                            <span t-esc="transaction_ex['date']"/>
+                                        </td>
+                                        <td style="vertical-align: middle;text-align:center;">
+                                            <span t-esc="transaction_ex['ref_num']"/>
+                                        </td>
+                                        <td style="vertical-align: middle;text-align:center;">
+                                            <span t-esc="transaction_ex['name']"/>
+                                        </td>
+                                        <td style="vertical-align: middle;text-align:center;">
+                                            <span t-esc="transaction_ex['remark']"/>
+                                        </td>
+                                        <td style="vertical-align: middle;text-align:center;">
+                                        <span t-esc="transaction['membership_status']"/>
+                                    </td>
+                                        <td style="vertical-align: middle;text-align:center;">
+                                            <span t-esc="transaction_ex['membership_name']"/>
+                                        </td>
+                                        <td style="vertical-align: middle;text-align:center;">
+                                            <span t-esc="'{:,.2f}'.format(transaction_ex['balance'])"/>
+                                            <t t-set="balance" t-value="balance-transaction_ex['balance']"/>
+                                            <t t-set="balance_sum" t-value="balance_sum-transaction_ex['balance']"/>
+                                        </td>
+                                        <td style="vertical-align: middle;text-align:center;">
+                                            <span t-esc="'{:,.2f}'.format(balance)"/>
+                                        </td>
+                                        <td style="vertical-align: middle;text-align:center;">
+{#
+                                    </td>
+                                    </t>
+                                </tr>
+
+                                <tr style="page-break-inside: avoid;">
+                                    <td colspan="7" style="vertical-align: middle;text-align:Right;">
+                                        <strong>Ending Balance</strong>
+                                    </td>
+                                    <td colspan="1" style="vertical-align: middle;text-align:center;">
+                                        <strong><span t-esc="'{:,.2f}'.format(balance_sum)"/></strong>
+                                    </td>
+                                    <td style="vertical-align: middle;text-align:center;">
+                                        <strong><span t-esc="'{:,.2f}'.format(balance)"/></strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-border" style="border:1px solid black;">
+                            <t t-set="total" t-value="total"/>
+                            <tr style="border: 1px solid black;background-color: #f9f9f9;">
+                                <td style="border: 1px solid black; width:16%; text-align:center;">
+                                    <strong>Top Up Summary</strong>
+                                </td>
+                                 <td style="border: 1px solid black; width:16%; text-align:center;">
+                                     Cash
+                                </td>
+                                 <td style="border: 1px solid black; width:16%; text-align:center;">
+                                     Noncash
+                                </td>
+                            </tr>
+                             <tr>
+                                <td style="border: 1px solid black; width:16%; text-align:center;">
+                                    <strong>Cash</strong>
+                                </td>
+                                <td style="border: 1px solid black; width:16%; text-align:center;">
+                                     <span t-esc="total['total_cash']"/>
+                                </td>
+                                 <td style="border: 1px solid black; width:16%; text-align:center;">
+                                      <span t-esc="total['total_cash'] * 100"/>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td style="border: 1px solid black; width:16%; text-align:center;">
+                                    <strong>ABA</strong>
+                                </td>
+                                 <td style="border: 1px solid black; width:16%; text-align:center;">
+                                     <span t-esc="doc['total']['total_cash_aba']"/>
+                                </td>
+                                 <td style="border: 1px solid black; width:16%; text-align:center;">
+                                     <span t-esc="doc['total']['total_cash_aba'] * 100"/>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td style="border: 1px solid black; width:16%; text-align:center;">
+                                    <strong>Acleda</strong>
+                                </td>
+                                 <td style="border: 1px solid black; width:16%; text-align:center;">
+                                     <span t-esc="doc['total']['total_cash_acleda']"/>
+                                </td>
+                                 <td style="border: 1px solid black; width:16%; text-align:center;">
+                                    <span t-esc="doc['total']['total_cash_acleda'] * 100"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+
+
+    </template>
+
+    </odoo>

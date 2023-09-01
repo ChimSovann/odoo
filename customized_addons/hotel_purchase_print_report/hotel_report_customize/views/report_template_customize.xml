@@ -1,0 +1,856 @@
+<odoo>
+    <!--Template for hotel folio -->
+    <template id="report_hotel_folio_customize">
+        <t t-call="web.html_container">
+            <t t-call="hotel_report_customize.custom_hotel_bridge_layout">
+                <div class="page">
+                    <div class="text-center">
+                        <span>
+                            <br/>
+                            <br/>
+                            <h2>Front Office Daily Report</h2>
+                            <br/>
+                        </span>
+                    </div>
+                    <div>
+                        <h5 class="text-right">Report Date:
+                            <span t-esc="data['report_date']" t-options='{"widget": "date"}'/>
+                        </h5>
+                    </div>
+                    <table class="table table-border" style="border:1px solid black;font-size: 10px;">
+                        <thead>
+                            <tr style="border: 1px solid black">
+                                <td style="border: 1px solid black" colspan="5">
+                                    <strong>
+                                        <center>Information</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black" colspan="2">
+                                    <strong>
+                                        <center>Date</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black" rowspan="2">
+                                    <strong>
+                                        <center>Room</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black" colspan="3">
+                                    <strong>
+                                        <center>F and B Hotel Card</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black" colspan="6">
+                                    <strong>
+                                        <center>Extra</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black" colspan="7">
+                                    <strong>
+                                        <center>Total</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black" rowspan="2">
+                                    <strong>
+                                        <center>Remark</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black" rowspan="2">
+                                    <strong>
+                                        <center>Status</center>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid black">
+                                <td style="border: 1px solid black; min-width:120px;">
+                                    <strong>
+                                        <center>Room Number</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black; width:120px;">
+                                    <strong>
+                                        <center>Guest</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Folio No.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>InvNo.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Receipt</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black; min-width: 100px">
+                                    <strong>
+                                        <center>CheckIn</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black; min-width: 100px">
+                                    <strong>
+                                        <center>CheckOut</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Food</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Beve.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Equi.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Mass.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>S.Pool</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Activ.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Trans.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Other.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>PreWed.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Disc.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>City.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Cash</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>Credit</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>BankT.</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>FOC</center>
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <strong>
+                                        <center>ENT</center>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border: 1px solid black" t-foreach="folio_data" t-as="folio">
+                                <span>
+                                    <td style="border: 1px solid black; width:120px;">
+                                        <span t-if="'room_lines' in folio">
+                                            <table t-foreach="folio['room_lines']" t-as="line">
+                                                <t>
+                                                    <span t-esc="line"/>
+                                                </t>
+                                            </table>
+                                        </span>
+                                    </td>
+                                    <td style="border: 1px solid black; width:150px;">
+                                        <span t-esc="folio.get('partner', '')"/>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-esc="folio.get('name', '')"/>
+                                    </td>
+                                    <td style="border: 1px solid black; width:120px;">
+                                        <span t-if="'invoice_no' in folio">
+                                            <table t-foreach="folio['invoice_no']" t-as="line">
+                                                <t>
+                                                    <span t-esc="line"/>
+                                                </t>
+                                            </table>
+                                        </span>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-esc="folio.get('receipt_no', '')"/>
+                                    </td>
+                                    <td style="border: 1px solid black; min-width: 120px">
+                                        <t t-if="'checkin_lst' in folio">
+                                            <table t-foreach="folio['checkin_lst']" t-as="checkin">
+                                                <t>
+                                                    <span t-esc="checkin" t-options='{"widget": "date"}'/>
+                                                </t>
+                                            </table>
+                                        </t>
+                                    </td>
+                                    <td style="border: 1px solid black; min-width: 120px">
+                                        <span t-if="'checkout_lst' in folio">
+                                            <table t-foreach="folio['checkout_lst']" t-as="checkout">
+                                                <t>
+                                                    <span t-esc="checkout" t-options='{"widget": "date"}'/>
+                                                </t>
+                                            </table>
+                                        </span>
+                                    </td>
+
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'room_price_lst' in folio">
+                                            <table t-foreach="folio['room_price_lst']" t-as="room_price">
+                                                <t t-if="'%.2f'%room_price != '0.00'">
+                                                    $
+                                                    <span t-esc="'%.2f'%(room_price * 1.1)"/>
+                                                </t>
+                                            </table>
+                                        </span>
+                                    </td>
+
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <t t-if="'service_lines' in folio">
+                                            <table t-foreach="folio['service_lines']" t-as="line">
+                                                <span t-if="line['categ'] == 'Foods'">
+                                                    <t>
+                                                        <span t-set='tot'
+                                                              t-value="tot + line['qty'] * line['price']"/>
+                                                    </t>
+                                                </span>
+                                            </table>
+                                        </t>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'service_lines' in folio">
+                                            <table t-foreach="folio['service_lines']" t-as="line">
+                                                <span t-if="line['categ'] == 'Beverages'">
+                                                    <t>
+                                                        <span t-set="tot"
+                                                              t-value="tot + line['qty'] * line['price']"/>
+                                                    </t>
+                                                </span>
+                                            </table>
+                                        </span>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'service_lines' in folio">
+                                            <table t-foreach="folio['service_lines']" t-as="line">
+                                                <span t-if="line['categ'] == 'Equipment'">
+                                                    <t>
+                                                        <span t-set="tot"
+                                                              t-value="tot + line['qty'] * line['price']"/>
+                                                    </t>
+                                                </span>
+                                            </table>
+                                        </span>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'service_lines' in folio">
+                                            <table t-foreach="folio['service_lines']" t-as="line">
+                                                <span t-if="line['categ'] == 'Massage'">
+                                                    <t>
+                                                        <span t-set="tot"
+                                                              t-value="tot + line['qty'] * line['price']"/>
+                                                    </t>
+                                                </span>
+                                            </table>
+                                        </span>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'service_lines' in folio">
+                                            <table t-foreach="folio['service_lines']" t-as="line">
+                                                <span t-if="line['categ'] == 'Swimming Pool'">
+                                                    <t>
+                                                        <span t-set="tot"
+                                                              t-value="tot + line['qty'] * line['price']"/>
+                                                    </t>
+                                                </span>
+                                            </table>
+                                        </span>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'service_lines' in folio">
+                                            <table t-foreach="folio['service_lines']" t-as="line">
+                                                <span t-if="line['categ'] == 'Activity'">
+                                                    <t>
+                                                        <span t-set="tot"
+                                                              t-value="tot + line['qty'] * line['price']"/>
+                                                    </t>
+                                                </span>
+                                            </table>
+                                        </span>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'service_lines' in folio">
+                                            <table t-foreach="folio['service_lines']" t-as="line">
+                                                <span t-if="line['categ'] == 'Transportation'">
+                                                    <t>
+                                                        <span t-set="tot"
+                                                              t-value="tot + line['qty'] * line['price']"/>
+                                                    </t>
+                                                </span>
+                                            </table>
+                                        </span>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'service_lines' in folio">
+                                            <table t-foreach="folio['service_lines']" t-as="line">
+                                                <span t-if="line['categ'] == 'Other Service'">
+                                                    <t>
+                                                        <span t-set="tot"
+                                                              t-value="tot + line['qty'] * line['price']"/>
+                                                    </t>
+                                                </span>
+                                            </table>
+                                        </span>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+                                    <t t-set="tot" t-value="0"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'service_lines' in folio">
+                                            <table t-foreach="folio['service_lines']" t-as="line">
+                                                <span t-if="line['categ'] == 'Pre Wedding'">
+                                                    <t>
+                                                        <span t-set="tot"
+                                                              t-value="tot + line['qty'] * line['price']"/>
+                                                    </t>
+                                                </span>
+                                            </table>
+                                        </span>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+                                    <t t-set="tot" t-value="0"/>
+
+                                    <td style="border: 1px solid black">
+                                        <span t-if="'discount_lst' in folio">
+                                            <table t-foreach="folio['discount_lst']" t-as="discount">
+                                                <t>
+                                                    <span t-set="tot" t-value="tot + discount"/>
+                                                </t>
+                                            </table>
+                                        </span>
+                                        <t t-if="'%.2f'%(tot*1.1) != '0.00'">
+                                            $
+                                            <span t-esc="'%.2f'%(tot*1.1)"/>
+                                        </t>
+                                    </td>
+
+                                    <td style="border: 1px solid black">
+                                        <t t-if="'new_folio' in folio">
+                                            <t t-if="'city_ledger' in folio['new_folio']['payment_amount']">
+                                                <t t-if="'%.2f'%(folio['new_folio']['payment_amount']['city_ledger']) != '0.00'">
+                                                    $
+                                                    <span t-esc="folio['new_folio']['payment_amount']['city_ledger']"/>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <t t-if="'new_folio' in folio">
+                                            <t t-if="'Cash - FO' in folio['new_folio']['payment_amount']">
+                                                $
+                                                <span t-esc="folio['new_folio']['payment_amount']['Cash - FO']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <t t-if="'new_folio' in folio">
+                                            <t t-if="'Credit Card - FO' in folio['new_folio']['payment_amount']">
+                                                $
+                                                <span t-esc="folio['new_folio']['payment_amount']['Credit Card - FO']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <t t-if="'new_folio' in folio">
+                                            <t t-if="'Bank Transfer' in folio['new_folio']['payment_amount']">
+                                                $
+                                                <span t-esc="folio['new_folio']['payment_amount']['Bank Transfer']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <t t-if="'new_folio' in folio">
+                                            <t t-if="'FOC - FO' in folio['new_folio']['payment_amount']">
+                                                $
+                                                <span t-esc="folio['new_folio']['payment_amount']['FOC - FO']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <t t-if="'new_folio' in folio">
+                                            <t t-if="'ENT - FO' in folio['new_folio']['payment_amount']">
+                                                $
+                                                <span t-esc="folio['new_folio']['payment_amount']['ENT - FO']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-esc="folio.get('ref_booking', '')"/>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-esc="folio.get('state', '')"/>
+                                    </td>
+                                </span>
+                            </tr>
+                        </tbody>
+
+                        <tr style="border: 1px solid black;page-break-inside: avoid;">
+                            <td style="border: 1px solid black" colspan="7">
+                                <strong>Subtotal:</strong>
+                            </td>
+                            <t t-set="tot" t-value="0"/>
+                            <td class="text-center" style="border: 1px solid black" colspan="1">
+                                <span t-set="tot" t-value="tot + subtotal"/>
+                                <t t-set="tot_room" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_room) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_room)"/>
+                                </t>
+                            </td>
+
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'service_lines' in folio">
+                                        <table t-foreach="folio['service_lines']" t-as="line">
+                                            <span t-if="line['categ'] == 'Foods'">
+                                                <t>
+                                                    <span t-set='tot' t-value="tot + line['qty'] * line['price']"/>
+                                                </t>
+                                            </span>
+                                        </table>
+                                    </t>
+                                </t>
+                                <t t-set="tot_food" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_food) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_food)"/>
+                                </t>
+                            </td>
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'service_lines' in folio">
+                                        <table t-foreach="folio['service_lines']" t-as="line">
+                                            <span t-if="line['categ'] == 'Beverages'">
+                                                <t>
+                                                    <span t-set="tot" t-value="tot + line['qty'] * line['price']"/>
+                                                </t>
+                                            </span>
+                                        </table>
+                                    </t>
+                                </t>
+                                <t t-set="tot_beverage" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_beverage) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_beverage)"/>
+                                </t>
+                            </td>
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'service_lines' in folio">
+                                        <table t-foreach="folio['service_lines']" t-as="line">
+                                            <span t-if="line['categ'] == 'Equipment'">
+                                                <t>
+                                                    <span t-set="tot" t-value="tot + line['qty'] * line['price']"/>
+                                                </t>
+                                            </span>
+                                        </table>
+                                    </t>
+                                </t>
+                                <t t-set="tot_equipment" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_equipment) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_equipment)"/>
+                                </t>
+                            </td>
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'service_lines' in folio">
+                                        <table t-foreach="folio['service_lines']" t-as="line">
+                                            <span t-if="line['categ'] == 'Massage'">
+                                                <t>
+                                                    <span t-set="tot" t-value="tot + line['qty'] * line['price']"/>
+                                                </t>
+                                            </span>
+                                        </table>
+                                    </t>
+                                </t>
+                                <t t-set="tot_mass" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_mass) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_mass)"/>
+                                </t>
+                            </td>
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'service_lines' in folio">
+                                        <table t-foreach="folio['service_lines']" t-as="line">
+                                            <span t-if="line['categ'] == 'Swimming Pool'">
+                                                <t>
+                                                    <span t-set="tot" t-value="tot + line['qty'] * line['price']"/>
+                                                </t>
+                                            </span>
+                                        </table>
+                                    </t>
+                                </t>
+                                <t t-set="tot_swim" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_swim) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_swim)"/>
+                                </t>
+                            </td>
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'service_lines' in folio">
+                                        <table t-foreach="folio['service_lines']" t-as="line">
+                                            <span t-if="line['categ'] == 'Activity'">
+                                                <t>
+                                                    <span t-set="tot" t-value="tot + line['qty'] * line['price']"/>
+                                                </t>
+                                            </span>
+                                        </table>
+                                    </t>
+                                </t>
+                                <t t-set="tot_act" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_act) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_act)"/>
+                                </t>
+                            </td>
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'service_lines' in folio">
+                                        <table t-foreach="folio['service_lines']" t-as="line">
+                                            <span t-if="line['categ'] == 'Transportation'">
+                                                <t>
+                                                    <span t-set="tot" t-value="tot + line['qty'] * line['price']"/>
+                                                </t>
+                                            </span>
+                                        </table>
+                                    </t>
+                                </t>
+                                <t t-set="tot_trans" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_trans) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_trans)"/>
+                                </t>
+                            </td>
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'service_lines' in folio">
+                                        <table t-foreach="folio['service_lines']" t-as="line">
+                                            <span t-if="line['categ'] == 'Other Service'">
+                                                <t>
+                                                    <span t-set="tot" t-value="tot + line['qty'] * line['price']"/>
+                                                </t>
+                                            </span>
+                                        </table>
+                                    </t>
+                                </t>
+                                <t t-set="tot_other" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_other) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_other)"/>
+                                </t>
+                            </td>
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'service_lines' in folio">
+                                        <table t-foreach="folio['service_lines']" t-as="line">
+                                            <span t-if="line['categ'] == 'Pre Wedding'">
+                                                <t>
+                                                    <span t-set="tot" t-value="tot + line['qty'] * line['price']"/>
+                                                </t>
+                                            </span>
+                                        </table>
+                                    </t>
+                                </t>
+                                <t t-set="tot_pre" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(tot_pre) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(tot_pre)"/>
+                                </t>
+                            </td>
+
+                            <t t-set="tot" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <table t-if="'discount_lst' in folio">
+                                        <t t-foreach="folio['discount_lst']" t-as="discount">
+                                            <t>
+                                                <span t-set="tot" t-value="tot + discount"/>
+                                            </t>
+                                        </t>
+                                    </table>
+                                </t>
+                                <t t-set="t_disc" t-value="tot*1.1"/>
+                                <t t-if="'%.2f'%(t_disc*1.1) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(t_disc)"/>
+                                </t>
+                            </td>
+
+                            <t t-set="total" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'new_folio' in folio">
+                                        <t t-if="'city_ledger' in folio['new_folio']['payment_amount']">
+                                            <span t-set="total"
+                                                  t-value="total + folio['new_folio']['payment_amount']['city_ledger']"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-set="t_city" t-value="total"/>
+                                <t t-if="'%.2f'%(t_city) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(t_city)"/>
+                                </t>
+                            </td>
+                            <t t-set="total" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'new_folio' in folio">
+                                        <t t-if="'Cash - FO' in folio['new_folio']['payment_amount']">
+                                            <span t-set="total"
+                                                  t-value="total + folio['new_folio']['payment_amount']['Cash - FO']"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-set="t_cash" t-value="total"/>
+                                <t t-if="'%.2f'%(t_cash) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(t_cash)"/>
+                                </t>
+                            </td>
+                            <t t-set="total" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'new_folio' in folio">
+                                        <t t-if="'Credit Card - FO' in folio['new_folio']['payment_amount']">
+                                            <span t-set="total"
+                                                  t-value="total + folio['new_folio']['payment_amount']['Credit Card - FO']"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-set="t_credit" t-value="total"/>
+                                <t t-if="'%.2f'%(t_credit) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(t_credit)"/>
+                                </t>
+                            </td>
+                            <t t-set="total" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'new_folio' in folio">
+                                        <t t-if="'Bank Transfer' in folio['new_folio']['payment_amount']">
+                                            <span t-set="total"
+                                                  t-value="total + folio['new_folio']['payment_amount']['Bank Transfer']"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-set="t_bank" t-value="total"/>
+                                <t t-if="'%.2f'%(t_bank) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(t_bank)"/>
+                                </t>
+                            </td>
+                            <t t-set="total" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'new_folio' in folio">
+                                        <t t-if="'FOC - FO' in folio['new_folio']['payment_amount']">
+                                            <span t-set="total"
+                                                  t-value="total + folio['new_folio']['payment_amount']['FOC - FO']"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-set="t_foc" t-value="total"/>
+                                <t t-if="'%.2f'%(t_foc) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(t_foc)"/>
+                                </t>
+                            </td>
+                            <t t-set="total" t-value="0"/>
+                            <td style="border: 1px solid black">
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-if="'new_folio' in folio">
+                                        <t t-if="'ENT - FO' in folio['new_folio']['payment_amount']">
+                                            <span t-set="total"
+                                                  t-value="total + folio['new_folio']['payment_amount']['ENT - FO']"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-set="t_ent" t-value="total"/>
+                                <t t-if="'%.2f'%(t_ent) != '0.00'">
+                                    $
+                                    <span t-esc="'%.2f'%(t_ent)"/>
+                                </t>
+                            </td>
+                            <td/>
+                            <td/>
+                        </tr>
+                        <tr style="border: 1px solid black;page-break-inside: avoid;">
+                            <td style="border: 1px solid black" colspan="7">
+                                <strong>Total:</strong>
+                            </td>
+                            <t t-set="total" t-value="0"/>
+                            <td class="text-center" style="border: 1px solid black" colspan="10">
+                                <t>
+                                    <span t-set="total"
+                                          t-value="tot_room + tot_food + tot_beverage + tot_equipment + tot_swim + tot_trans + tot_other + tot_pre + tot_mass + tot_act"/>
+                                </t>
+                                <center>
+                                    $
+                                    <span t-esc="'%.2f'%(total)"/>
+                                </center>
+                            </td>
+                            <t t-set="total" t-value="0"/>
+                            <td colspan="7" style="border: 1px solid black">
+                                <t>
+                                    <span t-set="total"
+                                          t-value="t_disc + t_city + t_cash + t_credit + t_bank + t_foc + t_ent"/>
+                                </t>
+                                <center>
+                                    $
+                                    <span t-esc="'%.2f'%(total)"/>
+                                </center>
+                            </td>
+                            <td/>
+                            <td/>
+                        </tr>
+                    </table>
+                    <table class="table table-border">
+                        <tr>
+                            <td>Total Room</td>
+                            <td>
+                                <strong>
+                                    <span t-esc="total_camping"/>
+                                    Camping
+                                    <span t-esc="total_room"/>
+                                    Room(s)
+                                </strong>
+                            </td>
+                            <td>Total Customer:</td>
+                            <td>
+                                <strong>
+                                    <span t-esc="total_customer"/>
+                                    Customer(s)
+                                </strong>
+                            </td>
+                            <td>Cambodian:</td>
+                            <td>
+                                <strong>
+                                    <span class="text-left" t-esc="total_cambodian"/>
+                                </strong>
+                            </td>
+                            <td>foreigner:</td>
+                            <td>
+                                <strong>
+                                    <span t-esc="total_foreigner"/>
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td/>
+                        </tr>
+                        <tr>
+                            <td/>
+                        </tr>
+                        <tr>
+                            <td>Prepared by:</td>
+                            <td>
+                                <span t-esc="user.name"/>
+                            </td>
+                            <td>Checked by: Lay Sara</td>
+                            <td>Reviewed by:Heng Pheaktra</td>
+                            <td>Approved/Received by: Eiji Izuka</td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

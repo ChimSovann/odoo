@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="customer_bill_template" inherit_id="hotel_restaurant.report_order_bill">
+        <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+            <!-- header inherit from activity custom header -->
+            <t t-call="activity.activity_header_print_report">
+                <div class="page"/>
+            </t>
+        </xpath>
+    </template>
+</odoo>

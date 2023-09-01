@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_general_purchase_request_a2a_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="market_list_odoo13.a2a_custom_template_layout">
+                    <link rel="stylesheet" href="/market_list_report/static/src/css/style.css"/>
+                    <div class="page">
+                        <div>
+                            <h3>
+                                <span>
+                                    <strong>
+                                        <center>General A2A Request</center>
+                                    </strong>
+                                </span>
+                            </h3>
+                        </div>
+                        <table width="100%">
+                            <tr style="font-size:14px">
+                                <td width="65%" style="text-align:left;">
+                                    <strong>Request Reference :</strong>
+                                    <span t-field="doc.name"/>
+                                </td>
+                                <td width="35%" style="text-align:left;">
+                                    <strong>Request Date :</strong>
+                                    <span t-field="doc.creation_date"/>
+                                </td>
+                            </tr>
+                            <tr style="font-size:14px">
+                                <td width="65%" style="text-align:left;">
+                                    <strong>Analytic Acc :</strong>
+                                    <span t-field="doc.analytic_account_id.name"/>
+                                </td>
+                                <td width="35%" style="text-align:left;">
+                                    <strong>Approve Date :</strong>
+                                    <span t-field="doc.approve_date"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-striped" style="table-layout: fixed;">
+                            <thead>
+                                <tr style="font-size:12px; font-weight: 800; height: 5px;text-align: center;">
+                                    <th width="5%" class="px-1 mx-0" style="border: 1px solid black;">
+                                        <strong>No.</strong>
+                                    </th>
+                                    <th width="30%" style="border: 1px solid black">
+                                        <strong>Product</strong>
+                                    </th>
+                                    <th class="px-0" width="7%" style="border: 1px solid black">
+                                        <strong>Qty</strong>
+                                    </th>
+                                    <th class="px-0" width="7%" style="border: 1px solid black">
+                                        <strong>Unit</strong>
+                                    </th>
+                                    <th width="15%" style="border: 1px solid black">
+                                        <strong>Est.Price</strong>
+                                    </th>
+                                    <th width="16%" style="border: 1px solid black">
+                                        <strong>Est.Sub Total Price
+                                        </strong>
+                                    </th>
+                                    <th width="20%" style="border: 1px solid black">
+                                        <strong>Description</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="table-sm">
+
+                                <t t-if="len(doc.product_line_a2a_ids) > 0">
+                                    <tr t-foreach="doc.product_line_a2a_ids" t-as="item"
+                                        style="break-inside: avoid; font-size:12px; font-weight: 600;">
+                                        <td style="border:1px solid black;">
+                                            <span t-esc="item_index +1"/>
+                                        </td>
+                                        <td style="border:1px solid black;">
+                                            <span t-esc="item.product_id.name"/>
+                                        </td>
+                                        <td style="border:1px solid black;">
+                                            <span t-esc="item.product_qty"/>
+                                        </td>
+                                        <td style="border:1px solid black;">
+                                            <span t-esc="item.product_uom_id.name"/>
+                                        </td>
+                                        <td style="border:1px solid black;">
+                                            <span t-esc="item.currency_id.symbol"/>
+                                            <span t-esc="item.price_per_unit_est"/>
+                                        </td>
+                                        <td style="border:1px solid black;">
+                                            <span t-esc="item.currency_id.symbol"/>
+                                            <span t-esc="item.total_price_est"/>
+                                        </td>
+                                        <td style="border:1px solid black;">
+                                            <span t-esc="item.name"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr style="text-align:center; break-inside: avoid; font-size:12px; font-weight: 800;">
+                                    <td class="py-2 pr-2" colspan="5" style="text-align:right; border:1px solid black;">
+                                        <strong>Est. Total:</strong>
+                                    </td>
+                                    <td class="py-2" style="border:1px solid black; text-align: left;">
+                                        <strong>
+                                            <span t-esc="doc.currency_id.symbol"/>
+                                            <span t-esc="doc.amount_total_est"/>
+                                        </strong>
+                                    </td>
+                                    <td style="border:1px solid black;">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table width="100%" style="page-break-inside: avoid;">
+                            <tbody>
+                                <tr>
+                                    <tr style="break-inside: avoid; font-size: 14px">
+                                        <th width="25%">
+                                            <center>
+                                                <strong>Requested By</strong>
+                                            </center>
+                                        </th>
+                                        <th width="25%">
+                                            <center>
+                                                <strong>Approved By</strong>
+                                            </center>
+                                        </th>
+                                    </tr>
+                                </tr>
+                                <tr style="break-inside: avoid;">
+                                    <td>
+                                        <br/>
+                                    </td>
+                                    <td>
+                                        <br/>
+                                    </td>
+                                </tr>
+                                <tr style="break-inside: avoid;">
+                                    <td>
+                                        <br/>
+                                    </td>
+                                    <td>
+                                        <br/>
+                                    </td>
+                                </tr>
+                                <tr style="break-inside: avoid;">
+                                    <td>
+                                        <br/>
+                                    </td>
+                                    <td>
+                                        <br/>
+                                    </td>
+                                </tr>
+                                <tr style="break-inside: avoid; font-size:12px;">
+                                    <td>
+                                        <center>
+                                            <span t-field="doc.creation_date"/>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <span t-field="doc.approve_date"/>
+                                        </center>
+                                    </td>
+                                </tr>
+                                <tr style="break-inside: avoid; font-size:12px;">
+                                    <td>
+                                        <center>
+                                            <span t-field="doc.requested_by"/>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <span t-field="doc.approve_by"/>
+                                        </center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <tr style="break-inside: avoid;">
+                                        <td>
+                                            <br/>
+                                            <br/>
+                                        </td>
+                                        <td>
+                                            <br/>
+                                            <br/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Internal note:</b>
+                                            <br/>
+                                            <span t-field="doc.description"/>
+                                            <br/>
+                                            <br/>
+                                        </td>
+                                    </tr>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

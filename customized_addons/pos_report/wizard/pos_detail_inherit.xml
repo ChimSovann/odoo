@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_pos_detail_report_wizard_inherit" model="ir.ui.view">
+        <field name="name">pos.details.wizard.form_inherit</field>
+        <field name="model">pos.details.wizard</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_details_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/field[@name='pos_config_ids']" position="replace">
+                <field name="pos_config_ids" mode="tree" colspan="4" nolabel="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

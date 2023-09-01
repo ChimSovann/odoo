@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+  <!--    Need to modify the total calc -->
+  <template id="jobify_commercial_invoice" inherit_id="a2a_accounting_report.jobify_tax_invoice" primary="True">
+    <xpath expr="//div[hasclass('page')]/div" position="replace">
+      <div class="text-center" style="font-size:20px">
+              <strong>វិក្កយបត្រ<br/>Invoice
+              </strong>
+            </div>
+    </xpath>
+    <xpath expr="//table[2]/thead/tr/td[3]" position="replace"/>
+    <xpath expr="//table[2]/thead/tr/td[3]" position="replace"/>
+    <xpath expr="//table[2]/tbody/tr[1]/td[3]" position="replace"/>
+    <xpath expr="//table[2]/tbody/tr[1]/td[3]" position="replace"/>
+    <xpath expr="//table[2]/tbody/tr[2]/td[3]" position="replace"/>
+    <xpath expr="//table[2]/tbody/tr[2]/td[3]" position="replace"/>
+    <xpath expr="//table[2]/tbody/tr/td[last()]" position="replace">
+      <t t-set="tax_value" t-value="0"/>
+        <t t-if="l.tax_ids and not l.tax_ids.price_include">
+            <t t-set="tax_value" t-value="l.tax_ids.amount"/>
+        </t>
+      <td>
+        <span t-esc="'${0:,.2f}'.format(round(l.price_unit+l.price_unit*tax_value/100, 2))"/>
+      </td>
+    </xpath>
+    <xpath expr="//div[hasclass('total-calc')]/tr[1]/td" position="attributes">
+      <attribute name="colspan">2</attribute>
+    </xpath>
+    <xpath expr="//div[hasclass('total-calc')]/tr[2]/td" position="attributes">
+      <attribute name="colspan">2</attribute>
+    </xpath>
+    <xpath expr="//div[hasclass('total-calc')]/tr[3]/td" position="attributes">
+      <attribute name="colspan">2</attribute>
+    </xpath>
+    <xpath expr="//div[hasclass('total-calc')]/tr[4]/td" position="attributes">
+      <attribute name="colspan">2</attribute>
+    </xpath>
+    <xpath expr="//div[hasclass('total-calc')]/tr[1]" position="replace"/>
+    <xpath expr="//div[hasclass('total-calc')]/tr[1]" position="replace"/>
+
+  </template>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--This is Automation Schedule Action for Getting Bookings from HLS by calling _get_hls_booking function
+    from hotel_get_booking_hls model-->
+    <record id="hotel_get_booking_hls_scheduler" model="ir.cron">
+        <field name="name">Get Booking HLS</field>
+        <field name="model_id" ref="model_hotel_get_booking_hls"/>
+        <field name="state">code</field>
+        <field name="code">model._get_hls_booking()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name='interval_number'>2</field>
+        <field name='interval_type'>minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+    <!-- Scheduler To Auto Checkin Reservation Everyday -->
+    <record model="ir.cron" id="auto_checkin_reservation">
+        <field name="name">Auto Checkin Reservation
+        </field>
+        <field name="model_id" ref="model_hotel_get_booking_hls" />
+        <field name="code">model._auto_checking_reservation()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+</odoo>

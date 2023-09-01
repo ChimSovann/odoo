@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <data>
+    <record id="pos_receipt" model="report.paperformat">
+      <field name="name">pos receipt</field>
+      <field name="default" eval="False"/>
+      <field name="format">A4</field>
+      <field name="page_height">0</field>
+      <field name="page_width">0</field>
+      <field name="orientation">Portrait</field>
+      <field name="margin_top">7</field>
+      <field name="margin_bottom">7</field>
+      <field name="margin_left">7</field>
+      <field name="margin_right">3</field>
+      <field name="header_line" eval="False"/>
+      <field name="header_spacing">35</field>
+      <field name="dpi">90</field>
+    </record>
+    <report
+            id="action_reprint_receipt"
+            model="pos.order"
+            string="Reprint receipt"
+            report_type="qweb-pdf"
+            name="pos_order_receipt.receipt_template"
+            file="pos_order_receipt.receipt_template"
+            paperformat="pos_order_receipt.pos_receipt"
+    />
+
+
+  </data>
+</odoo>

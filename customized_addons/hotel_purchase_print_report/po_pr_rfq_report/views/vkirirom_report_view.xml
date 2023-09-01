@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <report
+             id="vkirirom_picking_report"
+             string="Vkirirom GIN"
+             model="stock.picking"
+             report_type="qweb-pdf"
+             name="po_pr_rfq_report.report_vkirirom_picking"
+             file="po_pr_rfq_report.report_vkirirom_picking"
+             attachment_use="True"/>
+</odoo>

@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+
+        <!--
+                      START
+            VK POS ORDER VIEW TYPE AREA
+         -->
+
+        <record id="view_vk_pos_order_tree" model="ir.ui.view">
+            <field name="name">vk.order.tree.view</field>
+            <field name="model">vk.pos.order</field>
+            <field name="arch" type="xml">
+                <tree string="Vk Orders" default_order='create_date desc'>
+                    <field name="name"/>
+                    <field name="vendor"/>
+                    <field name="state"/>
+                    <field name="total"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="view_vk_pos_order_form">
+            <field name="name">vk.order.form.view</field>
+            <field name="model">vk.pos.order</field>
+            <field name="arch" type="xml">
+                <form string="VK Order">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="pending,paid"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="vendor"/>
+                                <field name="remark"/>
+                            </group>
+                            <group>
+                                <field name="vat"/>
+                                <field name="subtotal"/>
+                                <field name="total"/>
+                            </group>
+
+                        </group>
+
+                        <notebook>
+                            <page string="Orders" >
+                                <field name="items">
+                                      <tree widget="section_and_note_one2many" editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                        <field name="unit_price"/>
+                                        <field name="discount"/>
+                                        <field name="subtotal"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+         <!--
+                      END
+            VK POS ORDER VIEW TYPE AREA
+         -->
+
+
+                <!--
+                      START
+            VK POS ORDER REPORT AREA
+         -->
+
+
+
+		<record model="ir.ui.view" id="view_vk_pos_order_wizard">
+            <field name="name">vk.order.wizard.view</field>
+            <field name="model">vkpoint.balance</field>
+            <field name="arch" type="xml">
+                                <form string="vkPoint Balance Report" version="7.0">
+                    <group col="4" >
+                        <field name="start_date" required="1" />
+                        <field name="end_date" required="1" />
+                    <field name="type" required="1" />
+                    <field name="partner_id" required="0" />
+                    </group>
+					<footer>
+						<button name="print_report" string="Print Report" type="object"
+							class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+                </form>
+            </field>
+        </record>
+
+
+         <!--
+                      END
+            VK POS ORDER REPORT AREA
+         -->
+
+        <!--Vk POS Order action -->
+		  <record id="action_vk_pos_order" model="ir.actions.act_window">
+				<field name="name">Vk Order</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">vk.pos.order</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+        <!--Vk POS Report action -->
+		  <record id="action_vk_pos_order_report" model="ir.actions.act_window">
+				<field name="name">Vk Balance Report</field>
+				<field name="type">ir.actions.act_window</field>
+				<field name="res_model">vkpoint.balance</field>
+				<field name="view_mode">form</field>
+              <field name="target">new</field>
+			</record>
+
+		<!-- Vk point Base Menu -->
+
+		<menuitem
+			id="vk_pos_base_menu"
+            name="Vk Club"
+            parent="point_of_sale.menu_point_root"
+			sequence="50" />
+
+		<menuitem
+			id="vk_pos_order_menu"
+            name="Vk Order"
+			parent="vk_pos_base_menu"
+			action="vkclub.action_vk_pos_order"
+			sequence="1" />
+
+        <menuitem
+			id="vk_pos_order_report"
+            name="Vk Point Balance Report"
+			parent="point_of_sale.menu_point_rep"
+			action="vkclub.action_vk_pos_order_report"
+			sequence="3" />
+
+
+
+
+
+
+
+
+	</data>
+
+
+
+</odoo>

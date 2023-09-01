@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <report
+            id="action_vkirirom_commercial_invoice"
+            string="vKirirom Commercial Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.vkirirom_commercial_invoice"
+            file="a2a_accounting_report.vkirirom_commercial_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_vkirirom_tax_invoice"
+            string="vKirirom Tax Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.vkirirom_tax_invoice"
+            file="a2a_accounting_report.vkirirom_tax_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_a2a_it_service_commercial_invoice"
+            string="A2A IT Service Commercial Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.a2a_it_service_commercial_invoice"
+            file="a2a_accounting_report.a2a_it_service_commercial_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_a2a_it_service_tax_invoice"
+            string="A2A IT Service Tax Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.a2a_it_service_tax_invoice"
+            file="a2a_accounting_report.a2a_it_service_tax_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_jobify_commercial_invoice"
+            string="Commercial Invoice Jobify"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.jobify_commercial_invoice"
+            file="a2a_accounting_report.jobify_commercial_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_jobify_tax_invoice"
+            string="Tax Invoice Jobify"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.jobify_tax_invoice"
+            file="a2a_accounting_report.jobify_tax_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_vkirirom_pte_invoice"
+            string="vKirirom Pte Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.vkirirom_pte_invoice"
+            file="a2a_accounting_report.vkirirom_pte_invoice"
+            paperformat="a2a_accounting_report.a4_vkirirom_pte_invoice"
+    />
+
+    <report
+            id="action_commercial_invoice_package_2020"
+            string="Commercial Invoice package 2020"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.commercial_invoice_package_2020"
+            file="a2a_accounting_report.commercial_invoice_package_2020"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_tax_invoice_package_2020"
+            string="Tax Invoice package 2020"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.tax_invoice_package_2020"
+            file="a2a_accounting_report.tax_invoice_package_2020"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_a2a_commercial_invoice"
+            string="A2A Commercial Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.a2a_commercial_invoice"
+            file="a2a_accounting_report.a2a_commercial_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_a2a_tax_invoice"
+            string="A2A Tax Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.a2a_tax_invoice"
+            file="a2a_accounting_report.a2a_tax_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+    <report
+            id="action_kit_commercial_invoice"
+            string="KIT Commercial Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.kit_commercial_invoice"
+            file="a2a_accounting_report.kit_commercial_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_kit_tax_invoice"
+            string="KIT Tax Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.kit_tax_invoice"
+            file="a2a_accounting_report.kit_tax_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+    <report
+            id="action_vkis_invoice"
+            string="VKIS Invoice"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="a2a_accounting_report.vkis_invoice"
+            file="a2a_accounting_report.vkis_invoice"
+            paperformat="a2a_accounting_report.a4_invoice"
+    />
+
+</odoo>

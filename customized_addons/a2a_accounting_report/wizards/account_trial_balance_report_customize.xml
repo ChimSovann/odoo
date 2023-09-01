@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_trial_balance_pdf" inherit_id="accounting_pdf_reports.report_trialbalance">
+    <xpath expr="//div[hasclass('page')]/h2/span" position="replace">
+      <span t-esc="data['company_id'][1]"/>: Trial Balance
+    </xpath>
+
+    <xpath expr="//tbody" position="replace">
+
+      <tr t-foreach="Accounts" t-as="account">
+        <t t-if="account['is_parent'] == True">
+          <t t-set="style" t-value="'font-weight:bold;'"/>
+        </t>
+        <t t-if="account['is_parent'] != True ">
+          <t t-set="style" t-value="'font-weight:normal;'"/>
+        </t>
+        <!--                    <t t-if="account['type'] == 'View'">-->
+        <!--                        <t t-set="style" t-value="'font-weight:bold;'"/>-->
+        <!--                    </t>-->
+        <!--                    <t t-if="account['type'] != 'View'">-->
+        <!--                        <t t-set="style" t-value="'font-weight:normal;'"/>-->
+        <!--                    </t>-->
+        <td>
+          <span t-att-style="style" t-esc="account['code']"/>
+        </td>
+        <td>
+          <span style="color: white;" t-esc="'..'*(account['level'])"/>
+          <span t-att-style="style" t-esc="account['name']"/>
+        </td>
+        <td class="text-right">
+          <span t-att-style="style" t-esc="account['debit']"
+                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+        </td>
+        <td class="text-right">
+          <span t-att-style="style" t-esc="account['credit']"
+                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+        </td>
+        <td class="text-right">
+          <span t-att-style="style" t-esc="account['balance']"
+                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+        </td>
+      </tr>
+
+    </xpath>
+
+  </template>
+</odoo>

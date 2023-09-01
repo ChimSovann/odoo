@@ -1,0 +1,34 @@
+<odoo>
+    <record id="view_pos_config_form_transfer_type_inherit" model="ir.ui.view">
+        <field name="name">pos.pin.config.form.view</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='iface_big_scrollbars']/../.." position="after">
+                <div class="col-xs-12 col-md-6 o_setting_box" id="folio_transfer">
+                    <div class="o_setting_left_pane">
+                        <field name="iface_transfer_to_folio" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="iface_transfer_to_folio" />
+                        <div class="text-muted">
+                           Allows to transfer orders to folio in the frontend
+                        </div>
+                        <div
+                            class="content-group mt16"
+                            attrs="{'invisible': [('iface_transfer_to_folio', '=', False)]}"
+                        >
+                            <div class="row mt16" id="reprint_done_order">
+                                <label
+                                    for="transfer_type"
+                                    class="col-lg-3 o_light_label"
+                                />
+                                <field name="transfer_type" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

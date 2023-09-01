@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <record id="assset_management_inherit_customize" model="ir.ui.view">
+    <field name="name">account.asset.form.inherit</field>
+    <field name="model">account.asset</field>
+    <field name="inherit_id" ref="account_asset_management.account_asset_view_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='method_number']" position="attributes">
+        <attribute name="string">Number of Depreciation</attribute>
+      </xpath>
+      <xpath expr="//button[@name='remove']" position="attributes">
+        <attribute name="attrs">
+          {'invisible':['|', ('state', 'not in', ['open', 'close'])]}
+        </attribute>
+      </xpath>
+    </field>
+  </record>
+</odoo>

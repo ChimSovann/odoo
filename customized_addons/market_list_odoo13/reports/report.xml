@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report
+        id="purchase_request_market_list_report_day1"
+        paperformat="market_list_odoo13.market_list_report_format"
+        model="market.list.request"
+        string="Market List Report Day 1"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.report_market_list_day1_purchase_request_pdf"
+        menu="True"/>
+
+    <report
+        id="purchase_request_market_list_report_day2"
+        paperformat="market_list_odoo13.market_list_report_format"
+        model="market.list.request"
+        string="Market List Report Day 2"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.report_market_list_day2_purchase_request_pdf"
+    />
+
+    <report
+        id="purchase_request_pvk_report"
+        paperformat="market_list_odoo13.market_list_report_format"
+        model="market.list.pvk.request"
+        string="Market List PVK Report"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.report_pvk_purchase_request_pdf"
+    />
+
+    <report
+        id="purchase_request_general_report"
+        paperformat="market_list_odoo13.market_list_report_format"
+        model="market.list.general.request"
+        string="Market List General Report"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.report_general_purchase_request_pdf"
+    />
+
+    <report
+        id="purchase_request_general_a2a_report"
+        paperformat="market_list_odoo13.market_list_report_format"
+        model="market.list.general.a2a.request"
+        string="Market List General A2A Report"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.report_general_purchase_request_a2a_pdf"
+    />
+    <!--    purchase order print report    -->
+    <report
+        string="Purchase Order"
+        id="purchase_order_in_market_list_report"
+        paperformat="market_list_odoo13.market_list_report_format"
+        model="kr.purchase.order"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.report_purchase_order_in_market_list_pdf"
+        menu="True"/>
+
+    <report
+        id="entry_payment_voucher_report"
+        paperformat="market_list_odoo13.market_list_report_format"
+        string="Payment Voucher"
+        model="kr.purchase.order"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.supplier_payment_voucher_template_pdf"
+        menu="True"
+    />
+    <!--  End of purchase order report  -->
+
+    <report
+        id="supplier_payment_voucher_report_form"
+        paperformat="market_list_odoo13.market_list_report_format"
+        string="Supplier Payment Report"
+        model="kr.purchase.order.line"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.supplier_payment_voucher_form"
+        menu="False"
+    />
+
+    <report
+        id="report_kr_purchase_payment"
+        paperformat="market_list_odoo13.market_list_report_format"
+        string="Payment Report"
+        model="kr.purchase.order.line"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.report_purchase_payment"
+        menu="False"
+    />
+    <report
+        id="report_kr_payment_for_account"
+        paperformat="market_list_odoo13.market_list_report_format"
+        string="Payment Report"
+        model="kr.purchase.order.line"
+        report_type="qweb-pdf"
+        name="market_list_odoo13.report_payment_for_account"
+        menu="False"
+    />
+    <report
+        id="purchase_request_market_list_report_xlsx"
+        model="market.list.request"
+        string="Market List Excel Format Report (Separated)"
+        report_type="xlsx"
+        name="market_list_odoo13.report_market_list_request_xlsx"
+        file="market_list_odoo13.report_market_list_request_xlsx"
+    />
+
+    <report
+        id="purchase_request_market_list_report_xlsx_single"
+        model="market.list.request"
+        string="Market List Excel Format Report (Single)"
+        report_type="xlsx"
+        name="market_list_odoo13.report_mkl_request_xlsx_single"
+        file="market_list_odoo13.report_mkl_request_xlsx_single"
+    />
+
+    <report
+        id="purchase_request_pvk_report_xlsx"
+        model="market.list.pvk.request"
+        string="Pine View Kitchen Excel Format Report"
+        report_type="xlsx"
+        name="market_list_odoo13.report_pvk_request_xlsx"
+        file="market_list_odoo13.report_pvk_request_xlsx"
+    />
+
+
+</odoo>

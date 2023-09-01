@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-extend="report_coa_lines">
+        <t t-jquery="tr" t-operation="before">
+            <t t-if="l.unfoldable"><t t-set="trclass" t-value="'o_coa_level'"/></t>
+        </t>
+    </t>
+</templates>
+

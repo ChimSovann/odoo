@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hotel_restaurant_tree_customize" model="ir.ui.view">
+        <field name="name">hotel.restaurant.order.inherit.tree</field>
+        <field name="model">hotel.restaurant.order</field>
+        <field name="inherit_id" ref="hotel_restaurant.view_hotel_restaurant_order_tree"/>
+        <field name="arch" type="xml">
+            <!--<field name="order_no" position="replace">
+                <field name="new_order_no"/>
+            </field>-->
+            <field name="o_date" position="before">
+                <field name="customer_id"/>
+            </field>
+            <field name="room_id" position="after">
+                <field name="folio_id"/>
+                <field name="pos_ids"/>
+            </field>
+            <field name="amount_total" position="after">
+                <field name="date_action"/>
+                <field name="last_update_date"/>
+            </field>
+        </field>
+
+    </record>
+
+    <!--    add Cancel button when draft set to done-->
+    <record id="view_hotel_restaurant_form_customize" model="ir.ui.view">
+        <field name="name">hotel.restaurant.order.inherit.form</field>
+        <field name="model">hotel.restaurant.order</field>
+        <field name="inherit_id" ref="hotel_restaurant.view_hotel_restaurant_order_form"/>
+        <field name="arch" type="xml" >
+            <xpath expr="//button[@name='done_cancel']" position="attributes">
+                <attribute name="states" groups="hotel_restaurant_customize.group_hotel_restaurant">draft,order,done</attribute>
+            </xpath>
+            <xpath expr="//field[@name='price_subtotal']" position="after">
+                <field name="discount_lst"/>
+            </xpath>
+            <xpath expr="//sheet/group/group/field[@name='o_date']" position="before">
+                <field name="pos_ids" attrs="{'readonly': [('state', '!=', 'draft'), ('state', '!=', 'order')]}"/>
+                <field name="readonly_field" invisible="0"/>
+            </xpath>
+            <xpath expr="//sheet/group/group/field[@name='o_date']" position="attributes">
+                <attribute name="attrs">{'readonly': ['&amp;', ('readonly_field', '=', True), ('state', '!=', ('draft', 'order'))]}</attribute>
+            </xpath>
+            <xpath expr="//sheet/group/group/field[@name='is_folio']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft'), ('state', '!=', 'order')]}</attribute>
+            </xpath>
+            <xpath expr="//sheet/group/group/field[@name='folio_id']" position="attributes">
+                <attribute name="attrs">{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)], 'readonly': [('state', '!=', 'draft'), ('state', '!=', 'order')]}</attribute>
+            </xpath>
+            <xpath expr="//sheet/group/group/field[@name='room_id']" position="attributes">
+                <attribute name="attrs">{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)], 'readonly': [('state', '!=', 'draft'), ('state', '!=', 'order')]}</attribute>
+            </xpath>
+            <xpath expr="//sheet/group/group/field[@name='customer_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft'), ('state', '!=', 'order')]}</attribute>
+            </xpath>
+            <xpath expr="//sheet/group/group/field[@name='waiter_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft'), ('state', '!=', 'order')]}</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/field[@name='table_nos_ids']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft'), ('state', '!=', 'order')]}</attribute>
+            </xpath>
+             <xpath expr="//sheet/group/field[@name='order_list_ids']" position="attributes">
+                 <attribute name="attrs">{'readonly': [('state', '!=', 'draft'), ('state', '!=', 'order')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    Kitchen order ticket-->
+    <record id="view_hotel_restaurant_kitchen_customize" model="ir.ui.view">
+        <field name="name">hotel.restaurant.kitchen.order.tickets.inherit</field>
+        <field name="model">hotel.restaurant.kitchen.order.tickets</field>
+        <field name="inherit_id" ref="hotel_restaurant.view_hotel_restaurant_kitchen_order_tickets_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form" position="attributes">
+                <attribute name="create">1</attribute>
+                <attribute name="edit">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- Change complete name in Service Type Tree -->
+    <record id="tree_view_service_type_customized" model="ir.ui.view">
+        <field name="name">hotel.service.type.inherit</field>
+        <field name="model">hotel.service.type</field>
+        <field name="inherit_id" ref="hotel.view_hotel_service_type_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="complete_name" string="Name"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Change Product in Service Type Form-->
+    <record id="form_view_service_type_customized" model="ir.ui.view">
+        <field name="name">hotel.service.type.inherit2</field>
+        <field name="model">hotel.service.type</field>
+        <field name="inherit_id" ref="hotel.view_hotel_service_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='service_id']" position="replace">
+                <field name="parent_id" string="Product Category"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- Change complete name in Amenities Type Tree -->
+    <record id="tree_view_amenities_type_customized" model="ir.ui.view">
+        <field name="name">hotel.room.amenities.type.inherit</field>
+        <field name="model">hotel.room.amenities.type</field>
+        <field name="inherit_id" ref="hotel.view_hotel_room_amenities_type_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="complete_name" string="Name"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Change name in Amenities Type Form -->
+    <record id="form_view_amenities_type_customized" model="ir.ui.view">
+        <field name="name">hotel.room.amenities.type.inherit2</field>
+        <field name="model">hotel.room.amenities.type</field>
+        <field name="inherit_id" ref="hotel.view_hotel_room_amenities_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amenity_id']" position="replace">
+                <field name="parent_id" string="Product Category"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Change to complete name in Room Type Tree -->
+    <record id="tree_view_room_type_customized" model="ir.ui.view">
+        <field name="name">hotel.room.type.inherit</field>
+        <field name="model">hotel.room.type</field>
+        <field name="inherit_id" ref="hotel.view_hotel_room_type_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="complete_name" string="Name"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Change to complete name in Food Item Type Tree -->
+    <record id="tree_view_food_item_type_customized" model="ir.ui.view">
+        <field name="name">hotel.menucard.type.inherit</field>
+        <field name="model">hotel.menucard.type</field>
+        <field name="inherit_id" ref="hotel_restaurant.view_hotel_menucard_type_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="complete_name" string="Name"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Adding Khmer name to Form, Kanban and Tree view of Food Item -->
+    <record id="view_hotel_menucard_form_customize" model="ir.ui.view">
+        <field name="name">hotel.restaurant.menucard.inherit.form</field>
+        <field name="model">hotel.menucard</field>
+        <field name="inherit_id" ref="hotel_restaurant.view_hotel_menucard_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <label class="oe_edit_only" for="khmer_name" string="Khmer Name"/>
+                <h1>
+                    <field name="khmer_name"/>
+                </h1>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="view_hotel_menucard_kanban_customize" model="ir.ui.view">
+        <field name="name">hotel.restaurant.menucard.inherit.kanban</field>
+        <field name="model">hotel.menucard</field>
+        <field name="inherit_id" ref="hotel_restaurant.hotel_manucard_kanban_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+
+                <field name="khmer_name"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="view_hotel_menucard_tree_customize" model="ir.ui.view">
+        <field name="name">hotel.restaurant.menucard.inherit.tree</field>
+        <field name="model">hotel.menucard</field>
+        <field name="inherit_id" ref="hotel_restaurant.view_hotel_menucard_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+
+                <field name="khmer_name"/>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

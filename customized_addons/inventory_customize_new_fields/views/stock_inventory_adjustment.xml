@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+    <!-- Access Right for Adjustment -->
+    <record model="ir.ui.menu" id="stock.menu_action_inventory_form">
+        <field name="groups_id" eval="[(6,0,[ref('stock.group_stock_manager')])]"/>
+    </record>
+
+    <!-- Add Reference field in Adjustment tree view -->
+    <record id="inventory_adjustment_tree_view" model="ir.ui.view">
+        <field name="name">inventory.adjustment.tree.view</field>
+        <field name="model">stock.inventory</field>
+        <field name="inherit_id" ref="stock.view_inventory_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date']" position="after">
+                <field name="ref_adjustment"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Add Reference field in Adjustment form view -->
+    <record id="inventory_adjustment_form_view" model="ir.ui.view">
+        <field name="name">inventory.adjustment.form.view</field>
+        <field name="model">stock.inventory</field>
+        <field name="inherit_id" ref="stock.view_inventory_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/field[@name='product_ids']" position="after">
+                <field name="ref_adjustment" attrs="{'readonly':[('state','!=','draft')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

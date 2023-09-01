@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+        <report
+                id="jobify_quotation_pdf"
+                model="sale.order"
+                string="Jobify Quotation"
+                report_type="qweb-pdf"
+                name="a2a_sale_customize.jobify_quotation"
+                file="a2a_sale_customize.jobify_quotation"
+                paperformat="a2a_accounting_report.a4_invoice"
+        />
+
+</odoo>

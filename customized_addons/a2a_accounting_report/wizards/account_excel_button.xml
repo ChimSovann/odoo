@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="account_report_general_ledger_xlsx_view" model="ir.ui.view">
+        <field name="name">General Ledger</field>
+        <field name="model">account.report.general.ledger</field>
+        <field name="inherit_id" ref="accounting_pdf_reports.account_report_general_ledger_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/footer/button[@name='check_report']" position="after">
+                <button name="check_report_xlsx" string="Export Excel" type="object" class="oe_highlight"/>
+                or
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_report_partner_ledger_xlsx_view" model="ir.ui.view">
+        <field name="name">General Ledger</field>
+        <field name="model">account.report.partner.ledger</field>
+        <field name="inherit_id" ref="accounting_pdf_reports.account_report_partner_ledger_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/footer/button[@name='check_report']" position="after">
+                <button name="check_report_xlsx" string="Export Excel" type="object" class="oe_highlight"/>
+                or
+            </xpath>
+        </field>
+    </record>
+
+    <record id="trail_balance_xlsx_view" model="ir.ui.view">
+        <field name="name">Trail balance report excel</field>
+        <field name="model">account.balance.report</field>
+        <field name="inherit_id" ref="accounting_pdf_reports.account_report_balance_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/footer/button[@name='check_report']" position="after">
+                <button name='check_report_xlsx' string="Export Excel" type="object" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_financial_report_xlsx_view" model="ir.ui.view">
+        <field name="name">Financial Report</field>
+        <field name="model">accounting.report</field>
+        <field name="inherit_id" ref="accounting_pdf_reports.accounting_report_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/footer/button[@name='check_report']" position="after">
+                <button name="check_report_xlsx" string="Export Excel" type="object" class="oe_highlight"/>
+                or
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_aged_partner_report_xlsx_view" model="ir.ui.view">
+        <field name="name">Age Partner Report</field>
+        <field name="model">account.aged.trial.balance</field>
+        <field name="inherit_id" ref="accounting_pdf_reports.account_aged_balance_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/footer/button[@name='check_report']" position="after">
+                <button name="check_report_xlsx" string="Export Excel" type="object" class="oe_highlight"/>
+                or
+            </xpath>
+        </field>
+    </record>
+
+    <record id="tax_report_xlsx_view" model="ir.ui.view">
+        <field name="name">Tax Report XlSX</field>
+        <field name="model">account.tax.report</field>
+        <field name="inherit_id" ref="accounting_pdf_reports.accounting_tax_report_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/footer/button[@name='check_report']" position="after">
+                <button name='check_report_xlsx' string="Export Excel" type="object" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_report_journal_audit_xlsx_view" model="ir.ui.view">
+        <field name="name">Journals Audit</field>
+        <field name="model">account.print.journal</field>
+        <field name="inherit_id" ref="accounting_pdf_reports.account_report_print_journal_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/footer/button[@name='check_report']" position="after">
+                <button name="check_report_xlsx" string="Export Excel" type="object" class="oe_highlight"/>
+                or
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

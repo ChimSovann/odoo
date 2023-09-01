@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hotel_get_booking_hls_user,hotel.get.booking.hls.user,model_hotel_get_booking_hls,group_hotel_get_booking_hls_user,1,1,1,1
+access_room_type_rate_plan_user,room_type.rate_plane.user,model_room_type_rate_plan,,1,1,1,1

@@ -1,0 +1,16 @@
+{
+    "name": "Request Response Handling",
+    "version": "1.0.0",
+    "category": "API",
+    "author": "Kruy Chandara",
+    "website": "",
+    "summary": "Customer Request and Response Handling",
+    "support": "",
+    "description": "Provide more effective way to handling request and respnose",
+    "depends": ["web"],
+    "data": [],
+    "images": [],
+    "license": "LGPL-3",
+    "installable": True,
+    "auto_install": False,
+}

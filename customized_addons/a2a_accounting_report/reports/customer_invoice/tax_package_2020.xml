@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <template id="tax_invoice_package_2020" inherit_id="a2a_accounting_report.commercial_invoice_package_2020"
+            primary="True">
+    <xpath expr="//p[@id='invoice']" position="replace">
+      <p class="text-center" style="font-size: 20px">
+        វិក្កយបត្រអាករ
+        <br/>
+        Tax Invoice
+      </p>
+    </xpath>
+    <xpath expr="//tr[@id='email']" position="after">
+      <tr>
+        <th colspan="2" class="pl-2">លេខអត្តសញ្ញាណកម្ម អតប (VATTIN):</th>
+        <th colspan="3" class="pl-2">
+          <span t-esc="o.partner_id.vat"/>
+        </th>
+      </tr>
+    </xpath>
+    <xpath expr="//th[@id='amount']" position="replace">
+      <th>ថ្លៃទំនិញ<br/>Amount
+      </th>
+    </xpath>
+    <xpath expr="//table[@id='second-table']/tbody/t/tr/td[4]" position="replace">
+      <td class="pl-2">
+        $
+        <span t-esc="'{0:,.2f}'.format(product['price_unit'])"/>
+      </td>
+    </xpath>
+    <xpath expr="//table[@id='second-table']/tbody/t/tr/td[5]" position="replace">
+      <td class="pl-2">
+        $
+        <span t-esc="'{0:,.2f}'.format(product['amount'])"/>
+      </td>
+    </xpath>
+
+    <xpath expr="//tr[@id='total']" position="replace"/>
+    <xpath expr="//tr[@id='residual']" position="replace"/>
+    <xpath expr="//tr[@id='deposited']" position="replace"/>
+    <xpath expr="//tr[@id='x-rate']" position="replace"/>
+    <xpath expr="//tr[@id='x-rate-khmer']" position="replace"/>
+    <xpath expr="//table[@id='second-table']" position="after">
+      <table class="table table-sm table-borderless mt64">
+        <t t-set="categ" t-value="o.get_invoice_summary()"/>
+        <t t-foreach="categ['main'].values()" t-as="main">
+
+          <t t-foreach="main['list_item']" t-as="product" id="list-product">
+            <tr>
+              <td style="width: 350px"/>
+              <td style="padding:2px;width: 600px">
+                <span t-esc="product['kh_name'] + product['name']" style="white-space: pre-wrap;"/>
+              </td>
+              <td style="padding:2px;width: 100px;text-align:right;">
+                <span t-esc="'${0:,.2f}'.format(product['total_price'])"/>
+              </td>
+              <td style="width: 200px;text-align:right;"/>
+            </tr>
+          </t>
+
+          <tr t-if="main['category'] == 'Accommodation'">
+            <td style="width: 350px"/>
+            <td style="width: 300px;padding:2px;padding-left:15px">
+              <t t-esc="main['label']['total_amount']['string']"/>
+            </td>
+            <td style="width: 100px;padding:2px;text-align:right;">
+              <t t-esc="'${0:,.2f}'.format(main['label']['total_amount']['value'])"/>
+            </td>
+            <td style="width: 200px;text-align:right;"/>
+          </tr>
+          <tr>
+            <td style="width: 350px"/>
+            <td style="width: 300px;padding:2px;padding-left:15px">
+              <t t-esc="main['label']['total_tax']['string']"/>
+            </td>
+            <td style="width: 100px;text-align:right;">$
+              <t t-esc="'{0:,.2f}'.format(main['label']['total_tax']['value'])"/>
+            </td>
+            <td style="width: 200px;padding:2px;text-align:right;"/>
+          </tr>
+          <tr>
+            <td style="width: 350px"/>
+            <td style="width: 300px;padding:2px;padding-left:15px">
+              <t t-esc="main['label']['total_include_tax']['string']"/>
+            </td>
+            <td style="width: 100px;text-align:right;"/>
+            <td style="width: 200px;padding:2px;text-align:right;">
+              <t t-esc="'${0:,.2f}'.format(main['label']['total_include_tax']['value'])"/>
+            </td>
+          </tr>
+
+
+        </t>
+
+
+        <t t-foreach="categ['other']" t-as="product">
+          <tr>
+            <td style="width: 350px"/>
+            <td style="padding:2px;width: 600px;">
+              <span t-esc="product['name']" style="white-space: pre-wrap;"/>
+            </td>
+            <td style="width: 90px;padding:2px;text-align:right;">$
+              <span t-esc="'{0:,.2f}'.format(product['total_price'])"/>
+            </td>
+          </tr>
+        </t>
+        <tr style="page-break-inside:avoid">
+          <td style="width: 400px"/>
+          <td style="width: 600px;border-top:1px solid black;padding:2px;">សរុប / Total
+          </td>
+          <td style="border-top:1px solid black;"/>
+          <td style="width: 200px;text-align:right;border-top:1px solid black;">$
+            <t t-esc="'{0:,.2f}'.format(o.amount_untaxed_customize)"/>
+          </td>
+        </tr>
+        <tr t-if="o.tax_amount_customize" style="page-break-inside:avoid">
+          <td style="width: 400px"/>
+          <td style="width: 600px;border-bottom:1px solid black;padding:2px;">
+            អាករលើតម្លៃបន្ថែម / VAT (10%)
+          </td>
+          <td style="border-bottom:1px solid black;"/>
+          <!--t t-set="total_with_vat" t-value="float('{0:,.2f}'.format(total_cost*0.1))"/-->
+          <td style="width: 200px;text-align:right;border-bottom:1px solid black;">$
+            <t t-esc="'{0:,.2f}'.format(o.tax_amount_customize)"/>
+          </td>
+        </tr>
+        <tr style="page-break-inside:avoid">
+          <td style="width: 400px"/>
+          <td style="width: 600px;padding:2px;">សរុបរួម / Grand Total</td>
+          <td/>
+          <td style="width: 200px;text-align:right;">$
+            <t t-esc="'{0:,.2f}'.format(o.total_customize)"/>
+          </td>
+        </tr>
+        <tr t-if="o.x_rate">
+          <td style="width: 400px"/>
+          <td style="width: 600px;padding:2px;">អត្រាប្តូរប្រាក់ជារៀល/Exchange Rate
+            (KHR)
+          </td>
+          <td style=""/>
+          <td style="width: 200px;text-align:right;">
+            <t t-esc="'{0:,.2f}'.format(o.x_rate)"/>៛
+          </td>
+        </tr>
+        <tr t-if="o.x_rate">
+          <td style="width: 400px"/>
+          <td style="width: 600px;padding:2px;">សរុបជារៀល/Total (KHR)</td>
+          <td/>
+          <td style="width: 200px;text-align:right;">
+            <t t-esc="'{0:,.2f}'.format(o.x_amount_total_khmer)"/>៛
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 400px"/>
+          <td style="width: 600px;padding:2px;">ប្រាក់ដែលបានកក់/Deposited:</td>
+          <td/>
+          <td style="width: 200px;text-align:right;">$
+            <t t-esc="'{0:,.2f}'.format(o.total_customize-o.amount_residual)"/>
+          </td>
+        </tr>
+        <tr style="page-break-inside:avoid">
+          <td style="width: 400px"/>
+          <td style="width: 600px;border-top:1px solid black;padding:2px;">
+            <strong>ប្រាក់ដែលនៅសល់/Balance:</strong>
+          </td>
+          <td style="border-top:1px solid black;"/>
+          <td style="width: 200px;text-align:right;border-top:1px solid black;">
+            <strong>$
+              <t t-esc="'{0:,.2f}'.format(o.amount_residual)"/>
+            </strong>
+          </td>
+        </tr>
+      </table>
+
+    </xpath>
+  </template>
+</odoo>
+
+
+

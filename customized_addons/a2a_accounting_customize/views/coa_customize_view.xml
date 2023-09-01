@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="coa_customize_assets" inherit_id="account_parent.account_parent_assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/a2a_accounting_customize/static/src/js/inherit_coawidget.js"></script>
+        </xpath>
+    </template>
+
+    <record id="view_account_withparent_form_inherit" model="ir.ui.view">
+        <field name="name">account.account.form.inherit</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <field name="user_type_id" position="after">
+                <field name="is_parent"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_form_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@id='invoice_tab']/field/tree/field[@name='account_id']" position="attributes">
+                <attribute name="domain">[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable',
+                    'payable')), ('company_id', '=', parent.company_id), ('is_parent', '=', False)]
+                </attribute>
+            </xpath>
+            <xpath expr="//page[@id='aml_tab']/field/tree/field[@name='account_id']" position="attributes">
+                <attribute name="domain">[('deprecated', '=', False), ('company_id', '=', parent.company_id),
+                    ('is_parent', '=', False)]
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_with_parent_id_domain" model="ir.ui.view">
+		<field name="name">account.account.form.inherit</field>
+		<field name="model">account.account</field>
+		<field name="inherit_id" ref="account_parent.view_account_withparent_form" />
+		<field name="arch" type="xml">
+			<field name="parent_id" position="attributes">
+				<attribute name="domain">[('is_parent', '=',True)]</attribute>
+			</field>
+		</field>
+	</record>
+</odoo>

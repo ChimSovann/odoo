@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_purchase_order_in_market_list_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="record">
+                <t t-call="market_list_odoo13.a2a_custom_template_layout">
+                    <div class="page">
+                        <style>
+                            td {
+                            border:1px solid black;
+                            font-size:11px;
+                            }
+                            th{
+                            border:1px solid black;
+                            font-size:11px;
+                            }
+                            tr {
+                            border:1px solid black;
+                            font-size:11px;
+                            }
+                        </style>
+
+                        <h3 t-if="record.state != 'draft'">Purchase Order Confirmation N°
+                            <span t-field="record.name"/>
+                        </h3>
+                        <!--           Purchase order table             -->
+                        <table class="table table-striped">
+                            <tr style="font-size: 14px;">
+                                <th style="border:1px solid black">
+                                    <strong>Purchase No</strong>
+                                </th>
+
+                                <th style="border:1px solid black">
+                                    <strong>Order Date:</strong>
+                                </th>
+                                <th style="border:1px solid black">
+                                    <strong>Requested By</strong>
+                                </th>
+                                <th style="border:1px solid black">
+                                    <strong>Approved By:</strong>
+                                </th>
+                                <th style="border:1px solid black">
+                                    <strong>Analytic Account</strong>
+                                </th>
+                                <th style="border:1px solid black">
+                                    <strong>Payment Date</strong>
+                                </th>
+                            </tr>
+                            <tr style="font-size: 14px; font-weight: 600;">
+                                <td>
+                                    <span t-field="record.origin"/>
+                                </td>
+                                <td>
+                                    <span t-field="record.date_order"/>
+                                </td>
+                                <td>
+                                    <span t-field="record.requested_by"/>
+                                </td>
+                                <td>
+                                    <span t-field="record.approved_by"/>
+                                </td>
+                                <td>
+                                    <span t-field="record.analytic_account_id"/>
+                                </td>
+                                <td>
+                                    <span t-field="record.payment_date"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 15%; font-size:14px">
+                                    <strong>Description</strong>
+                                </td>
+
+                                <td style="font-size:14px; font-weight: 600;" colspan="5">
+                                    <span t-field="record.description"/>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <!--          End of Purchase order table             -->
+
+                        <!--            Purchase order line table           -->
+                        <table class="table table-striped" style="border:1px solid black;">
+                            <thead>
+                                <tr>
+                                    <th width="3%" style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">No
+                                    </th>
+                                    <th width="7%" style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Order Date
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Category
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Product
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Qty
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Unit
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Unit Price
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Sub Total
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Currency
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Debit Account
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Supplier
+                                    </th>
+                                    <th style="border:1px solid black; font-weight: 800; font-size:12px;"
+                                        class="px-1 text-center">
+                                        Invoice
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-sm" style="page-break-inside: avoid;">
+                                <tr style="font-size:12px; font-weight: 600; page-break-inside:avoid;"
+                                    t-foreach="record.order_line" t-as="rec">
+                                    <td style="width:10px;height: 20px;">
+                                        <span t-esc="rec_index+1"/>
+                                    </td>
+                                    <td style=" border:1px solid black;">
+                                        <span t-esc="rec.date_order"/>
+                                    </td>
+                                    <td style=" border:1px solid black;">
+                                        <span t-esc="rec.category_id.name"/>
+                                    </td>
+                                    <td style=" border:1px solid black;">
+                                        <span t-esc="rec.product_id.name"/>
+                                    </td>
+                                    <td style=" border:1px solid black;">
+                                        <span t-esc="rec.product_qty"/>
+                                    </td>
+                                    <td style=" border:1px solid black;">
+                                        <span t-esc="rec.product_uom_id.name"/>
+                                    </td>
+                                    <td style=" border:1px solid black;width:70px;">
+                                        <t t-esc="rec.price_per_unit"/>
+                                        <t t-esc="rec.currency_id.symbol"/>
+                                    </td>
+                                    <td style=" border:1px solid black;width:80px;">
+                                        <t t-esc="rec.sub_total"/>
+                                        <t t-esc="rec.currency_id.symbol"/>
+                                    </td>
+                                    <td style=" border:1px solid black;">
+                                        <span t-esc="rec.currency_id.name"/>
+                                    </td>
+                                    <td style=" border:1px solid black;">
+                                        <span t-esc="rec.debit_acc.name"/>
+                                    </td>
+                                    <td style=" border:1px solid black;">
+                                        <span t-esc="rec.supplier_id.name"/>
+                                    </td>
+                                    <td style=" border:1px solid black;">
+                                        <span t-esc="rec.invoice_number"/>
+                                    </td>
+                                </tr>
+
+                                <!--             End of Purchase order line table                   -->
+
+                                <!--******************** Total Amount ********************-->
+
+
+                                <tr style="page-break-inside:avoid; font-size:12px; font-weight: 800;">
+                                    <td class="py-2 pr-2" colspan="10"
+                                        style="text-align:right;border:1px solid black">Amount KHR:
+                                    </td>
+                                    <td class="py-2" style="text-align:center;border: 0px none black;" colspan="2">
+                                        <t t-esc="record.amount_riel"/>
+                                        <t t-esc="record.currency_id_khr.symbol"/>
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside:avoid; font-size:12px; font-weight: 800;">
+                                    <td class="py-2 pr-2" colspan="10"
+                                        style="text-align:right;border: 1px solid black;">Amount USD:
+                                    </td>
+                                    <td class="py-2" style="text-align:center;border:1px solid black" colspan="2">
+                                        <t t-esc="record.currency_id_usd.symbol"/>
+                                        <t t-esc="record.amount_usd"/>
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside:avoid; font-size:12px; font-weight: 800;">
+                                    <td class="py-2 pr-2" colspan="10"
+                                        style="text-align:right;border: 1px solid black;">Total
+                                        Amount:
+                                    </td>
+                                    <td class="py-2" style="text-align:center;border:1px solid black" colspan="2">
+                                        <t t-esc="record.currency_id_usd.symbol"/>
+                                        <t t-esc="record.amount_total"/>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

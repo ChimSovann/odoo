@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Sequences for pvk -->
+        <record id="seq_pvk_order" model="ir.sequence">
+            <field name="name">PVK</field>
+            <field name="code">pvk.sequence</field>
+            <field name="prefix">%(y)s-001-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for bpt -->
+        <record id="seq_bpt_order" model="ir.sequence">
+            <field name="name">Big Party Tent</field>
+            <field name="code">bpt.sequence</field>
+            <field name="prefix">%(y)s-006-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

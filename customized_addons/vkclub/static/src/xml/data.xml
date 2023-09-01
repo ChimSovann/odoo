@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="vkpointCashButton">
+        <span class=" paymentmethod button order-vkpoint">
+            <i class="fa fa-money"></i>
+            <i class="order-vkpoint-noncash">Non-</i>Cash
+        </span>
+    </t>
+
+    <t t-name="VKPointLineWidget">
+        <div class="infoline">
+            <span class='left-block'>
+                Paid:
+            </span>
+            <span class="right-block payment-paid-total"></span>
+        </div>
+        <div class="infoline">
+            <span class='left-block'>
+                Remaining:
+            </span>
+            <span class="right-block payment-remaining"></span>
+        </div>
+        <div class="infoline bigger" >
+            <span class='left-block'>
+                Change:
+            </span>
+            <span class="right-block payment-change"></span>
+        </div>
+        <div class="vkpoint oe_hidden">
+            <div class="infoline bigger" >
+                <span class='left-block'>
+                    State:
+                </span>
+                <span class="right-block payment-state"></span>
+            </div>
+            <div style="margin: 10px 0px -5px 0px;font-size: 25px;text-shadow: 0px 2px rgb(202, 202, 202);text-align: center;">Please Scan Below QR Code</div>
+            <img id="qrcode" src="" style="margin: 5% 20%;"/>
+        </div>
+    </t>
+
+    <t t-name="CheckPayment">
+        Check Payment
+        <i class='fa fa-angle-double-right'></i>
+    </t>
+
+    <t t-name="Validate">
+        Validate
+        <i class='fa fa-angle-double-right'></i>
+    </t>
+
+    <t t-name="NoQR">
+
+    </t>
+
+</templates>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="kitchen_order_ticket_template" inherit_id="hotel_restaurant.report_hotel_order_kot">
+        <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+            <!-- header inherit from activity custom header -->
+            <t t-call="activity.activity_header_print_report">
+                <div class="page">
+                    <br/>
+                    <div>
+                        <h3>
+                            <span>
+                                <strong>
+                                    <center>Hotel Card</center>
+                                </strong>
+                            </span>
+                        </h3>
+                    </div>
+
+                    <table width="100%" class="table table-condensed">
+                        <tr>
+                            <td width="50%" style="text-align:left;">
+                                <strong>Customer Name :</strong>
+                                <span t-field="o.customer_id"/>
+                            </td>
+                            <td width="50%" style="text-align:right;">
+                                <strong>Date :</strong>
+                                <span t-field="o.o_date"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%" style="text-align:left;">
+                                <strong>
+                                    <span/>
+                                </strong>
+                            </td>
+                            <td width="50%" style="text-align:right;">
+                                <strong>Number of Customer :</strong>
+                                <span t-field="o.table_nos_ids.capacity"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table class="table table-condensed">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>
+                                    <strong>Order Number</strong>
+                                </th>
+                                <th>
+                                    <strong>Cashier Name</strong>
+                                </th>
+                                <th t-if="o.folio_id.id">
+                                    <strong>Folio Number</strong>
+                                </th>
+                                <th>
+                                    <strong>Room Number</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td style="white-space: nowrap;">
+                                <span t-esc="o.order_no"/>
+                            </td>
+                            <td style="white-space: nowrap;">
+                                <span t-att-style="style" t-esc="o.waiter_id.name"/>
+                            </td>
+                            <td t-if="o.folio_id.id" style="white-space: nowrap;">
+                                <span t-att-style="style" t-esc="o.folio_id.name"/>
+                            </td>
+                            <td t-if="o.table_nos_ids.id" style="white-space: nowrap;">
+                                <span t-att-style="style" t-esc="o.table_nos_ids.name"/>
+                            </td>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <table class="table table-condensed">
+                        <thead class="thead-light">
+                            <tr border="1" style="width:100%;">
+                                <th>
+                                    <strong>Food Item</strong>
+                                </th>
+                                <th>
+                                    <strong>Quantity</strong>
+                                </th>
+                                <th>
+                                    <strong>Rate</strong>
+                                </th>
+                                <th>
+                                    <strong>Discount</strong>
+                                </th>
+                                <th>
+                                    <strong>SubTotal</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.order_list_ids" t-as="rec" style="page-break-inside:avoid">
+                                <td>
+                                    <span t-esc="rec.menucard_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="rec.item_qty"/>
+                                </td>
+                                <td>
+                                    <span t-esc="rec.item_rate"/>
+                                </td>
+                                <td>
+                                    <span t-esc="rec.discount_lst"/>
+                                </td>
+                                <td>
+                                    <span t-esc="rec.price_subtotal"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <strong>Sub Total:</strong>
+                                </td>
+                                <td t-esc="o.amount_subtotal"/>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <strong>VAT:</strong>
+                                </td>
+                                <td t-esc="o.tax"/>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <strong>Total:</strong>
+                                </td>
+                                <td t-esc="o.amount_total"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

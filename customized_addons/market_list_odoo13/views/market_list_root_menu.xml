@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="market_list_root"
+              name="Market List"
+              sequence="11"
+              groups="market_list_odoo13.group_market_list_requester"
+              />
+
+    <menuitem id="market_list_request_menu_root"
+              name="Request"
+              sequence="0"
+              parent="market_list_root"
+              />
+
+    <menuitem id="market_list_purchase_order_menu_root"
+              name="Purchase Order"
+              sequence="1"
+              parent="market_list_root"
+              />
+
+    <menuitem id="market_list_validation_menu_root"
+              name="Validation"
+              sequence="2"
+              parent="market_list_root"
+              />
+
+    <menuitem id="market_list_reporting_menu_root"
+              name="Reporting"
+              sequence="3"
+              parent="market_list_root"
+              />
+
+    <menuitem id="market_list_configuration_menu_root"
+              name="Configuration"
+              sequence="4"
+              parent="market_list_root"
+              />
+
+</odoo>

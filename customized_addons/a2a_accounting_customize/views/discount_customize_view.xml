@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <record id="view_account_form_inherit_discount" model="ir.ui.view">
+    <field name="name">account.move.form.discount.account</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//form/header/button[@name='button_draft']" position="replace">
+          <button name="button_draft"
+                string="Reset to Draft"
+                type="object"
+                groups="account.group_account_invoice"
+                attrs="{'invisible' : ['|', '&amp;', ('uid','!=', 2), ('invoice_payment_state', '=', 'paid'),
+                '|', ('restrict_mode_hash_table', '=', True),('state', 'not in', ('posted', 'cancel'))]}"/>
+      </xpath>
+      <xpath expr="//page[@id='invoice_tab']/field/form/sheet/group/field[@name='discount']"
+             position="replace">
+        <field name="discount" groups="product.group_discount_per_so_line"
+               attrs="{'column_invisible': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"/>
+        <field name="discount_customize" groups="product.group_discount_per_so_line"
+               attrs="{'column_invisible': [('parent.type', 'in', ('in_invoice', 'in_refund','in_receipt'))]}"/>
+      </xpath>
+      <xpath expr="//page[@id='invoice_tab']/field/tree/field[@name='discount']" position="replace">
+        <field name="discount" string="Disc.%" groups="base.group_no_one" optional="show"
+               attrs="{'column_invisible': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"/>
+        <field name="discount_customize" string="Disc.%" optional="show"
+               attrs="{'column_invisible': [('parent.type', 'in', ('in_invoice', 'in_refund','in_receipt'))]}"/>
+      </xpath>
+      <xpath expr="//page[@id='aml_tab']/field/tree/field[@name='discount']" position="after">
+        <field name="discount_customize" invisible="1"/>
+      </xpath>
+      <xpath expr="//page[@id='invoice_tab']/field/tree/field[@name='price_subtotal']" position="replace">
+        <field name="price_subtotal" string="Subtotal" groups="account.group_show_line_subtotals_tax_excluded"
+               attrs="{'column_invisible': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"/>
+        <field name="subtotal_customize" string="Subtotal" groups="account.group_show_line_subtotals_tax_excluded"
+               attrs="{'column_invisible': [('parent.type', 'in', ('in_invoice', 'in_refund','in_receipt'))]}"/>
+      </xpath>
+      <xpath expr="//page[@id='invoice_tab']/group/field[@name='amount_untaxed']"
+             position="replace">
+        <field name="amount_untaxed_customize"
+               attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+        <field name="amount_untaxed"
+               attrs="{'invisible': [('type', 'in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+      </xpath>
+      <xpath expr="//page[@id='invoice_tab']/group/field[@name='amount_total']"
+             position="replace">
+        <field name="total_customize" class="oe_subtotal_footer_separator"
+               attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+        <field name="amount_total" class="oe_subtotal_footer_separator"
+               attrs="{'invisible': [('type', 'in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+      </xpath>
+      <xpath expr="//page[@id='invoice_tab']/group/field[@name='amount_by_group']"
+             position="replace">
+        <field name="tax_amount_customize"
+               attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+        <field name="amount_by_group" widget="tax-group-custom-field" nolabel="1" colspan="2"
+               attrs="{'invisible': [('type', 'in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>

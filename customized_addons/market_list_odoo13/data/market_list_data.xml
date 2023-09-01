@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--security groups-->
+    <record model="ir.module.category" id="module_market_list">
+        <field name="name">Market List</field>
+        <field name="description">Market List</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="group_market_list_requester" model="res.groups">
+        <field name="name">Requester</field>
+        <field name="category_id" ref="module_market_list"/>
+    </record>
+
+    <record id="group_market_list_request_manager" model="res.groups">
+        <field name="name">Request Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_market_list_requester'))]"/>
+        <field name="category_id" ref="module_market_list"/>
+    </record>
+
+    <record id="group_market_list_purchaser" model="res.groups">
+        <field name="name">Purchaser</field>
+        <field name="implied_ids" eval="[(4, ref('group_market_list_request_manager'))]"/>
+        <field name="category_id" ref="module_market_list"/>
+    </record>
+
+    <record id="group_market_list_officer" model="res.groups">
+        <field name="name">Officer</field>
+        <field name="implied_ids" eval="[(4, ref('group_market_list_purchaser'))]"/>
+        <field name="category_id" ref="module_market_list"/>
+    </record>
+
+    <!--mail.thread follower subtypes-->
+    <!--Market list request-->
+    <record id="ml_request_to_approve" model="mail.message.subtype">
+        <field name="name">Purchase Request to be approved</field>
+        <field name="res_model">market.list.request</field>
+        <field name="default" eval="True"/>
+        <field name="description">Purchase Request to be approved</field>
+    </record>
+
+    <record id="ml_request_approved" model="mail.message.subtype">
+        <field name="name">Purchase Request approved</field>
+        <field name="res_model">market.list.request</field>
+        <field name="default" eval="True"/>
+        <field name="description">Purchase Request approved</field>
+    </record>
+
+    <record id="ml_request_rejected" model="mail.message.subtype">
+        <field name="name">Purchase Request rejected</field>
+        <field name="res_model">market.list.request</field>
+        <field name="default" eval="True"/>
+        <field name="description">Purchase Request Rejected</field>
+    </record>
+
+    <!--PVK request-->
+    <record id="pvk_request_to_approve" model="mail.message.subtype">
+        <field name="name">Purchase Request to be approved</field>
+        <field name="res_model">market.list.pvk.request</field>
+        <field name="default" eval="True"/>
+        <field name="description">Purchase Request to be approved</field>
+    </record>
+
+    <record id="pvk_request_approved" model="mail.message.subtype">
+        <field name="name">Purchase Request approved</field>
+        <field name="res_model">market.list.pvk.request</field>
+        <field name="default" eval="True"/>
+        <field name="description">Purchase Request approved</field>
+    </record>
+
+    <record id="pvk_request_rejected" model="mail.message.subtype">
+        <field name="name">Purchase Request rejected</field>
+        <field name="res_model">market.list.pvk.request</field>
+        <field name="default" eval="True"/>
+        <field name="description">Purchase Request Rejected</field>
+    </record>
+
+    <!--Vkirirom general request-->
+    <record id="vkg_request_to_approve" model="mail.message.subtype">
+        <field name="name">Purchase Request to be approved</field>
+        <field name="res_model">market.list.general.request</field>
+        <field name="default" eval="True"/>
+        <field name="description">Purchase Request to be approved</field>
+    </record>
+
+    <record id="vkg_request_approved" model="mail.message.subtype">
+        <field name="name">Purchase Request approved</field>
+        <field name="res_model">market.list.general.request</field>
+        <field name="default" eval="True"/>
+        <field name="description">Purchase Request approved</field>
+    </record>
+
+    <record id="vkg_request_rejected" model="mail.message.subtype">
+        <field name="name">Purchase Request rejected</field>
+        <field name="res_model">market.list.general.request</field>
+        <field name="default" eval="True"/>
+        <field name="description">Purchase Request Rejected</field>
+    </record>
+</odoo>

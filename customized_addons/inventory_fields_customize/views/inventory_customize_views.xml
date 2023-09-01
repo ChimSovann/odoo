@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--  Add description field to Scrap feature in Master data-->
+    <record id="scrap_stock_master_data" model="ir.ui.view">
+        <field name="name">scrap.stock</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='o_row']" position="after">
+                <field name="scrap_desc"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Added Description display on tree view -->
+    <record id="scrap_stock_tree_view" model="ir.ui.view">
+        <field name="name">scrap.stock.tree.view</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <field name="scrap_desc"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Added Description to scrap in operation -->
+    <record id="scrap_desc_op" model="ir.ui.view">
+        <field name="name">scrap.desc.op</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_form_view2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='o_row']" position="after">
+                <field name="scrap_desc"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Create Product fields update -->
+    <record id="product_fields_update" model="ir.ui.view">
+        <field name="name">product.fields.update</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="write_uid"/>
+                <field name="write_date"/>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="active"/>
+                <field name="is_alcohol_or_cigarette"/>
+                <field name="vkpoint_ref"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Added fields in operation -->
+    <record id="operation_fields_update" model="ir.ui.view">
+        <field name="name">operation.fields.update</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_dest_id']" position="after">
+                <field name="write_uid"/>
+                <field name="write_date"/>
+                <field name="project_analytic_id"/>
+            </xpath>
+            <xpath expr="//field[@name='scheduled_date']" position="before">
+                <field name="create_date"/>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="new_requester_id"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- Adding Khmer name to product form, kanban, tree -->
+    <record id="view_product_template_form_customize" model="ir.ui.view">
+        <field name="name">inventory.product.template.inherit.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <label class="oe_edit_only" for="khmer_name" string="Khmer Name"/>
+                <h1>
+                    <field name="khmer_name"/>
+                </h1>
+            </field>
+        </field>
+    </record>
+    <record id="view_product_template_kanban_customized" model="ir.ui.view">
+        <field name="name">inventory.product.template.inherit.kanban</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="khmer_name"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_product_template_tree_customized" model="ir.ui.view">
+        <field name="name">inventory.product.template.inherit.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="khmer_name"/>
+            </field>
+        </field>
+    </record>
+</odoo>

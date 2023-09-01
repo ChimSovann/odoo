@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_simple_form_khmer_name" model="ir.ui.view">
+        <field name="name">Add Khmer name</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_firstname.view_partner_simple_form_firstname" />
+        <field name="arch" type="xml">
+            <data>
+              <xpath expr="//field[@name='lastname']" position="after">
+                <field name="khmer_name" attrs="{'required': [('is_company', '=', False),('type', '=', 'contact')]}"/>
+              </xpath>
+            </data>
+        </field>
+    </record>
+    <record id="view_partner_form_khmer_name" model="ir.ui.view">
+          <field name="name">Add Khmer name</field>
+          <field name="model">res.partner</field>
+          <field name="inherit_id" ref="partner_firstname.view_partner_form_firstname" />
+          <field name="arch" type="xml">
+              <data>
+                <xpath expr="//field[@name='lastname']" position="after">
+                  <field name="khmer_name" attrs="{'required': [('is_company', '=', False),('type', '=', 'contact')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="attrs">{'readonly': True}</attribute>
+                </xpath>
+                <xpath expr="//h1//field[@name='name']/.." position="after">
+                    <div class="oe_edit_only">
+                        <group attrs="{'invisible': [('is_company', '=', False)]}">
+                            <field
+                                name="eng_name"
+                                attrs="{'required': [('is_company', '=', True), ('type', '=', 'contact')]}"
+                            />
+                            <field
+                                name="khmer_name"
+                            />
+                        </group>
+                    </div>
+                </xpath>
+              </data>
+          </field>
+    </record>
+</odoo>

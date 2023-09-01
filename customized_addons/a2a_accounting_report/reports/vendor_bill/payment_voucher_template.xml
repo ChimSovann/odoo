@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <!--A2A-->
+  <template id="a2a_payment_voucher_header">
+    <div class="row">
+      <div class="col-2">
+        <img src="/a2a_accounting_report/static/img/a2a.png" style="width:5em; margin-top: 2em" alt="logo"/>
+      </div>
+      <div class="col-8" style="text-align: center;margin-top: 2em; ">
+        <div style="line-height: 10%; ">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Moul"/>
+          <h4 style="text-align: center; font-size: 25px;font-family: 'Moul', Moul;">
+            អេ២អេ ថោន ( ខេមបូឌា ) ខូ,.អិលធីឌី
+          </h4>
+          <h4 style="text-align: center;font-size: 25px;font-family: Arial;">
+            A2A Town (Cambodia) Co., Ltd.
+          </h4>
+        </div>
+        <div>
+          <p style="text-align: center;font-size: 10px; weight: 100%;">
+            #12, St.2001, Phum Paprak Khang Tboung,Sangkat Kakab I, Khan Posenchey, Phnom Penh, Kingdom of Cambodia
+            <br></br>
+            Tel: +855 78 777 384 , Web:
+            <a href="http://www.asiato.asia">http://www.asiato.asia</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </template>
+  <template id="a2a_payment_voucher_footer">
+    <!--signature row-->
+    <div class="footer" style="margin-top: 17%">
+      <table style="text-align: center; font-family: Arial;width:100%;font-size: 12px;">
+        <div style="text-align:center;">
+          <tr>
+            <th>
+              <div style="border-top: 1px solid black;width:80%; font-weight: normal;">Prepared by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal; ">Checked by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Reviewed by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Approved by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Received by</div>
+            </th>
+          </tr>
+          <tr>
+            <td style="text-align: center;padding-right: 5%;font-weight: bold;">
+              <t t-esc="doc.create_uid.name"/>
+            </td>
+          </tr>
+        </div>
+      </table>
+    </div>
+  </template>
+  <template id="a2a_payment_voucher_custom_template_layout">
+    <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+         t-att-data-oe-lang="o and o.env.context.get('lang')">
+      <t t-call="a2a_accounting_report.a2a_payment_voucher_header"/>
+      <t t-raw="0"/>
+      <t t-call="a2a_accounting_report.a2a_payment_voucher_footer"/>
+    </div>
+  </template>
+  <!--Vkis-->
+  <template id="vkis_payment_voucher_header">
+
+    <div class="row">
+      <div class="col-2">
+        <img src="/a2a_accounting_report/static/img/vkis.jpeg" style="width:6em; margin-top: 2em" alt="logo"/>
+      </div>
+      <div class="col-8" style="text-align: center;margin-top: 2em; ">
+        <div style="line-height: 10%; ">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Moul"/>
+          <h4 style="text-align: center; font-size: 25px;font-family: 'Moul', Moul;color:#228B22;">
+            សាលាអន្តរជាតិ វីគិរីរម្យ
+          </h4>
+          <h4 style="text-align: center;font-size: 25px;font-family: Arial;color:#228B22;">
+            vKirirom International School
+          </h4>
+        </div>
+        <div>
+          <p style="text-align: center;font-size: 10px; font-family: Arial;weight: 100%;">
+            #12, St.2001, Phum Paprak Khang Tboung,Sangkat Kakab I, Khan Posenchey,
+            <br></br>
+            Street 2011 (Ouknhar Tri Heng Road), Street E, Sangkat Kraing Thnung, Khan Sen Sok, Phnom Penh, Kingdom of
+            <br></br>
+            Cambodia
+            <br></br>
+            Tel: +855 78 777 384 , Fax: (855-23) 231 538
+            <br></br>
+            Email:
+            <a href="info@asiato.asia">info@asiato.asia</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </template>
+  <template id="vkis_payment_voucher_footer">
+    <!--signature row-->
+    <div class="footer" style="margin-top: 17%">
+      <table style="text-align: center; font-family: Arial;width:100%;font-size: 12px;">
+        <div style="text-align:center;">
+          <tr>
+            <th>
+              <div style="border-top: 1px solid black;width:80%; font-weight: normal;">Prepared by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal; ">Checked by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Reviewed by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Approved by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Received by</div>
+            </th>
+          </tr>
+          <tr>
+            <td style="text-align: center;padding-right: 5%;font-weight: bold;">
+              <t t-esc="doc.create_uid.name"/>
+            </td>
+          </tr>
+        </div>
+      </table>
+    </div>
+  </template>
+  <template id="vkis_payment_voucher_custom_template_layout">
+    <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+         t-att-data-oe-lang="o and o.env.context.get('lang')">
+      <t t-call="a2a_accounting_report.vkis_payment_voucher_header"/>
+      <t t-raw="0"/>
+      <t t-call="a2a_accounting_report.vkis_payment_voucher_footer"/>
+    </div>
+  </template>
+
+
+  <!--Vkr-->
+  <template id="vkr_payment_voucher_header">
+
+    <div class="row">
+      <div class="col-2">
+        <img src="/a2a_accounting_report/static/img/vKIRIROM1.png" style="width:7em; margin-top: 2em" alt="logo"/>
+      </div>
+      <div class="col-8" style="text-align: center;margin-top: 2em; ">
+        <div style="line-height: 10%; ">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Moul"/>
+          <h4 style="text-align: center; font-size: 25px;font-family: 'Moul', Moul;color:#046307;">
+            <span style="color:#FF6700; font-family: 'Moul', Moul;">វី</span>គិរីរម្យផាញរីស៊ត
+          </h4>
+          <h4 style="text-align: center;font-size: 25px;font-family: Arial;color:#046307;">
+            <span style="color:#FF6700;">v</span>Kirirom Pine Resort
+          </h4>
+        </div>
+        <div>
+          <p style="text-align: center;font-size: 10px;font-family: Arial; weight: 100%;">
+            vKirirom Pine Resort,Phum Thmey village,ChomBok commune
+            <br></br>
+            Phnom Srouch District, Kompong Speu Province, Kingdom of Cambodia
+            <br></br>
+            Tel: +855 (0)78 777 284, Website:
+            <a href="www.vkirirom.com">www.vkirirom.com</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+
+  </template>
+  <template id="vkr_payment_voucher_footer">
+    <!--signature row-->
+    <div class="footer" style="margin-top: 17%">
+      <table style="text-align: center; font-family: Arial;width:100%;font-size: 12px;">
+        <div style="text-align:center;">
+          <tr>
+            <th>
+              <div style="border-top: 1px solid black;width:80%; font-weight: normal;">Prepared by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal; ">Checked by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Reviewed by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Approved by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Received by</div>
+            </th>
+          </tr>
+          <tr>
+            <td style="text-align: center;padding-right: 5%;font-weight: bold;">
+              <t t-esc="doc.create_uid.name"/>
+            </td>
+          </tr>
+        </div>
+      </table>
+    </div>
+  </template>
+  <template id="vkr_payment_voucher_custom_template_layout">
+    <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+         t-att-data-oe-lang="o and o.env.context.get('lang')">
+      <t t-call="a2a_accounting_report.vkr_payment_voucher_header"/>
+      <t t-raw="0"/>
+      <t t-call="a2a_accounting_report.vkr_payment_voucher_footer"/>
+    </div>
+  </template>
+  <!--KIT-->
+  <template id="kit_payment_voucher_header">
+
+    <div class="row">
+      <div class="col-2">
+        <img src="/a2a_accounting_report/static/img/KIT.png" style="width:9em; margin-top: 2em" alt="logo"/>
+      </div>
+      <div class="col-8" style="text-align: center;margin-top: 2em; ">
+        <div style="line-height: 10%; ">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Moul"/>
+          <h4 style="text-align: center; font-size: 25px;font-family: 'Moul', Moul;color:#FF0000;">
+            វិទ្យាស្ថាន បច្ចេកវិទ្យា គិរីរម្យ
+          </h4>
+          <h4 style="text-align: center;font-size: 25px;font-family: Arial;color:#FF0000;">
+            Kirirom Institute of Technology
+          </h4>
+        </div>
+        <div>
+          <p style="text-align: center;font-size: 10px;font-family: Arial;weight: 100%;">
+            #12, St.2001, Phum Paprak Khang Tboung,Sangkat Kakab I, Khan Posenchey,
+            <br></br>
+            Street 2011 (Ouknhar Tri Heng Road), Street E, Sangkat Kraing Thnung, Khan Sen Sok, Phnom Penh,
+            <br></br>
+            Kingdom of Cambodia
+            <br></br>
+            Tel: (+855) 78 777 348 , Fax: (+855) 23 231 538 , Web:
+            <a href="kit.edu.kh">kit.edu.kh</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+
+  </template>
+  <template id="kit_payment_voucher_footer">
+    <!--signature row-->
+    <div class="footer" style="margin-top: 17%">
+      <table style="text-align: center; font-family: Arial;width:100%;font-size: 12px;">
+        <div style="text-align:center;">
+          <tr>
+            <th>
+              <div style="border-top: 1px solid black;width:80%; font-weight: normal;">Prepared by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal; ">Checked by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Reviewed by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Approved by</div>
+            </th>
+            <th>
+              <div style="border-top: 1px solid black;width:80%;font-weight: normal;">Received by</div>
+            </th>
+          </tr>
+          <tr>
+            <td style="text-align: center;padding-right: 5%;font-weight: bold;">
+              <t t-esc="doc.create_uid.name"/>
+            </td>
+          </tr>
+        </div>
+      </table>
+    </div>
+  </template>
+  <template id="kit_payment_voucher_custom_template_layout">
+    <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+         t-att-data-oe-lang="o and o.env.context.get('lang')">
+      <t t-call="a2a_accounting_report.kit_payment_voucher_header"/>
+      <t t-raw="0"/>
+      <t t-call="a2a_accounting_report.kit_payment_voucher_footer"/>
+    </div>
+  </template>
+
+</odoo>

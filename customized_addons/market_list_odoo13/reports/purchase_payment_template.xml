@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_purchase_payment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="market_list_odoo13.a2a_custom_template_layout">
+                    <div class="page">
+                            <h3 style="text-align: center">
+                                <span>Details Payment Report</span>
+                            </h3>
+                        <table width="100%">
+                            <tr>
+                                <td width="65%" style="text-align:left;">
+                                    <strong>Department :</strong>
+                                    <span t-esc="form['type']"/>
+                                </td>
+                                <td width="35%" style="text-align:left;">
+                                    <strong>Report Date:</strong>
+                                    <span t-esc="data['report_date']"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table class="table table-border" style="border:1px solid black;">
+                            <thead>
+                                <tr style="border: 1px solid black;background-color: #f9f9f9;">
+                                    <th style="border: 1px solid black; text-align:center;">
+                                        <strong>Order Date</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:38%;text-align:center;">
+                                        <strong>Journal Account</strong>
+                                    </th>
+                                    <th style="border: 1px solid black; width:42%; text-align:center;">
+                                        <strong>Supplier</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="data" t-value="get_details(data['form'])"/>
+                                <tr t-foreach="data" t-as="date" style="page-break-inside: avoid;">
+                                    <span>
+<!--                                        Date Order-->
+                                        <td style="border: 1px solid black;text-align:center;vertical-align: middle;">
+                                            <span t-esc="date"/>
+                                        </td>
+                                        <td style="border: 1px solid black;padding:0px;">
+                                            <table style="width:100%">
+                                                <!-- Journal Account -->
+                                                <tbody>
+                                                    <tr style="border-bottom: 1px solid black; width:100%;height:50px;"
+                                                        t-foreach="data[date][1]" t-as="journal">
+                                                        <td style="width:80%;vertical-align: middle;">
+                                                            <span style="margin-left:6px" t-esc="journal"/>
+                                                        </td>
+                                                        <td style="vertical-align: middle;">
+                                                            $<span t-esc="data[date][1][journal]"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid black;width:100%;height:50px;">
+                                                        <td style="width:80%;vertical-align: middle;">
+                                                            <span style="margin-left:6px">Total</span>
+                                                        </td>
+                                                        <td style="vertical-align: middle;">
+                                                            $<span t-esc="data[date][2]"/>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="border: 1px solid black;padding:0px;">
+                                            <table style="width:100%">
+                                                <!-- Supplier -->
+                                                <tbody>
+                                                    <tr style="border-bottom: 1px solid black;width:100%;height:50px;"
+                                                        t-foreach="data[date][0]" t-as="supplier">
+                                                        <td style="width:80%;vertical-align: middle;">
+                                                            <span style="margin-left:5px" t-esc="supplier"/>
+                                                        </td>
+                                                        <td style="vertical-align: middle;">
+                                                            $<span t-esc="data[date][0][supplier]"/>
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </span>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <strong>Note:</strong>
+                        <small>The Exchange Rate is
+                            <strong>
+                                <t t-esc="form['exchange_rate']"/>៛.
+                            </strong>
+                        </small>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
+

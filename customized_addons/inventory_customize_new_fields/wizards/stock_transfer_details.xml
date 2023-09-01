@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+
+        <!-- Wizard Form View -->
+        <record id="view_stock_transfer_details_wizard" model="ir.ui.view">
+            <field name="name">view.stock.transfer.details.wizard.form</field>
+            <field name="model">stock_transfer_details</field>
+            <field name="arch" type="xml">
+                <form string="Transfer details">
+                    <group string="Products To Move">
+                        <div class="oe_grey" groups="stock.group_tracking_lot">
+                            Setting a product and a source package means that the product will be taken
+                            out of the package.
+                        </div>
+                    </group>
+                    <group>
+                        <field name="picking_source_location_id" invisible="1"/>
+                        <field name="picking_destination_location_id" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="item_ids" nolabel="1" context="{'default_sourceloc_id':picking_source_location_id, 'default_destinationloc_id':picking_destination_location_id}">
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="sourceloc_id" options="{'no_create': True}"/>
+                                <field name="destinationloc_id" options="{'no_create': True}"/>
+                                <field name="owner_id" invisible="1"/>
+                                <field name="product_uom_qty"/>
+                                <field name="qty_done"/>
+                                <field name="product_uom_id"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                    <footer>
+                        <button name="do_detailed_transfer" string="_Validate" type="object" class="oe_highlight"/>
+                        <button name="cancel_wizard" string="_Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+         </record>
+
+        <!-- Wizard act_window -->
+        <record id="action_transfer_wizard" model="ir.actions.act_window">
+            <field name="name">Enter Transfer Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock_transfer_details</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_stock_transfer_details_wizard"/>
+       </record>
+
+        <!--Inherit Inventory Form View to add Button Wizard-->
+        <record id="view_inventory_form_inherit" model="ir.ui.view">
+            <field name="name">inventory.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//header/button[@name='button_validate']" position="replace">
+                    <button name="%(inventory_customize_new_fields.action_transfer_wizard)d" type="action" string="Validate" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'in', ('waiting','confirmed')), ('show_validate', '=', False)]}" groups="stock.group_stock_user" />
+                 </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

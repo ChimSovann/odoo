@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<record id="purchase_request_form_warp_text_custom" model="ir.ui.view">
+        <field name="name">purchase.request.inherit.custom</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[1]/field[@name='line_ids']/tree[1]/field[@name='analytic_account_id']" position="replace">
+                <field name="analytic_account_id" widget="section_and_note_text"/>
+            </xpath>
+            <xpath expr="//page[1]/field[@name='line_ids']/tree[1]/field[@name='product_id']" position="replace">
+                <field name="product_id" widget="section_and_note_text"/>
+            </xpath>
+            <xpath expr="//page[1]/field[@name='line_ids']/tree[1]/field[@name='name']" position="replace">
+                <field name="name" widget="section_and_note_text"/>
+            </xpath>
+        </field>
+    </record>
+<!--    to show the product field in wrap text-->
+    <record id="purchase_request_tree_warp_text_custom" model="ir.ui.view">
+        <field name="name">purchase.request.line.inherit.custom</field>
+        <field name="model">purchase.request.line</field>
+        <field name="inherit_id" ref="purchase_request.purchase_request_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]/field[@name='product_id']" position="replace">
+                <field name="product_id" widget="section_and_note_text"/>
+            </xpath>
+            <xpath expr="//tree[1]/field[@name='name']" position="replace">
+                <field name="name" widget="section_and_note_text"/>
+            </xpath>
+            <xpath expr="//tree[1]/field[@name='analytic_account_id']" position="replace">
+                <field name="analytic_account_id" widget="section_and_note_text"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

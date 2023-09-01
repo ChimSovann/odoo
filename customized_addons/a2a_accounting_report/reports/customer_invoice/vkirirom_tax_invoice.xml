@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="vkiriom_tax_invoice_product_table" inherit_id="a2a_accounting_report.vkirirom_commercial_invoice_product_table" primary="True">
+        <xpath expr="//tbody/tr[2]" position="before">
+            <tr style="page-break-inside:avoid">
+                <td colspan="4" style="text-align:right;font-weight:bold;">
+                  សរុប
+                  <br>Subtotal:</br>
+                </td>
+                <td style="font-weight:bold;">
+                  <t t-esc="'${0:,.2f}$'.format(o.amount_untaxed_customize)"/>
+                </td>
+              </tr>
+              <tr style="page-break-inside:avoid">
+                <td colspan="4" style="text-align:right">
+                  អាករលើតម្លៃបន្ថែម
+                  <br>VAT (10%):</br>
+                </td>
+                <td>
+                  <t t-esc="'{0:,.2f}$'.format(o.tax_amount_customize)"/>
+                </td>
+              </tr>
+        </xpath>
+        <xpath expr="//tbody/tr/td[4]" position="replace">
+          <td>
+            <span t-esc="'${0:,.2f}'.format(l.price_unit)"/>
+          </td>
+        </xpath>
+        <xpath expr="//tbody/tr/td[5]" position="replace">
+          <td>
+            <span t-esc="'${0:,.2f}'.format(l.subtotal_customize)"/>
+          </td>
+        </xpath>
+    </template>
+    <template id="vkirirom_tax_invoice" inherit_id="a2a_accounting_report.tax_invoice_package_2020" primary="True">
+        <xpath expr="//div[@id='customer-info']/table/thead/tr[3]/th[3]" position="replace">
+            <th class="pl-2">ថ្ងៃចូល និងថ្ងៃចាកចេញ៖<br/>Event Date:
+            </th>
+        </xpath>
+        <xpath expr="//div[@id='customer-info']/table/thead/tr[3]/th[4]" position="replace">
+            <th colspan="2">
+                <span t-field="o.checkin"/>
+                <span t-if="o.checkout">-</span>
+                <span t-field="o.checkout"/>
+            </th>
+        </xpath>
+        <xpath expr="//t[@id='list-product']" position="replace"/>
+        <xpath expr="//table[@id='second-table']/tbody" position="replace">
+            <t t-call="a2a_accounting_report.vkiriom_tax_invoice_product_table"/>
+        </xpath>
+    </template>
+
+</odoo>

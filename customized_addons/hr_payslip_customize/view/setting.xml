@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Inherit Payroll Setting Configuration -->
+    <record id="res_config_hr_payslip_setting_view_form" model="ir.ui.view">
+        <field name="name">res.config.hr.payslip.setting.view.form.inherit.hr.payroll</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="om_hr_payroll.res_config_settings_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Payroll" string="Payroll" data-key="om_hr_payroll">
+                    <h2>Exchange Rate (GDT)</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-lg-6 col-12 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Exchange Rate (GDT)</span>
+                                <div class="text-muted">
+                                    Default exchange rate will applied to Payslip for employee
+                                </div>
+                                <field name="exchange_rate"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

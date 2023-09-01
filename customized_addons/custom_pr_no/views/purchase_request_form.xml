@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="purchase_request_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.request.inherit</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+        <field name="arch" type="xml">
+            <field name="group_id" position="after">
+                <field name="new_analytic_account_id"/>
+                <field name="approval_date"/>
+                <field name="route_request_ids" widget="many2many_tags" domain="[('isRouteActive','=',True)]"/>
+            </field>
+            <xpath expr="/form/sheet/notebook/page/field[@name='line_ids']/form/sheet/group[@name='main']/group[1]/field[@name='analytic_tag_ids']" position="replace">
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page/field[@name='line_ids']/tree[1]/field[@name='analytic_tag_ids']" position="replace">
+            </xpath>
+<!--    filter uom by category        -->
+            <xpath expr="/form/sheet/notebook/page/field[@name='line_ids']/form/sheet/group[@name='main']/group[1]/field[@name='product_id']" position="after">
+                <field name="product_uom_category_id" invisible="1"/>
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page/field[@name='line_ids']/form/sheet/group[@name='main']/group[1]/field[@name='product_id']" position="replace">
+                   <field
+                          name="product_id"
+                          required="1"
+                          attrs="{'readonly': [('is_editable','=', False)]}"
+                   />
+
+            </xpath>
+<!-- put Oum to readonly-->
+               <xpath expr="/form/sheet/notebook/page/field[@name='line_ids']/form/sheet/group[@name='main']/group[1]/div/field[@name='product_uom_id']" position="replace">
+                   <field
+                           name="product_uom_id"
+                           groups="uom.group_uom"
+                           class="oe_inline"
+                           attrs="{'readonly': [('is_editable','=', True)]}"
+                           force_save="1"
+                   />
+            </xpath>
+<!-- put analytic account line to readonly-->
+            <xpath expr="/form/sheet/notebook/page/field[@name='line_ids']/form/sheet/group[@name='main']/group[1]/field[@name='analytic_account_id']" position="replace">
+                   <field
+                                name="analytic_account_id"
+                                groups="analytic.group_analytic_accounting"
+                                attrs="{'readonly': [('is_editable','=', True)]}"
+                                force_save="1"
+                            />
+            </xpath>
+            <xpath expr="//page[1]/field[@name='line_ids']/tree[1]/field[@name='analytic_account_id']" position="replace">
+                    <field
+                                        name="analytic_account_id"
+                                        groups="analytic.group_analytic_accounting"
+                                        force_save="1"
+                                    />
+            </xpath>
+        </field>
+    </record>
+</odoo>

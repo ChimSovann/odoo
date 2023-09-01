@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <act_window id="action_psrunpaysliplines"
+        name="See selected batche(s) as a Pivot Report"
+        res_model="hr.payslip.line"
+        target="current"
+        view_mode="pivot"
+        view_id="pivot_payslip_lines"
+        domain="[('appears_on_payslip', '=', True), ('is_aggregate', '=', False), ('slip_state', '=', 'done'), ('sliprun_id', 'in', active_ids)]"
+                
+        src_model="hr.payslip.run"
+        multi="True"
+        key2="client_action_multi"
+        />
+
+<!--    Note:
+            act_window fields src_model, multi and key2 do not exist in Odoo13 anymore, so this file is not
+            included in Odoo13 port. This should appropriately be converted into a server action: that's the
+            right way (see server action "Create Report" on hr_expenses module).
+-->
+
+</odoo>

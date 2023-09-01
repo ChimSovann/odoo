@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Search view for Employee Khmer name and Employee ID-->
+    <record id="hr_employee_search_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.search.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="kh_name" string="Khmer Name"/>
+                <field name="employee_id" string="ID"/>
+                <field name="employee_nssf_id" string="NSSF ID"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Employee form view inheritance -->
+    <record id="view_employee_form" model="ir.ui.view">
+        <field name="name">hr.employee.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//h1//field[@name='name']" position="after">
+                <h1>
+                    <field name="kh_name" placeholder="Khmer Name"/>
+                </h1>
+            </xpath>
+            <xpath expr="//div[@class='oe_title']" position="after">
+                <group>
+                    <group>
+                        <field name="employee_id" string="Employee ID"/>
+                        <field name="employee_nssf_id"/>
+                    </group>
+                    <group>
+                        <field name="join_date"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='spouse_birthdate']" position="after">
+                <field name="marriage_allowance" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Employee Kanban view inheritance -->
+    <record id="hr_kanban_view_employees" model="ir.ui.view">
+        <field name="name">hr.employee.kanban.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="arch" type="xml">
+            <xpath expr="//strong[@class='o_kanban_record_title']//field[@name='name']" position="after">
+                <div>
+                    <field name="kh_name" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Employee tree view inheritance -->
+    <record id="view_employee_tree" model="ir.ui.view">
+        <field name="name">hr.employee.tree.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="kh_name"/>
+                <field name="employee_id"/>
+                <field name="employee_nssf_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit existing field -->
+    <record id="view_employee_form_inherit" model="ir.ui.view">
+        <field name="name">view.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="identification_id" position="attributes">
+                <attribute name="required">1</attribute>
+            </field>
+            <field name="passport_id" position="attributes">
+                <attribute name="required">1</attribute>
+            </field>
+            <field name="emergency_contact" position="attributes">
+                <attribute name="required">1</attribute>
+            </field>
+            <field name="emergency_phone" position="attributes">
+                <attribute name="required">1</attribute>
+            </field>
+            <field name="private_email" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="phone" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//field[@name='address_home_id']" position="after">
+                <field name="new_private_email"/>
+                <field name="private_phone"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_contract_form_inherit" model="ir.ui.view">
+        <field name="name">view.hr.contract.form.inherit</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="om_hr_payroll.hr_contract_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="replace"/>
+        </field>
+    </record>
+
+</odoo>

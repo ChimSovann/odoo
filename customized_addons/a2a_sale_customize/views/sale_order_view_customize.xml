@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <record id="view_sale_quotation" model="ir.ui.view">
+        <field name="name">sale.order.view.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_shipping_id" position="replace">
+              <field name="deliver_to"/>
+              <field name="tel"/>
+            </field>
+          <field name="amount_total" position="after">
+            <field name="x_rate"/>
+            <field name="x_amount_total_khmer"/>
+          </field>
+        </field>
+    </record>
+</odoo>

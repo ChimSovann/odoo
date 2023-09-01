@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+  <template id="a2a_it_service_commercial_invoice" inherit_id="a2a_accounting_report.a2a_commercial_invoice"
+            primary="True">
+    <xpath expr="//div[@id='header-spacing']" position="replace"/>
+    <xpath expr="//div[@id='invoice']" position="before">
+      <div id="service-type" style="text-align: right;" t-if="o.company_id.name!='CASSTACK Co,.Ltd'">
+        <span style="font-size: 20px;">
+          សេវាកម្មព័ត៌មានវិទ្យា
+          <br/>
+        </span>
+        <span style="font-size: 20px;">
+          <strong>IT Service</strong>
+        </span>
+      </div>
+    </xpath>
+    <xpath expr="//div[@id='product-table']/table/thead/tr/th[2]" position="after">
+      <th>លេខកូដ<br/>Code
+      </th>
+    </xpath>
+    <xpath expr="//div[@id='product-table']/table/tbody/tr/td[2]" position="replace">
+      <td>
+        <span t-field="l.name"/>
+      </td>
+    </xpath>
+    <xpath expr="//div[@id='product-table']/table/tbody/tr/td[2]" position="after">
+      <td style="text-align: center">
+        <span t-esc="l.account_id.code"/>
+      </td>
+    </xpath>
+    <xpath expr="//div[@id='product-table']/table/tbody/tr[2]/td[1]" position="replace">
+      <td colspan="5" style="text-align:right;">
+        សរុបរួម / Total USD:
+      </td>
+    </xpath>
+    <xpath expr="//div[@id='product-table']/table/tbody/tr[3]/td" position="attributes">
+      <attribute name="colspan">5</attribute>
+    </xpath>
+    <xpath expr="//div[@id='product-table']/table/tbody/tr[4]/td[1]" position="replace">
+      <td colspan="5" style="text-align:right;">
+        សរុបជារៀល / Total KHR:
+      </td>
+    </xpath>
+    <xpath expr="//div[@id='product-table']/table/tbody" position="inside">
+      <tr>
+        <td style=" text-align:right;" colspan="5">ប្រាក់ដែលបានកក់/Deposited:</td>
+        <td>
+          <t t-esc="'${0:,.2f}'.format(o.total_customize-o.amount_residual)"/>
+        </td>
+      </tr>
+      <tr style="page-break-inside:avoid">
+        <td style="text-align:right;" colspan="5">ប្រាក់ដែលនៅសល់/Balance:</td>
+        <td>
+          <t t-esc="'${0:,.2f}'.format(o.amount_residual)"/>
+        </td>
+      </tr>
+    </xpath>
+    <xpath expr="//div[@id='payment-transaction']" position="replace"/>
+    <xpath expr="//t[@t-call='a2a_accounting_report.a2a_town_dev_kit_footer']" position="replace">
+      <t t-if="o.company_id.name=='Kirirom Digital (Cambodia) Co,.Ltd'">
+        <t t-call="a2a_accounting_report.a2a_kdc_footer"/>
+      </t>
+      <t t-if="o.company_id.name=='CASSTACK Co,.Ltd'">
+        <t t-call="a2a_accounting_report.a2a_casstack_footer"/>
+      </t>
+      <t t-else="">
+        <t t-call="a2a_accounting_report.a2a_town_dev_kit_footer"/>
+      </t>
+    </xpath>
+  </template>
+</odoo>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="hotel_folio_custom" model="ir.ui.view">
+            <field name="name">hotel.folio.custom</field>
+            <field name="model">hotel.folio</field>
+            <field name="inherit_id" ref="hotel.view_hotel_folio_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page/field[@name='room_line_ids']/tree/field[@name='state']"
+                       position="after">
+                    <field name="customer_email"/>
+                    <field name="customer_phone_number"/>
+                    <field name="qr_status"/>
+                    <button name="cancel_qr"
+                            type="object"
+                            string="Cancel QR"
+                            class="btn-primary"
+                            attrs="{'invisible': [('qr_status', '=', 'draft')]}"
+                            confirm="Are you sure you want to cancel the QR code?"
+                    />
+                </xpath>
+
+                <xpath expr="/form/header/field[@name='state']" position="before">
+                    <button name="send_qr"
+                            type="object"
+                            class="btn-primary"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            string="Send QR"
+                    />
+
+                    <field name="hide_button" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Form view of Smart Lock -->
+        <record id="view_smart_lock_form" model="ir.ui.view">
+            <field name="name">smartlock.form</field>
+            <field name="model">smartlock</field>
+            <field name="arch" type="xml">
+                <form string="Smart Lock">
+                    <header>
+                        <field name="is_lock_all" invisible="1"/>
+                        <button name="action_lock_all_rooms"
+                                string="Lock All"
+                                type="object"
+                                class="btn-success"
+                                attrs="{'invisible': [('is_lock_all', '=', True)]}"
+                                confirm="Are you sure to LOCK all the rooms?"
+                        />
+                        <button name="action_unlock_all_rooms"
+                                string="Unlock All"
+                                type="object"
+                                class="btn-danger"
+                                attrs="{'invisible': [('is_lock_all', '=', False)]}"
+                                confirm="Are you sure to UNLOCK all the rooms?"
+                        />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group colspan="4" col="4">
+                                <field name="categ_id" select="1"/>
+                            </group>
+                        </group>
+                        <div class="oe_clear"/>
+                        <notebook>
+                            <page string="Room">
+                                <field name="rooms">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="is_lock" string="Locked"/>
+                                        <button name="action_lock_room"
+                                                string="Lock"
+                                                type="object"
+                                                class="btn-success"
+                                                attrs="{'invisible': [('is_lock', '=', True)]}"
+                                        />
+                                        <button name="action_unlock_room"
+                                                string="Unlock"
+                                                type="object"
+                                                class="btn-danger"
+                                                attrs="{'invisible': [('is_lock', '=', False)]}"
+                                        />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view of Activity -->
+        <record id="view_smart_lock_tree" model="ir.ui.view">
+            <field name="name">smartlock.tree</field>
+            <field name="model">smartlock</field>
+            <field name="arch" type="xml">
+                <tree string="Smart Lock Room Type">
+                    <field name="categ_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action of Smart Lock -->
+        <record model="ir.actions.act_window" id="action_smart_lock">
+            <field name="name">SmartLock</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">smartlock</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--    Wizard for reset Admin QR    -->
+        <record id="generate_admin_key_form" model="ir.ui.view">
+            <field name="name">generate.admin.key.wizard</field>
+            <field name="model">smartlock.admin.key</field>
+            <field name="arch" type="xml">
+                <form string="Generate Admin Key">
+                    <group>
+                        <field name="email" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_generate_admin_key" string="Generate and Send" type="object"
+                                class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action of SmartLock Wizard -->
+        <record model="ir.actions.act_window" id="action_admin_key">
+            <field name="name">Smart Lock Admin Key</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">smartlock.admin.key</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="generate_admin_key_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Menu -->
+        <menuitem name="Smart Lock"
+                  id="smart_lock_menu"
+                  parent="hotel.hotel_management_menu"
+                  sequence="5"
+                  groups="smartlock_api.group_smartlock_user"
+        />
+
+        <menuitem name="Smart Lock Rooms"
+                  id="smart_lock_sub_menu"
+                  action="action_smart_lock"
+                  parent="smart_lock_menu"
+        />
+
+        <menuitem name="Reset Admin Key"
+                  id="smart_lock_sub_menu_2"
+                  action="action_admin_key"
+                  parent="smart_lock_menu"
+        />
+    </data>
+</odoo>

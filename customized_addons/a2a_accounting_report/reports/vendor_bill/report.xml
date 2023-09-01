@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <report
+          id="report_payment_voucher_vkr_pdf"
+          string="Payment Voucher VKR PDF"
+          model="account.move"
+          report_type="qweb-pdf"
+          name="a2a_accounting_report.vkr_payment_voucher_pdf"
+          file="a2a_accounting_report.vkr_payment_voucher_pdf"
+          paperformat="a2a_accounting_report.a4_template"
+  />
+  <report
+        id="report_payment_voucher_vkis_pdf"
+        string="Payment Voucher VKIS PDF"
+        model="account.move"
+        report_type="qweb-pdf"
+        name="a2a_accounting_report.vkis_payment_voucher_pdf"
+        file="a2a_accounting_report.vkis_payment_voucher_pdf"
+        paperformat="a2a_accounting_report.a4_template"
+  />
+  <report
+        id="report_payment_voucher_kit_pdf"
+        string="Payment Voucher KIT PDF"
+        model="account.move"
+        report_type="qweb-pdf"
+        name="a2a_accounting_report.kit_payment_voucher_pdf"
+        file="a2a_accounting_report.kit_payment_voucher_pdf"
+        paperformat="a2a_accounting_report.a4_template"
+  />
+  <report
+        id="report_payment_voucher_pdf"
+        string="Payment Voucher PDF"
+        model="account.move"
+        report_type="qweb-pdf"
+        name="a2a_accounting_report.payment_voucher_pdf1"
+        file="a2a_accounting_report.payment_voucher_pdf1"
+        paperformat="a2a_accounting_report.a4_template"
+  />
+</odoo>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+  <template id="payment_voucher_pdf1">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc" >
+          <t t-call="a2a_accounting_report.a2a_payment_voucher_custom_template_layout">
+                <div class="page">
+                  <div style="text-align: center;font-size: 20px;font-weight:bold;margin-top:3em;font-family: Arial;">
+                      <span>PAYMENT VOUCHER</span>
+                  </div>
+                    <br></br>
+
+                    <!--Start of Info, <![CDATA[&nbsp;]]> : use to give white space in qweb-->
+                    <div class="container">
+                      <div class="row" style="display:-webkit-box; -webkit-flex: justify; width: 100%; height: 120px;
+                      font-size: 12px; font-family: Arial;margin-left: 5em;">
+                        <div class="col-10" style="width: 50%; margin-right: 3em;" >
+                            <div ><span style="font-weight: bold;">Pay to : </span><![CDATA[&nbsp;]]><t t-esc="doc.partner_id.name"/></div>
+                            <div ><span style="font-weight: bold;">Tel :</span> <![CDATA[&nbsp;]]><t t-esc="doc.partner_id.phone" /></div>
+                            <div ><strong>Address : <![CDATA[&nbsp;]]></strong><t t-esc="doc.partner_id.street"/></div>
+                            <div><span style="font-weight: bold;">Payment Reference: </span><![CDATA[&nbsp;]]>
+                                <t t-esc="doc.ref"/>
+                            </div>
+                            <div><span style="font-weight: bold;">Purchaser: </span><![CDATA[&nbsp;]]><t t-esc="doc.purchaser.name"/> </div>
+                        </div>
+                        <div class="col-4" style="width: 30%; margin-left: 5em; font-family: Arial;">
+                            <div><span style="font-weight: bold;">Voucher Number : </span><![CDATA[&nbsp;]]><t t-esc="doc.name"/></div>
+                            <div><span style="font-weight: bold;">Invoice Date : </span><![CDATA[&nbsp;]]><t t-esc="doc.invoice_date"/></div>
+                            <div><span style="font-weight: bold;">Supplier Invoice Number: </span><![CDATA[&nbsp;]]><t t-esc="doc.vendor_bill_no"/> </div>
+                            <div><span style="font-weight: bold;">Purchase Order Number: </span><![CDATA[&nbsp;]]><t t-esc="doc.invoice_origin"/> </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                      <!--End of Info-->
+
+                      <!--start of check box-->
+                      <table class="table table-bordered" style="width: 60%; text-align: center; border-collapse: collapse;font-family: Arial;margin: auto;">
+                          <thead>
+                              <tr>
+                                  <th style="text-align: center;border:1px solid black;width: 20%;">Cheque</th>
+                                  <th style="text-align: center;border:1px solid black; width: 20%;">Cash</th>
+                                  <th style="text-align: center;border:1px solid black;width: 20%;">Bank Transfer</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td style="text-align: center;border:1px solid black;padding: 10px;">
+                                      <div style="width:40px;;height:40px;;border:1px solid #000;margin: auto;"/>
+                                  </td>
+                                  <td style="text-align: center;border:1px solid black;padding: 10px;">
+                                      <div style="width:40px;;height:40px;;border:1px solid #000;margin: auto; "/>
+                                  </td>
+                                  <td style="text-align: center;border:1px solid black;padding: 10px;">
+                                      <div style="width:40px;;height:40px;;border:1px solid #000;margin: auto;"/>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      <!--End of check box-->
+                        <!--Start of data box-->
+                        <table class="table table-bordered" style="width: 100%; text-align: center; border-collapse: collapse;
+                        font-family: Arial;margin: auto;margin-top: 5%;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left;width: 10%;border: 1px solid black; padding: 0.5%;
+                                    font-size: 11px;">No. </th>
+                                    <th style="text-align: left;width: 10%;border: 1px solid black;padding: 0.5%;
+                                    font-size: 11px;">Date</th>
+                                    <th style="text-align: left;width: 20%;border: 1px solid black;padding: 0.5%;
+                                    font-size: 11px;">Description</th>
+                                    <th style="text-align: left;width: 20%;border: 1px solid black;padding: 0.5%;
+                                    font-size: 11px;">Account</th>
+                                    <th style="text-align: left;width: 10%;border: 1px solid black;padding: 0.5%;
+                                    font-size: 11px;">Quantity</th>
+                                    <th style="text-align: left;width: 15%;border: 1px solid black;padding: 0.5%;
+                                    font-size: 11px;">Debit</th>
+                                    <th style="text-align: left;width: 15%;border: 1px solid black;padding: 0.5%;
+                                    font-size: 11px;">Credit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="sequence" t-value="1"/>
+
+                                <t t-foreach="doc.invoice_line_ids" t-as="invoice_line" >
+                                    <tr>
+                                      <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;
+                                      font-size: 11px;">
+                                          <t t-esc="sequence"/>
+                                      </td>
+                                      <td style="text-align: center;border: 1px solid black;width: 10%;padding: 1%;
+                                      font-size: 11px;">
+                                          <t t-esc="doc.invoice_date"/>
+                                      </td>
+                                      <td style="text-align: left;border: 1px solid black;width: 20%;padding: 1%;
+                                      font-size: 11px;">
+                                        <t t-esc="invoice_line.name"/>
+                                      </td>
+
+                                      <td style="text-align: left;border: 1px solid black;width: 20%;padding: 1%;
+                                      font-size: 11px;">
+                                        <t t-esc="invoice_line.account_id.code"/><![CDATA[&nbsp;]]><t t-esc="invoice_line.account_id.name"/>
+                                      </td>
+
+                                      <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;
+                                      font-size: 11px;">
+                                        <t t-esc="invoice_line.quantity"/><![CDATA[&nbsp;]]><t t-esc="invoice_line.product_uom_id['name']"/>
+                                      </td>
+
+                                      <td style="text-align: left;border: 1px solid black;width: 15%;padding: 1%;
+                                      font-size: 11px;">
+                                        <t t-esc="'$ {0:,.2f}'.format(invoice_line.debit)"/>
+                                      </td>
+                                      <td style="text-align: left;border: 1px solid black;width: 15%;padding: 1%;
+                                      font-size: 11px;">
+                                        <t t-esc="'$ {0:,.2f}'.format(invoice_line.credit)"/>
+                                      </td>
+                                    </tr>
+                                    <t t-set="sequence" t-value="sequence+1"/>
+                                </t>
+                            </tbody>
+                        </table>
+                        <!--Acc_payable row-->
+                        <table style="width: 100%; text-align: center; border-collapse: collapse;margin: auto;
+                        border-bottom: 1px solid black;font-family: Arial;margin: auto;">
+                            <tr>
+                                <td style="text-align: left;width: 10%;padding: 1%;border-left: 1px solid black;border-right: 1px solid black;
+                                font-size: 11px;">
+                                    <t t-esc="hello"/>
+                                </td>
+                                <td style="text-align: left;width: 30%;padding: 1%;border-right: 1px solid black;
+                                font-size: 11px;">
+                                    Invoice: <t t-esc="doc.name"/>
+                                </td>
+                                <td style="text-align: left;width: 20%;padding: 1%;border-right: 1px solid black;
+                                font-size: 11px;">
+                                    <t t-esc="doc._get_account_payable()[0].account_id.code"/><![CDATA[&nbsp;]]>
+                                    <t t-esc="doc._get_account_payable()[0].account_id.name"/>
+                                </td>
+                                <td style="text-align: left;width: 10%;padding: 1%;border-right: 1px solid black;
+                                font-size: 11px;"><t t-esc="hello"/> </td>
+                                <td style="text-align: left;width: 15%;padding: 1%;border-right: 1px solid black;
+                                font-size: 11px;">
+                                    <t t-esc="'$ {0:,.2f}'.format(doc._get_account_payable()[0].debit)"/>
+                                </td>
+                                <td style="text-align: left;width: 15%;padding: 1%;border-right: 1px solid black;
+                                font-size: 11px;">
+                                    <t t-esc="'$ {0:,.2f}'.format(doc._get_account_payable()[0].credit)"/>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <!--Total row-->
+                        <table style="width: 100%; text-align: center; border-collapse: collapse;margin: auto;
+                         font-size: 11px; font-family: Arial;margin: auto;">
+                            <tr>
+                                <td style="text-align: right;padding:1%;
+                                font-size: 11px;font-weight: bold;border-left: 1px solid black;border-right: 1px solid black;">Total(USD) </td>
+                                <td style="text-align: center;width: 15%;padding: 1%;border-right: 1px solid black;
+                                font-size: 11px;font-weight: bold;">
+                                    <t t-esc="'$ {0:,.2f}'.format(doc.get_total_of_payment_voucher())"/>
+                                </td>
+                                <td style="text-align: center;width: 15%;padding: 1%;border-right: 1px solid black;
+                                font-size: 11px;font-weight: bold;">
+                                   <t t-esc="'$ {0:,.2f}'.format(doc._get_account_payable()[1])"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!--Purchase row-->
+                        <table style="width: 100%; text-align: center; border-collapse: collapse;font-family: Arial;
+                                                                            border: 1px solid black;margin: auto;">
+                            <td style="text-align: left;width: 100px;padding: 1%;
+                            font-size: 11px;">Purchase for: <t t-esc="doc.narration"/> </td>
+                        </table>
+                        <br></br>
+                        <!-- payment table-->
+                        <table style="text-align: center; border-collapse: collapse; padding:1%;font-family: Arial;
+                                                                            border: 0.1px solid black;margin: auto;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                    font-size: 10px;">Payment Ref</th>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                    font-size: 10px;">Date</th>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                    font-size: 10px;">Partner</th>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                    font-size: 10px;">Journal Entry</th>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                    font-size: 10px;">Memo</th>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                    font-size: 10px;">Label</th>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                    font-size: 10px;">Account</th>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                    font-size: 10px;">Debit</th>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding:1%;
+                                    font-size: 10px;">Credit</th>
+                                    <th style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                    font-size: 10px;">Analytic Account</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.get_vendor_bill_data(doc.invoice_payments_widget)" t-as="ref">
+                                <tr>
+                                    <t t-set="payment_object" t-value="doc.get_vendor_bill_data(doc.invoice_payments_widget)"/>
+                                    <td rowspan="2" style="text-align: center;border: 1px solid black;width:10%; padding: 1%;
+                                      font-size: 10px;">
+                                          <t t-esc="ref"/>
+                                      </td>
+                                      <td rowspan="2" style="text-align: left;border: 1px solid black;width:10%; padding: 1%;
+                                      font-size: 10px;">
+                                        <t t-esc="payment_object[ref]['date']"/>
+                                      </td>
+                                        <td rowspan="2" style="text-align: left;border: 1px solid black;width:10%; padding: 1%;
+                                      font-size: 10px;">
+                                          <t t-esc="payment_object[ref]['partner'][0]"/>
+                                      </td>
+                                        <td rowspan="2" style="text-align: left;border: 1px solid black; width: 10%;padding: 1%;
+                                      font-size: 10px;">
+                                          <t t-esc="payment_object[ref]['remark'][0]"/>
+                                      </td>
+                                    <td rowspan="2" style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;font-size: 10px;">
+                                        <t t-esc="payment_object[ref]['memo'][0]"/>
+                                    </td>
+                                    <td style="text-align: left;border: 1px solid black;width: 10%;padding:1%;
+                                        font-size: 10px;">
+                                        <t t-esc="payment_object[ref]['label'][0]" />
+                                    </td>
+                                      <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;font-size: 10px;">
+                                          <t t-esc="payment_object[ref]['account_code'][0]"/><![CDATA[&nbsp;]]><t t-esc="payment_object[ref]['account_name'][0]"/>
+                                      </td>
+                                      <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;font-size: 10px;">
+                                          <t t-esc="'$ {0:,.2f}'.format(payment_object[ref]['debit'][0])"/>
+                                      </td>
+                                      <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;font-size: 10px;">
+                                          <t t-esc="'$ {0:,.2f}'.format(payment_object[ref]['credit'][0])"/>
+                                      </td>
+                                      <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;font-size: 10px;">
+                                          <t t-esc="payment_object[ref]['analytic_acc'][0]"/>
+                                      </td>
+                                </tr>
+                                    <tr>
+                                        <td style="text-align: left;border: 1px solid black;width: 10%;padding:1%;
+                                        font-size: 10px;">
+                                        <t t-esc="payment_object[ref]['label'][1]" />
+                                    </td>
+                                        <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;font-size: 10px;">
+                                          <t t-esc="payment_object[ref]['account_code'][1]"/><![CDATA[&nbsp;]]><t t-esc="payment_object[ref]['account_name'][1]"/>
+                                      </td>
+                                        <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;font-size: 10px;">
+                                          <t t-esc="'$ {0:,.2f}'.format(payment_object[ref]['debit'][1])"/>
+                                      </td>
+                                        <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;font-size: 10px;">
+                                          <t t-esc="'$ {0:,.2f}'.format(payment_object[ref]['credit'][1])"/>
+                                      </td>
+                                        <td style="text-align: left;border: 1px solid black;width: 10%;padding: 1%;font-size: 10px;">
+                                          <t t-esc="payment_object[ref]['analytic_acc'][1]"/>
+                                      </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+
+                  </div>
+              <!--End of PDF Report-->
+            </t>
+          </t>
+      </t>
+  </template>
+</odoo>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report
+                id="pr_report_customize_view"
+                string="Purchase Request"
+                model="purchase.request"
+                report_type="qweb-pdf"
+                name="po_pr_rfq_report.pr_custom_report"
+                file="po_pr_rfq_report.pr_custom_report"
+                attachment_use="True"/>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="kit_commercial_invoice" inherit_id="a2a_accounting_report.a2a_commercial_invoice" primary="True">
+        <xpath expr="//div[@id='header-spacing']" position="replace"/>
+        <xpath expr="//div[@id='invoice']" position="before">
+            <div class="text-right" style="font-size: 15px; line-height: 0.5;">
+                <p class="pt-2">វិទ្យាស្ថានបច្ចេកវិទ្យាគិរីរម្យ</p>
+                <p style="font-weight:bold;">Kirirom Institute of Technology</p>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='product-table']/table/thead/tr/th[2]" position="after">
+            <th>លេខកូដ<br/>Code
+            </th>
+        </xpath>
+
+        <xpath expr="//div[@id='product-table']/table/tbody/tr[1]/td[2]" position="after">
+            <td>
+                <span t-field="l.account_id.code"/>
+            </td>
+        </xpath>
+        <xpath expr="//div[@id='product-table']/table/tbody/tr[1]/td[2]" position="replace">
+            <td>
+                <span t-field="l.name"/>
+            </td>
+        </xpath>
+        <xpath expr="//div[@id='product-table']/table/tbody/tr[2]/td[1]" position="attributes">
+            <attribute name="colspan">5</attribute>
+        </xpath>
+        <xpath expr="//div[@id='product-table']/table/tbody/tr[3]/td[1]" position="attributes">
+            <attribute name="colspan">5</attribute>
+        </xpath>
+        <xpath expr="//div[@id='product-table']/table/tbody/tr[4]/td[1]" position="attributes">
+            <attribute name="colspan">5</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='payment-transaction']/div/div/table/thead/tr/th[4]" position="replace">
+            <th>Folio No.</th>
+        </xpath>
+        <xpath expr="//div[@id='payment-transaction']/div/div/table/tbody/tr/td[4]" position="replace">
+            <th style="border:1px solid black;
+                            padding-left: 5px;
+                            vertical-align: middle;
+                            font-size:9px;">
+                <span t-field="o.fol_no_inv"/>
+            </th>
+        </xpath>
+
+    </template>
+</odoo>

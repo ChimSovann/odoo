@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+
+      <record id="action_server_stock_move_report" model="ir.actions.act_window">
+            <field name="name">Stock Moves Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.move.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+		<menuitem
+			id="stock_move_report_menu"
+			parent="stock.menu_warehouse_report"
+			action="action_server_stock_move_report"
+			sequence="141" />
+
+	</data>
+
+</odoo>

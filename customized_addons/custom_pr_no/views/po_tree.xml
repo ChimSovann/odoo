@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Implementing ID, Request No, Approver column into Purchase Order Tree View -->
+    <record id="purchase_order_view_tree_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.view.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="reference_id" readonly="1"/>
+                <field name="request_no"/>
+                <field name="approver"/>
+                <field name="requester"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="vkclub_assets" name="vkclub vkclub_asset assets_backend" inherit_id="point_of_sale.assets_backend">
+          <xpath expr="." position="inside">
+              <script type="text/javascript" src="/vkclub/static/src/js/vkclub.js"/>
+              <script type="text/javascript" src="/vkclub/static/lib/qrious.min.js"/>
+          </xpath>
+        </template>
+    </data>
+</odoo>

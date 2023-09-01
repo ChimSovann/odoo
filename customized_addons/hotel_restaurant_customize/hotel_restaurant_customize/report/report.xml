@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <delete id="hotel_restaurant.report_hotel_res_order_bill" model="ir.actions.report"/>
+</odoo>
